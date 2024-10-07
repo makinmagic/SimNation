@@ -48,13 +48,19 @@
                 const activeLots = jsonData.reservedLots;
                 const onlineCounts = jsonData.onlineCount;
 
+                // Create a mapping of lot IDs to lot names
+                const lotMap = {};
+                for (let i = 0; i < jsonData.names.length; i++) {
+                    lotMap[jsonData.reservedLots[i]] = jsonData.names[i];
+                }
+
                 // Displaying the active lots and their player counts
                 const lotsContainer = document.getElementById('lots');
                 lotsContainer.innerHTML = ''; // Clear previous content
 
                 for (let i = 0; i < activeLots.length; i++) {
                     if (onlineCounts[i] > 0) { // Only display if there's at least one player
-                        const lotName = jsonData.names[jsonData.reservedLots.indexOf(activeLots[i])];
+                        const lotName = lotMap[activeLots[i]]; // Get the correct lot name using the map
                         lotsContainer.innerHTML += `<div class="lot">${lotName}: ${onlineCounts[i]} sim(s) inside</div>`;
                     }
                 }

@@ -13,17 +13,27 @@
                 // Parse the actual data from the response
                 const jsonData = JSON.parse(data.contents);
 
+                // Create a mapping of lot IDs to names
+                const lotMapping = {};
+                for (let i = 0; i < jsonData.reservedLots.length; i++) {
+                    lotMapping[jsonData.reservedLots[i]] = jsonData.names[i];
+                }
+
                 // Get active lots and their corresponding counts
-                const activeLots = jsonData.names.slice(0, jsonData.onlineCount.length);
-                const onlineCounts = jsonData.onlineCount;
+                const activeLots = jsonData.activeLots; // Changed to use active lots
+                const onlineCounts = jsonData.onlineCount; // Corresponding counts
 
                 // Displaying the active lots and their player counts
                 const lotsContainer = document.getElementById('lots');
                 lotsContainer.innerHTML = ''; // Clear previous content
 
                 for (let i = 0; i < activeLots.length; i++) {
-                    if (onlineCounts[i] > 0) { // Only display if there's at least one player
-                        lotsContainer.innerHTML += `<p>${activeLots[i]}: ${onlineCounts[i]} player(s)</p>`;
+                    const lotID = activeLots[i];
+                    const lotName = lotMapping[lotID]; // Retrieve the lot name using the lot ID
+                    const count = onlineCounts[i]; // Corresponding player count
+
+                    if (count > 0) { // Only display if there's at least one player
+                        lotsContainer.innerHTML += `<p>${lotName} (ID: ${lotID}): ${count} player(s)</p>`;
                     }
                 }
             } catch (error) {

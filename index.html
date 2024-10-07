@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Online Players</title>
+</head>
+<body>
+    <h1>Online Players</h1>
+    <div id="players">Loading players...</div>
+
+    <script>
+        fetch('https://cors-anywhere.herokuapp.com/http://simnation.ddns.net:9000/userapi/city/1/city.json')
+            .then(response => {
+                if (!response.ok) throw new Error('Network response was not ok');
+                return response.json();
+            })
+            .then(data => {
+                const playersDiv = document.getElementById('players');
+                playersDiv.innerHTML = ''; // Clear loading text
+                if (data && data.players && data.players.length > 0) {
+                    data.players.forEach(player => {
+                        const playerElement = document.createElement('div');
+                        playerElement.textContent = player.name; // Adjust based on your data structure
+                        playersDiv.appendChild(playerElement);
+                    });
+                } else {
+                    playersDiv.textContent = 'No players online.';
+                }
+            })
+            .catch(error => {
+                console.error('Error fetching players:', error);
+                document.getElementById('players').textContent = 'Error loading players.';
+            });
+    </script>
+</body>
+</html>

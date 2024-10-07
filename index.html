@@ -7,12 +7,15 @@
     <script>
         async function loadLots() {
             try {
-                const response = await fetch('https://cors-anywhere.herokuapp.com/http://simnation.ddns.net:9000/userapi/city/1/city.json');
+                const response = await fetch('https://api.allorigins.win/get?url=' + encodeURIComponent('http://simnation.ddns.net:9000/userapi/city/1/city.json'));
                 const data = await response.json();
 
+                // Parse the actual data from the response
+                const jsonData = JSON.parse(data.contents);
+
                 // Get active lots and their corresponding counts
-                const activeLots = data.names.slice(0, data.onlineCount.length);
-                const onlineCounts = data.onlineCount;
+                const activeLots = jsonData.names.slice(0, jsonData.onlineCount.length);
+                const onlineCounts = jsonData.onlineCount;
 
                 // Displaying the active lots and their player counts
                 const lotsContainer = document.getElementById('lots');

@@ -1,4 +1,33 @@
-<script>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Active Lots</title>
+    <style>
+        body { font-family: Arial, sans-serif; }
+        table { border-collapse: collapse; width: 50%; margin: 20px auto; }
+        th, td { border: 1px solid #ddd; padding: 8px; text-align: center; }
+        th { background-color: #f2f2f2; }
+    </style>
+</head>
+<body>
+    <h1 style="text-align:center;">Active Lots and Player Counts</h1>
+    <table>
+        <thead>
+            <tr>
+                <th>Lot Name</th>
+                <th>Online Players</th>
+            </tr>
+        </thead>
+        <tbody id="lotsTableBody">
+            <tr>
+                <td colspan="2">Loading lots...</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <script>
     const apiUrl = 'http://simnation.ddns.net:9000/userapi/city/1/city.json';
 
     fetch(apiUrl)
@@ -25,3 +54,6 @@
             console.error('Error fetching data:', error);
         });
 </script>
+
+</body>
+</html>

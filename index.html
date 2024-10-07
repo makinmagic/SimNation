@@ -18,21 +18,28 @@
             color: #0056b3;
         }
 
-        #lots {
+        table {
+            width: 100%;
+            border-collapse: collapse;
             margin-top: 20px;
-            padding: 10px;
             background: white;
             border-radius: 8px;
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
         }
 
-        .lot {
+        th, td {
             padding: 10px;
             border-bottom: 1px solid #eee;
+            text-align: left;
         }
 
-        .lot:last-child {
-            border-bottom: none;
+        th {
+            background-color: #007bff;
+            color: white;
+        }
+
+        tr:hover {
+            background-color: #f1f1f1;
         }
     </style>
     <script>
@@ -54,9 +61,20 @@
                 const activeLots = jsonData.activeLots; // Changed to use active lots
                 const onlineCounts = jsonData.onlineCount; // Corresponding counts
 
-                // Displaying the active lots and their player counts
+                // Displaying the active lots and their player counts in a table
                 const lotsContainer = document.getElementById('lots');
                 lotsContainer.innerHTML = ''; // Clear previous content
+                
+                // Create table structure
+                let tableHtml = `
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Lot Name</th>
+                                <th>Sims Inside</th>
+                            </tr>
+                        </thead>
+                        <tbody>`;
 
                 for (let i = 0; i < activeLots.length; i++) {
                     const lotID = activeLots[i];
@@ -64,9 +82,19 @@
                     const count = onlineCounts[i]; // Corresponding player count
 
                     if (count > 0) { // Only display if there's at least one player
-                        lotsContainer.innerHTML += `<div class="lot">${lotName}: ${count} sim(s) inside</div>`;
+                        tableHtml += `
+                            <tr>
+                                <td>${lotName}</td>
+                                <td>${count}</td>
+                            </tr>`;
                     }
                 }
+
+                tableHtml += `
+                        </tbody>
+                    </table>`;
+                
+                lotsContainer.innerHTML = tableHtml; // Update the container with the table
             } catch (error) {
                 console.error('Error loading lots:', error);
                 document.getElementById('lots').innerHTML = 'Error loading lots.';

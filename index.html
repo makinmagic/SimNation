@@ -13,9 +13,10 @@
             padding: 20px;
         }
 
-        h1 {
+        h1, h3 {
             text-align: center;
             color: #0056b3;
+            font-size: 32px; /* Updated font size for both headings */
         }
 
         table {
@@ -40,6 +41,25 @@
 
         tr:hover {
             background-color: #f1f1f1;
+        }
+
+        .reward-item {
+            display: flex;
+            align-items: center;
+            margin: 10px 0;
+        }
+
+        .reward-item img {
+            margin-right: 10px; /* Space between image and name */
+            width: 50px;
+            height: 50px;
+        }
+
+        /* Responsive design */
+        @media (max-width: 768px) {
+            table {
+                width: 100%; /* Set table width to 100% for smaller screens */
+            }
         }
     </style>
     <script>
@@ -142,10 +162,65 @@
             setTimeout(tempoSim, 1000);
         }
 
-        // Call the loadLots function and tempoSim when the window loads
+        // Rewards fetching and displaying logic
+        const rewardsUrl = 'https://leonsden.github.io/SimNation-sandbox/rewards.json'; // Replace with the actual URL for rewards
+
+        async function fetchRewards() {
+            try {
+                const response = await fetch(rewardsUrl);
+                if (!response.ok) {
+                    throw new Error('Network response was not ok');
+                }
+                const data = await response.json();
+                populateRewards(data.contents); // Adjust based on your JSON structure
+            } catch (error) {
+                console.error('There was a problem with the fetch operation:', error);
+                document.getElementById('rewards').textContent = 'Failed to load rewards.';
+            }
+        }
+
+        function populateRewards(htmlContent) {
+            const parser = new DOMParser();
+            const doc = parser.parseFromString(htmlContent, 'text/html');
+            const options = doc.querySelectorAll('#giftSelection option');
+            const rewardsContainer = document.getElementById('rewards-dropdown');
+            rewardsContainer.innerHTML = ''; // Clear existing content
+
+            // Create table structure for rewards
+            let tableHtml = `
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Reward Name</th>
+                            <th>Image</th>
+                        </tr>
+                    </thead>
+                    <tbody>`;
+
+            options.forEach(option => {
+                const rewardName = option.textContent; // Reward name
+                const imagePath = option.getAttribute('data-image'); // Image relative path
+                const fullImagePath = `http://simnationserver.com/redeem/${imagePath}`; // Full image URL
+
+                // Populate the table rows with rewards
+                tableHtml += `
+                    <tr>
+                        <td>${rewardName}</td>
+                        <td><img src="${fullImagePath}" alt="${rewardName}" style="width: 50px; height: 50px;"></td>
+                    </tr>`;
+            });
+
+            tableHtml += `
+                    </tbody>
+                </table>`;
+                
+            rewardsContainer.innerHTML = tableHtml; // Update the container with the table
+        }
+
         window.onload = function() {
             loadLots();
             tempoSim(); // Start the in-game time function
+            fetchRewards(); // Fetch rewards on load
         };
     </script>
 </head>
@@ -153,5 +228,11 @@
     <h1>SimNation - Active Lots and Players</h1>
     <div id="tempoSim" style="text-align: center; font-size: 18px; margin-bottom: 20px;">Loading time...</div>
     <div id="lots">Loading lots...</div>
+    <div id="rewards" style="margin-top: 30px; text-align: center;">
+        <h3 style="font-size: 32px;">Current Patreon Rewards</h3> <!-- Updated font size to match h1 -->
+        <div id="rewards-dropdown">
+            <!-- Rewards will be populated here -->
+        </div>
+    </div>
 </body>
 </html>

@@ -10,7 +10,7 @@
     <div id="players">Loading players...</div>
 
     <script>
-        fetch('https://cors-anywhere.herokuapp.com/http://simnation.ddns.net:9000/userapi/city/1/city.json')
+        fetch('https://thingproxy.freeboard.io/fetch/http://simnation.ddns.net:9000/userapi/city/1/city.json')
             .then(response => {
                 if (!response.ok) throw new Error('Network response was not ok');
                 return response.json();

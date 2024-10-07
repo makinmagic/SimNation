@@ -44,24 +44,27 @@
                 // Parse the actual data from the response
                 const jsonData = JSON.parse(data.contents);
 
-                // Get active lots and their corresponding counts
-                const activeLots = jsonData.reservedLots;
-                const onlineCounts = jsonData.onlineCount;
-
-                // Create a mapping of lot IDs to lot names
-                const lotMap = {};
-                for (let i = 0; i < jsonData.names.length; i++) {
-                    lotMap[jsonData.reservedLots[i]] = jsonData.names[i];
+                // Create a mapping of lot IDs to names
+                const lotMapping = {};
+                for (let i = 0; i < jsonData.reservedLots.length; i++) {
+                    lotMapping[jsonData.reservedLots[i]] = jsonData.names[i];
                 }
+
+                // Get active lots and their corresponding counts
+                const activeLots = jsonData.activeLots; // Changed to use active lots
+                const onlineCounts = jsonData.onlineCount; // Corresponding counts
 
                 // Displaying the active lots and their player counts
                 const lotsContainer = document.getElementById('lots');
                 lotsContainer.innerHTML = ''; // Clear previous content
 
                 for (let i = 0; i < activeLots.length; i++) {
-                    if (onlineCounts[i] > 0) { // Only display if there's at least one player
-                        const lotName = lotMap[activeLots[i]]; // Get the correct lot name using the map
-                        lotsContainer.innerHTML += `<div class="lot">${lotName}: ${onlineCounts[i]} sim(s) inside</div>`;
+                    const lotID = activeLots[i];
+                    const lotName = lotMapping[lotID]; // Retrieve the lot name using the lot ID
+                    const count = onlineCounts[i]; // Corresponding player count
+
+                    if (count > 0) { // Only display if there's at least one player
+                        lotsContainer.innerHTML += `<div class="lot">${lotName}: ${count} sim(s) inside</div>`;
                     }
                 }
             } catch (error) {

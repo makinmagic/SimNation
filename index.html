@@ -19,9 +19,9 @@
         }
 
         table {
-            width: 100%;
+            width: 50%; /* Set table width to 50% */
+            margin: 20px auto; /* Center the table */
             border-collapse: collapse;
-            margin-top: 20px;
             background: white;
             border-radius: 8px;
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
@@ -61,6 +61,22 @@
                 const activeLots = jsonData.activeLots; // Changed to use active lots
                 const onlineCounts = jsonData.onlineCount; // Corresponding counts
 
+                // Create an array to hold lot information for sorting
+                const lotsData = [];
+
+                for (let i = 0; i < activeLots.length; i++) {
+                    const lotID = activeLots[i];
+                    const lotName = lotMapping[lotID]; // Retrieve the lot name using the lot ID
+                    const count = onlineCounts[i]; // Corresponding player count
+
+                    if (count > 0) { // Only display if there's at least one player
+                        lotsData.push({ name: lotName, count: count });
+                    }
+                }
+
+                // Sort by number of Sims Inside (count) in descending order
+                lotsData.sort((a, b) => b.count - a.count);
+
                 // Displaying the active lots and their player counts in a table
                 const lotsContainer = document.getElementById('lots');
                 lotsContainer.innerHTML = ''; // Clear previous content
@@ -76,19 +92,14 @@
                         </thead>
                         <tbody>`;
 
-                for (let i = 0; i < activeLots.length; i++) {
-                    const lotID = activeLots[i];
-                    const lotName = lotMapping[lotID]; // Retrieve the lot name using the lot ID
-                    const count = onlineCounts[i]; // Corresponding player count
-
-                    if (count > 0) { // Only display if there's at least one player
-                        tableHtml += `
-                            <tr>
-                                <td>${lotName}</td>
-                                <td>${count}</td>
-                            </tr>`;
-                    }
-                }
+                // Populate the table rows with sorted data
+                lotsData.forEach(lot => {
+                    tableHtml += `
+                        <tr>
+                            <td>${lot.name}</td>
+                            <td>${lot.count}</td>
+                        </tr>`;
+                });
 
                 tableHtml += `
                         </tbody>

@@ -1,56 +1,27 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Active Lots</title>
-    <style>
-        body { font-family: Arial, sans-serif; }
-        table { border-collapse: collapse; width: 50%; margin: 20px auto; }
-        th, td { border: 1px solid #ddd; padding: 8px; text-align: center; }
-        th { background-color: #f2f2f2; }
-    </style>
-</head>
-<body>
-    <h1 style="text-align:center;">Active Lots and Player Counts</h1>
-    <table>
-        <thead>
-            <tr>
-                <th>Lot Name</th>
-                <th>Online Players</th>
-            </tr>
-        </thead>
-        <tbody id="lotsTableBody">
-            <tr>
-                <td colspan="2">Loading lots...</td>
-            </tr>
-        </tbody>
-    </table>
+<script>
+    const apiUrl = 'http://simnation.ddns.net:9000/userapi/city/1/city.json';
 
-    <script>
-        const apiUrl = 'http://simnation.ddns.net:9000/userapi/city/1/city.json';
+    fetch(apiUrl)
+        .then(response => response.json())
+        .then(data => {
+            const names = data.names; // Get the lot names
+            const onlineCount = data.onlineCount; // Get the online player counts
+            const lotsTableBody = document.getElementById('lotsTableBody');
+            lotsTableBody.innerHTML = ''; // Clear the loading message
 
-        fetch(apiUrl)
-            .then(response => response.json())
-            .then(data => {
-                const activeLots = data.activeLots; // Get the active lots
-                const lotsTableBody = document.getElementById('lotsTableBody');
-                lotsTableBody.innerHTML = ''; // Clear the loading message
-
-                activeLots.forEach(lot => {
-                    const row = document.createElement('tr');
-                    row.innerHTML = `
-                        <td>${lot.name}</td>
-                        <td>${lot.onlineCount}</td>
-                    `;
-                    lotsTableBody.appendChild(row);
-                });
-            })
-            .catch(error => {
-                const lotsTableBody = document.getElementById('lotsTableBody');
-                lotsTableBody.innerHTML = '<tr><td colspan="2">Error loading lots.</td></tr>';
-                console.error('Error fetching data:', error);
-            });
-    </script>
-</body>
-</html>
+            // Loop through the names and onlineCount arrays to create rows
+            for (let i = 0; i < names.length; i++) {
+                const row = document.createElement('tr');
+                row.innerHTML = `
+                    <td>${names[i]}</td>
+                    <td>${onlineCount[i]}</td>
+                `;
+                lotsTableBody.appendChild(row);
+            }
+        })
+        .catch(error => {
+            const lotsTableBody = document.getElementById('lotsTableBody');
+            lotsTableBody.innerHTML = '<tr><td colspan="2">Error loading lots.</td></tr>';
+            console.error('Error fetching data:', error);
+        });
+</script>

@@ -4,56 +4,37 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Active Lots</title>
-    <style>
-        body { font-family: Arial, sans-serif; }
-        table { border-collapse: collapse; width: 50%; margin: 20px auto; }
-        th, td { border: 1px solid #ddd; padding: 8px; text-align: center; }
-        th { background-color: #f2f2f2; }
-    </style>
+    <script>
+        async function loadLots() {
+            try {
+                const response = await fetch('http://simnation.ddns.net:9000/userapi/city/1/city.json');
+                const data = await response.json();
+
+                // Get active lots and their corresponding counts
+                const activeLots = data.names.slice(0, data.onlineCount.length);
+                const onlineCounts = data.onlineCount;
+
+                // Displaying the active lots and their player counts
+                const lotsContainer = document.getElementById('lots');
+                lotsContainer.innerHTML = ''; // Clear previous content
+
+                for (let i = 0; i < activeLots.length; i++) {
+                    if (onlineCounts[i] > 0) { // Only display if there's at least one player
+                        lotsContainer.innerHTML += `<p>${activeLots[i]}: ${onlineCounts[i]} player(s)</p>`;
+                    }
+                }
+            } catch (error) {
+                console.error('Error loading lots:', error);
+                document.getElementById('lots').innerHTML = 'Error loading lots.';
+            }
+        }
+
+        // Call the loadLots function when the window loads
+        window.onload = loadLots;
+    </script>
 </head>
 <body>
-    <h1 style="text-align:center;">Active Lots and Player Counts</h1>
-    <table>
-        <thead>
-            <tr>
-                <th>Lot Name</th>
-                <th>Online Players</th>
-            </tr>
-        </thead>
-        <tbody id="lotsTableBody">
-            <tr>
-                <td colspan="2">Loading lots...</td>
-            </tr>
-        </tbody>
-    </table>
-
-    <script>
-    const apiUrl = 'http://simnation.ddns.net:9000/userapi/city/1/city.json';
-
-    fetch(apiUrl)
-        .then(response => response.json())
-        .then(data => {
-            const names = data.names; // Get the lot names
-            const onlineCount = data.onlineCount; // Get the online player counts
-            const lotsTableBody = document.getElementById('lotsTableBody');
-            lotsTableBody.innerHTML = ''; // Clear the loading message
-
-            // Loop through the names and onlineCount arrays to create rows
-            for (let i = 0; i < names.length; i++) {
-                const row = document.createElement('tr');
-                row.innerHTML = `
-                    <td>${names[i]}</td>
-                    <td>${onlineCount[i]}</td>
-                `;
-                lotsTableBody.appendChild(row);
-            }
-        })
-        .catch(error => {
-            const lotsTableBody = document.getElementById('lotsTableBody');
-            lotsTableBody.innerHTML = '<tr><td colspan="2">Error loading lots.</td></tr>';
-            console.error('Error fetching data:', error);
-        });
-</script>
-
+    <h1>Active Lots and Players</h1>
+    <div id="lots">Loading lots...</div>
 </body>
 </html>

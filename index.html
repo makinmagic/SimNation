@@ -18,6 +18,13 @@
             color: #0056b3;
         }
 
+        .time {
+            text-align: center;
+            font-size: 1.2em;
+            margin: 20px 0;
+            color: #333;
+        }
+
         table {
             width: 50%; /* Set table width to 50% */
             margin: 20px auto; /* Center the table */
@@ -51,6 +58,9 @@
                 // Parse the actual data from the response
                 const jsonData = JSON.parse(data.contents);
 
+                // Extract in-game time
+                const inGameTime = jsonData.time; // Adjust this line if the structure is different
+
                 // Create a mapping of lot IDs to names
                 const lotMapping = {};
                 for (let i = 0; i < jsonData.reservedLots.length; i++) {
@@ -77,9 +87,12 @@
                 // Sort by number of Sims Inside (count) in descending order
                 lotsData.sort((a, b) => b.count - a.count);
 
-                // Displaying the active lots and their player counts in a table
+                // Displaying the in-game time and the active lots and their player counts in a table
                 const lotsContainer = document.getElementById('lots');
                 lotsContainer.innerHTML = ''; // Clear previous content
+                
+                // Add the in-game time
+                lotsContainer.innerHTML += `<div class="time">Time in Eldorado: ${inGameTime}</div>`;
                 
                 // Create table structure
                 let tableHtml = `
@@ -105,7 +118,7 @@
                         </tbody>
                     </table>`;
                 
-                lotsContainer.innerHTML = tableHtml; // Update the container with the table
+                lotsContainer.innerHTML += tableHtml; // Update the container with the table
             } catch (error) {
                 console.error('Error loading lots:', error);
                 document.getElementById('lots').innerHTML = 'Error loading lots.';

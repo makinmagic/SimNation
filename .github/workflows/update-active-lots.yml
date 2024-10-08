@@ -1,11 +1,11 @@
 name: Update Active Lots
 
 on:
-workflow_dispatch:
+  workflow_dispatch:
   schedule:
-    - cron: '*/1 * * * *'  # Runs every minute
-
-    permissions:
+    - cron: '*/1 * * * *'
+    
+permissions:
   contents: write  # Allow the workflow to write to the repository contents
 
 jobs:

@@ -22,7 +22,7 @@
         #main-container {
             display: flex;
             justify-content: space-between;
-            gap: 1%; /* Reduced gap to bring tables closer */
+            gap: 1%; /* Reduced gap */
         }
 
         .container {
@@ -265,7 +265,7 @@
         }
 
         // Rewards fetching and displaying logic
-        const rewardsUrl = 'https://makinmagic.github.io/SimNation/rewards.json'; // Replace with the actual URL for rewards
+        const rewardsUrl = 'https://makinmagic.github.io/SimNation/rewards.json'; // URL for rewards
 
         async function fetchRewards() {
             try {
@@ -274,7 +274,7 @@
                     throw new Error('Network response was not ok');
                 }
                 const data = await response.json();
-                populateRewards(data.contents); // Adjust based on your JSON structure
+                populateRewards(data.contents); // Adjusted based on JSON structure
             } catch (error) {
                 console.error('There was a problem with the fetch operation:', error);
                 document.getElementById('rewards').textContent = 'Failed to load rewards.';

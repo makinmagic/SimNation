@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SimNation - Active Lots</title>
+    <title>SimNation - Active Lots and Players</title>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -16,16 +16,29 @@
         h1, h3 {
             text-align: center;
             color: #0056b3;
-            font-size: 32px; /* Updated font size for both headings */
+            font-size: 32px;
         }
 
-        table {
-            width: 50%; /* Set table width to 50% */
-            margin: 20px auto; /* Center the table */
-            border-collapse: collapse;
+        #main-container {
+            display: flex;
+            justify-content: space-between;
+            gap: 1%; /* Reduced gap to bring tables closer */
+        }
+
+        .container {
+            width: 49%; /* Make both containers almost equal and close to each other */
             background: white;
             border-radius: 8px;
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            padding: 10px;
+            display: flex;
+            flex-direction: column; /* Align title and table vertically */
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 10px; /* Space between title and table */
         }
 
         th, td {
@@ -43,89 +56,179 @@
             background-color: #f1f1f1;
         }
 
-        .reward-item {
-            display: flex;
-            align-items: center;
-            margin: 10px 0;
+        .scrollable {
+            height: 400px;
+            overflow-y: auto;
+            flex-grow: 1; /* Allow scrollable area to grow and fill space */
         }
 
-        .reward-item img {
-            margin-right: 10px; /* Space between image and name */
-            width: 50px;
-            height: 50px;
+        #tempoSim {
+            text-align: center;
+            font-size: 18px;
+            margin-bottom: 20px;
         }
 
-        /* Responsive design */
+        #rewards {
+            margin-top: 30px;
+            text-align: center;
+        }
+
+        #rewards-dropdown {
+            display: inline-block;
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            overflow-y: auto;
+            max-height: 400px; /* Set max height for scrollable area */
+            width: 80%; /* Set width for the rewards dropdown */
+            margin: 0 auto; /* Center the dropdown */
+        }
+
         @media (max-width: 768px) {
-            table {
-                width: 100%; /* Set table width to 100% for smaller screens */
+            #main-container {
+                flex-direction: column;
             }
+            .container {
+                width: 100%;
+                margin-bottom: 20px;
+            }
+        }
+
+        .hidden {
+            display: none;
         }
     </style>
     <script>
+        async function fetchWithAllOrigins(url) {
+            try {
+                const response = await fetch(`https://api.allorigins.win/get?url=${encodeURIComponent(url)}`);
+                if (!response.ok) throw new Error('Network response was not ok');
+                const data = await response.json();
+                return JSON.parse(data.contents);
+            } catch (error) {
+                console.error('Error fetching data:', error);
+                return null;
+            }
+        }
+
+        async function loadLotName(lotId) {
+            if (lotId === 0) return 'Unknown'; // Return 'Unknown' for lot ID 0
+            const lotData = await fetchWithAllOrigins(`http://simnationserver.com:9000/userapi/city/1/i${lotId}.json`);
+            return lotData ? lotData.name : 'N/A'; // Return the lot name if valid
+        }
+
+        async function loadOnlinePlayers() {
+            const onlineData = await fetchWithAllOrigins('http://simnation.ddns.net:9000/userapi/avatars/online');
+            if (!onlineData || !onlineData.avatars) {
+                console.error('Failed to load online players');
+                document.getElementById('players').innerHTML = 'Error loading online players.';
+                return;
+            }
+
+            // Update the title with the count of online players
+            document.getElementById('players-title').textContent = `Sims Online: ${onlineData.avatars_online_count}`;
+
+            const playersContainer = document.getElementById('players');
+            playersContainer.innerHTML = ''; // Clear previous content
+
+            let tableHtml = `
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Sim</th>
+                            <th class="hidden">ID</th>
+                            <th class="hidden">Location ID</th>
+                            <th>Location</th>
+                        </tr>
+                    </thead>
+                    <tbody>`;
+
+            // Fetch each player's lot name based on their location ID
+            const playerPromises = onlineData.avatars.map(async (avatar) => {
+                const lotName = await loadLotName(avatar.location); // Fetch lot name using the location ID
+                return {
+                    name: avatar.name,
+                    id: avatar.avatar_id,
+                    location: avatar.location,
+                    lotName: lotName // Include lot name in the object
+                };
+            });
+
+            // Wait for all promises to resolve
+            const players = await Promise.all(playerPromises);
+
+            // Sort players alphabetically by name
+            players.sort((a, b) => a.name.localeCompare(b.name));
+
+            players.forEach(player => {
+                tableHtml += `
+                    <tr>
+                        <td>${player.name}</td>
+                        <td class="hidden">${player.id}</td>
+                        <td class="hidden">${player.location}</td>
+                        <td>${player.lotName}</td>
+                    </tr>`;
+            });
+
+            tableHtml += `
+                    </tbody>
+                </table>`;
+
+            playersContainer.innerHTML = tableHtml; // Update the container with the table
+        }
+
         async function loadLots() {
             try {
                 const response = await fetch('https://api.allorigins.win/get?url=' + encodeURIComponent('http://simnation.ddns.net:9000/userapi/city/1/city.json'));
                 const data = await response.json();
-
-                // Parse the actual data from the response
                 const jsonData = JSON.parse(data.contents);
 
-                // Create a mapping of lot IDs to names
+                const activeLots = jsonData.activeLots;
+                const onlineCounts = jsonData.onlineCount;
                 const lotMapping = {};
                 for (let i = 0; i < jsonData.reservedLots.length; i++) {
                     lotMapping[jsonData.reservedLots[i]] = jsonData.names[i];
                 }
 
-                // Get active lots and their corresponding counts
-                const activeLots = jsonData.activeLots; // Changed to use active lots
-                const onlineCounts = jsonData.onlineCount; // Corresponding counts
-
-                // Create an array to hold lot information for sorting
-                const lotsData = [];
-
-                for (let i = 0; i < activeLots.length; i++) {
-                    const lotID = activeLots[i];
-                    const lotName = lotMapping[lotID]; // Retrieve the lot name using the lot ID
-                    const count = onlineCounts[i]; // Corresponding player count
-
-                    if (count > 0) { // Only display if there's at least one player
-                        lotsData.push({ name: lotName, count: count });
-                    }
-                }
-
-                // Sort by number of Sims Inside (count) in descending order
-                lotsData.sort((a, b) => b.count - a.count);
-
-                // Displaying the active lots and their player counts in a table
                 const lotsContainer = document.getElementById('lots');
                 lotsContainer.innerHTML = ''; // Clear previous content
-                
-                // Create table structure
+
+                let lotsData = activeLots.map((lotID, index) => {
+                    return {
+                        name: lotMapping[lotID] || lotID, // Fallback to ID if name not found
+                        count: onlineCounts[index]
+                    };
+                });
+
+                // Sort lots by Sims count (busiest first)
+                lotsData.sort((a, b) => b.count - a.count);
+
                 let tableHtml = `
                     <table>
                         <thead>
                             <tr>
-                                <th>Lot Name</th>
+                                <th>Location</th>
                                 <th>Sims Inside</th>
                             </tr>
                         </thead>
                         <tbody>`;
 
-                // Populate the table rows with sorted data
                 lotsData.forEach(lot => {
-                    tableHtml += `
-                        <tr>
-                            <td>${lot.name}</td>
-                            <td>${lot.count}</td>
-                        </tr>`;
+                    if (lot.count > 0) {
+                        tableHtml += `
+                            <tr>
+                                <td>${lot.name}</td>
+                                <td>${lot.count}</td>
+                            </tr>`;
+                    }
                 });
 
                 tableHtml += `
                         </tbody>
                     </table>`;
-                
-                lotsContainer.innerHTML = tableHtml; // Update the container with the table
+
+                lotsContainer.innerHTML = tableHtml;
+
             } catch (error) {
                 console.error('Error loading lots:', error);
                 document.getElementById('lots').innerHTML = 'Error loading lots.';
@@ -156,7 +259,6 @@
                 tsomins = "0" + tsomins;
             }
 
-            // Update the display for in-game time
             document.getElementById('tempoSim').innerHTML = "Time in Eldorado: " + tsohours + ":" + tsomins + " " + timesuffix;
 
             setTimeout(tempoSim, 1000);
@@ -221,13 +323,25 @@
             loadLots();
             tempoSim(); // Start the in-game time function
             fetchRewards(); // Fetch rewards on load
+            loadOnlinePlayers(); // Load online players
         };
     </script>
 </head>
 <body>
-    <h1>SimNation - Active Lots and Players</h1>
-    <div id="tempoSim" style="text-align: center; font-size: 18px; margin-bottom: 20px;">Loading time...</div>
-    <div id="lots">Loading lots...</div>
+    <h1>SimNation Dashboard</h1>
+    <div id="tempoSim">Loading time...</div>
+    <div id="main-container">
+        <div class="container">
+            <h3 id="players-title">Sims Online: COUNT</h3>
+            <div id="players" class="scrollable"></div> <!-- Players Container -->
+        </div>
+        <div class="container">
+            <h3 id="lots-title">Active Lots</h3>
+            <div id="lots" class="scrollable"></div> <!-- Lots Container -->
+        </div>
+    </div>
+
+    <!-- Rewards Section -->
     <div id="rewards" style="margin-top: 30px; text-align: center;">
         <h3 style="font-size: 32px;">Current Patreon Rewards</h3> <!-- Updated font size to match h1 -->
         <div id="rewards-dropdown">

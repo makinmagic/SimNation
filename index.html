@@ -99,89 +99,114 @@
         }
     </style>
     <script>
-        async function fetchWithAllOrigins(url) {
-            try {
-                const response = await fetch(`https://api.allorigins.win/get?url=${encodeURIComponent(url)}`);
-                if (!response.ok) throw new Error('Network response was not ok');
-                const data = await response.json();
-                return JSON.parse(data.contents);
-            } catch (error) {
-                console.error('Error fetching data:', error);
-                return null;
-            }
-        }
-
         async function loadLotName(lotId) {
             if (lotId === 0) return 'Unknown'; // Return 'Unknown' for lot ID 0
-            const lotData = await fetchWithAllOrigins(`http://simnationserver.com:9000/userapi/city/1/i${lotId}.json`);
+            const lotData = await fetch(`https://makinmagic.github.io/SimNation/data/active-lots.json`);
             return lotData ? lotData.name : 'N/A'; // Return the lot name if valid
         }
 
-        async function loadOnlinePlayers() {
-            const onlineData = await fetchWithAllOrigins('http://simnation.ddns.net:9000/userapi/avatars/online');
-            if (!onlineData || !onlineData.avatars) {
-                console.error('Failed to load online players');
-                document.getElementById('players').innerHTML = 'Error loading online players.';
-                return;
-            }
+        async function loadActiveLots() {
+    try {
+        const response = await fetch('https://makinmagic.github.io/SimNation/data/active-lots.json');
+        if (!response.ok) {
+            throw new Error(`HTTP error! status: ${response.status}`);
+        }
+        const activeLotsData = await response.json();
+        
+        // Create a mapping of lot IDs to lot names
+        const lotMapping = {};
+        const names = activeLotsData.names;
+        const reservedLots = activeLotsData.reservedLots;
 
-            // Update the title with the count of online players
-            document.getElementById('players-title').textContent = `Sims Online: ${onlineData.avatars_online_count}`;
+        reservedLots.forEach((id, index) => {
+            lotMapping[id] = names[index]; // Map each ID to its corresponding name
+        });
 
-            const playersContainer = document.getElementById('players');
-            playersContainer.innerHTML = ''; // Clear previous content
+        return lotMapping; // Return the mapping
+    } catch (error) {
+        console.error('Failed to load active lots:', error);
+        return {}; // Return an empty object on error
+    }
+}
 
-            let tableHtml = `
-                <table>
-                    <thead>
-                        <tr>
-                            <th>Sim</th>
-                            <th class="hidden">ID</th>
-                            <th class="hidden">Location ID</th>
-                            <th>Location</th>
-                        </tr>
-                    </thead>
-                    <tbody>`;
+async function loadOnlinePlayers() {
+    try {
+        const response = await fetch('https://makinmagic.github.io/SimNation/data/online-players.json');
 
-            // Fetch each player's lot name based on their location ID
-            const playerPromises = onlineData.avatars.map(async (avatar) => {
-                const lotName = await loadLotName(avatar.location); // Fetch lot name using the location ID
-                return {
-                    name: avatar.name,
-                    id: avatar.avatar_id,
-                    location: avatar.location,
-                    lotName: lotName // Include lot name in the object
-                };
-            });
-
-            // Wait for all promises to resolve
-            const players = await Promise.all(playerPromises);
-
-            // Sort players alphabetically by name
-            players.sort((a, b) => a.name.localeCompare(b.name));
-
-            players.forEach(player => {
-                tableHtml += `
-                    <tr>
-                        <td>${player.name}</td>
-                        <td class="hidden">${player.id}</td>
-                        <td class="hidden">${player.location}</td>
-                        <td>${player.lotName}</td>
-                    </tr>`;
-            });
-
-            tableHtml += `
-                    </tbody>
-                </table>`;
-
-            playersContainer.innerHTML = tableHtml; // Update the container with the table
+        if (!response.ok) {
+            throw new Error(`HTTP error! status: ${response.status}`);
         }
 
+        const onlineData = await response.json();
+
+        if (!onlineData.avatars || onlineData.avatars.length === 0) {
+            console.error('No avatars found in online data.');
+            document.getElementById('players').innerHTML = 'No online players found.';
+            const playersTitle = document.getElementById('players-title');
+            if (playersTitle) {
+                playersTitle.innerText = 'Sims Online: 0'; // Update the title for 0 players
+            }
+            return;
+        }
+
+        const playersContainer = document.getElementById('players');
+        playersContainer.innerHTML = ''; // Clear previous content
+
+        // Fetch active lots data and create a mapping
+        const lotMapping = await loadActiveLots();
+
+        // Sort the avatars alphabetically by name
+        const sortedAvatars = onlineData.avatars.sort((a, b) => a.name.localeCompare(b.name));
+
+        let tableHtml = `
+            <table>
+                <thead>
+                    <tr>
+                        <th>Sim</th>
+                        <th class="hidden">ID</th>
+                        <th class="hidden">Location ID</th>
+                        <th>Location</th>
+                    </tr>
+                </thead>
+                <tbody>`;
+
+        // Process sorted online players
+        sortedAvatars.forEach(avatar => {
+            const lotName = lotMapping[avatar.location] || 'Unknown'; // Get the lot name using the mapping
+            tableHtml += `
+                <tr>
+                    <td>${avatar.name}</td>
+                    <td class="hidden">${avatar.avatar_id}</td>
+                    <td class="hidden">${avatar.location}</td>
+                    <td>${lotName}</td>
+                </tr>`;
+        });
+
+        tableHtml += `
+                </tbody>
+            </table>`;
+
+        playersContainer.innerHTML = tableHtml; // Update the container with the table
+
+        // Update the title with the online player count
+        const playersTitle = document.getElementById('players-title');
+        if (playersTitle) {
+            playersTitle.innerText = `Sims Online: ${onlineData.avatars_online_count}`;
+        }
+
+    } catch (error) {
+        console.error('Failed to load online players:', error);
+        document.getElementById('players').innerHTML = 'Error loading online players.';
+        const playersTitle = document.getElementById('players-title');
+        if (playersTitle) {
+            playersTitle.innerText = 'Sims Online: 0'; // Update the title in case of error
+        }
+    }
+}
         async function loadLots() {
             try {
-                const response = await fetch('https://api.allorigins.win/get?url=' + encodeURIComponent('http://simnation.ddns.net:9000/userapi/city/1/city.json'));
-                const data = await response.json();
-                const jsonData = JSON.parse(data.contents);
+                const response = await fetch('https://makinmagic.github.io/SimNation/data/active-lots.json');
+                const jsonData = await response.json();
 
                 const activeLots = jsonData.activeLots;
                 const onlineCounts = jsonData.onlineCount;
@@ -282,71 +307,67 @@
         }
 
         function populateRewards(htmlContent) {
-            const parser = new DOMParser();
-            const doc = parser.parseFromString(htmlContent, 'text/html');
-            const options = doc.querySelectorAll('#giftSelection option');
-            const rewardsContainer = document.getElementById('rewards-dropdown');
-            rewardsContainer.innerHTML = ''; // Clear existing content
+    const parser = new DOMParser();
+    const doc = parser.parseFromString(htmlContent, 'text/html');
+    const options = doc.querySelectorAll('#giftSelection option');
+    const rewardsContainer = document.getElementById('rewards-dropdown');
+    rewardsContainer.innerHTML = ''; // Clear existing content
 
-            // Create table structure for rewards
-            let tableHtml = `
-                <table>
-                    <thead>
-                        <tr>
-                            <th>Reward Name</th>
-                            <th>Image</th>
-                        </tr>
-                    </thead>
-                    <tbody>`;
+    // Create table structure for rewards
+    let tableHtml = `
+        <table>
+            <thead>
+                <tr>
+                    <th>Reward Name</th>
+                    <th>Image</th>
+                </tr>
+            </thead>
+            <tbody>`;
 
-            options.forEach(option => {
-                const rewardName = option.textContent; // Reward name
-                const imagePath = option.getAttribute('data-image'); // Image relative path
-                const fullImagePath = `http://simnationserver.com/redeem/${imagePath}`; // Full image URL
+    options.forEach(option => {
+        const imageUrl = 'http://simnationserver.com/redeem/' + option.dataset.image; // Use root URL for images
+        tableHtml += `
+            <tr>
+                <td>${option.text}</td>
+                <td><img src="${imageUrl}" alt="${option.text}" style="width: 50px; height: 50px;"/></td>
+            </tr>`;
+    });
 
-                // Populate the table rows with rewards
-                tableHtml += `
-                    <tr>
-                        <td>${rewardName}</td>
-                        <td><img src="${fullImagePath}" alt="${rewardName}" style="width: 50px; height: 50px;"></td>
-                    </tr>`;
-            });
+    tableHtml += `
+            </tbody>
+        </table>`;
 
-            tableHtml += `
-                    </tbody>
-                </table>`;
-                
-            rewardsContainer.innerHTML = tableHtml; // Update the container with the table
+    rewardsContainer.innerHTML = tableHtml; // Set the inner HTML of rewards dropdown
+}
+
+        // Initialize the dashboard
+        async function init() {
+            tempoSim();
+            await loadOnlinePlayers();
+            await loadLots();
+            await fetchRewards(); // Load rewards data
         }
 
-        window.onload = function() {
-            loadLots();
-            tempoSim(); // Start the in-game time function
-            fetchRewards(); // Fetch rewards on load
-            loadOnlinePlayers(); // Load online players
-        };
+        window.onload = init; // Initialize on window load
     </script>
 </head>
 <body>
-    <h1>SimNation Dashboard v1.0</h1>
-    <div id="tempoSim">Loading time...</div>
+    <h1>SimNation Dashboard - v1.2</h1>
+    <div id="tempoSim">Time in Eldorado: Loading time...</div>
+    <p style="font-style: italic; text-align: center;">Data is refreshed every minute for the most current information.</p>
     <div id="main-container">
         <div class="container">
-            <h3 id="players-title">Sims Online: COUNT</h3>
-            <div id="players" class="scrollable"></div> <!-- Players Container -->
+            <h3 id="players-title">Sims Online: 0</h3>
+            <div class="scrollable" id="players"></div>
         </div>
         <div class="container">
             <h3 id="lots-title">Active Lots</h3>
-            <div id="lots" class="scrollable"></div> <!-- Lots Container -->
+            <div class="scrollable" id="lots"></div>
         </div>
     </div>
-
-    <!-- Rewards Section -->
-    <div id="rewards" style="margin-top: 30px; text-align: center;">
-        <h3 style="font-size: 32px;">Current Patreon Rewards</h3> <!-- Updated font size to match h1 -->
-        <div id="rewards-dropdown">
-            <!-- Rewards will be populated here -->
-        </div>
+    <div id="rewards">
+        <h3>Current Patreon Rewards</h3>
+        <div id="rewards-dropdown"></div>
     </div>
 </body>
 </html>

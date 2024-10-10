@@ -4,100 +4,130 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>SimNation - Active Lots and Players</title>
+    <script src="https://kit.fontawesome.com/aa64a4e171.js" crossorigin="anonymous"></script>
     <style>
-        body {
-            font-family: Arial, sans-serif;
-            background-color: #f4f4f4;
-            color: #333;
-            margin: 0;
-            padding: 20px;
-        }
 
-        h1, h3 {
-            text-align: center;
-            color: #0056b3;
-            font-size: 32px;
-        }
+    body {
+        font-family: Arial, sans-serif;
+        background-color: #1b1b1b; /* Dark background for Halloween theme */
+        color: #f4f4f4; /* Light text for readability */
+        margin: 0;
+        padding: 20px;
+    }
 
+    h1, h3 {
+        text-align: center;
+        color: #ff7518; /* Halloween orange for headings */
+        font-size: 32px;
+    }
+
+    #main-container {
+        display: flex;
+        justify-content: space-between;
+        gap: 1%;
+    }
+
+    .container {
+        width: 49%;
+        background: #333; /* Darker background for containers */
+        border-radius: 8px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.3); /* Slight shadow for spooky effect */
+        padding: 10px;
+        display: flex;
+        flex-direction: column;
+    }
+
+    table {
+        width: 100%;
+        border-collapse: collapse;
+        margin-top: 10px;
+    }
+
+    th, td {
+        padding: 10px;
+        border-bottom: 1px solid #555; /* Dark border for spooky effect */
+        text-align: left;
+    }
+
+    th {
+        background-color: #ff7518; /* Orange for headers */
+        color: white;
+    }
+
+    tr:hover {
+        background-color: #444; /* Slightly lighter background on hover */
+        color: #ff7518; /* Orange glow effect on hover */
+        transition: background-color 0.3s ease, color 0.3s ease;
+    }
+
+    .scrollable {
+        height: 400px;
+        overflow-y: auto;
+        flex-grow: 1;
+    }
+
+    #tempoSim {
+        text-align: center;
+        font-size: 18px;
+        margin-bottom: 20px;
+        color: #ff7518; /* Orange for the in-game time display */
+    }
+
+    #rewards {
+        margin-top: 30px;
+        text-align: center;
+    }
+
+    #rewards-dropdown {
+        background: #333; /* Dark background for rewards */
+        border-radius: 8px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+        overflow-y: auto;
+        max-height: 400px;
+        width: 80%;
+        margin: 0 auto;
+    }
+
+    @media (max-width: 768px) {
         #main-container {
-            display: flex;
-            justify-content: space-between;
-            gap: 1%; /* Reduced gap */
+            flex-direction: column;
         }
-
         .container {
-            width: 49%; /* Make both containers almost equal and close to each other */
-            background: white;
-            border-radius: 8px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-            padding: 10px;
-            display: flex;
-            flex-direction: column; /* Align title and table vertically */
-        }
-
-        table {
             width: 100%;
-            border-collapse: collapse;
-            margin-top: 10px; /* Space between title and table */
-        }
-
-        th, td {
-            padding: 10px;
-            border-bottom: 1px solid #eee;
-            text-align: left;
-        }
-
-        th {
-            background-color: #007bff;
-            color: white;
-        }
-
-        tr:hover {
-            background-color: #f1f1f1;
-        }
-
-        .scrollable {
-            height: 400px;
-            overflow-y: auto;
-            flex-grow: 1; /* Allow scrollable area to grow and fill space */
-        }
-
-        #tempoSim {
-            text-align: center;
-            font-size: 18px;
             margin-bottom: 20px;
         }
+    }
 
-        #rewards {
-            margin-top: 30px;
-            text-align: center;
-        }
+    .hidden {
+        display: none;
+    }
 
-        #rewards-dropdown {
-            display: inline-block;
-            background: white;
-            border-radius: 8px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-            overflow-y: auto;
-            max-height: 400px; /* Set max height for scrollable area */
-            width: 80%; /* Set width for the rewards dropdown */
-            margin: 0 auto; /* Center the dropdown */
-        }
+        /* Show icon on row hover */
+table tr {
+    position: relative;
+}
 
-        @media (max-width: 768px) {
-            #main-container {
-                flex-direction: column;
-            }
-            .container {
-                width: 100%;
-                margin-bottom: 20px;
-            }
-        }
+table tr:hover::after {
+    content: '';
+    position: absolute;
+    width: 20px; /* Adjust size */
+    height: 20px; /* Adjust size */
+    background-image: url('https://cdn-icons-png.flaticon.com/512/685/685844.png'); /* Replace with the path to your icon */
+    background-size: contain;
+    background-repeat: no-repeat;
+    right: 10px; /* Adjust position */
+    top: 10px; /* Adjust position */
+    animation: fade-in 0.3s; /* Optional fade-in effect */
+}
 
-        .hidden {
-            display: none;
-        }
-    </style>
+/* Fade-in animation */
+@keyframes fade-in {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+        
+</style>
     <script>
         async function loadLotName(lotId) {
             if (lotId === 0) return 'Unknown'; // Return 'Unknown' for lot ID 0
@@ -139,16 +169,6 @@ async function loadOnlinePlayers() {
 
         const onlineData = await response.json();
 
-        if (!onlineData.avatars || onlineData.avatars.length === 0) {
-            console.error('No avatars found in online data.');
-            document.getElementById('players').innerHTML = 'No online players found.';
-            const playersTitle = document.getElementById('players-title');
-            if (playersTitle) {
-                playersTitle.innerText = 'Sims Online: 0'; // Update the title for 0 players
-            }
-            return;
-        }
-
         const playersContainer = document.getElementById('players');
         playersContainer.innerHTML = ''; // Clear previous content
 
@@ -188,10 +208,10 @@ async function loadOnlinePlayers() {
 
         playersContainer.innerHTML = tableHtml; // Update the container with the table
 
-        // Update the title with the online player count
+        // Update the title with the online player count and keep the icons
         const playersTitle = document.getElementById('players-title');
         if (playersTitle) {
-            playersTitle.innerText = `Sims Online: ${onlineData.avatars_online_count}`;
+            playersTitle.innerHTML = `<i class="fa-solid fa-hat-wizard"></i> Sims Online: ${onlineData.avatars_online_count} <i class="fa-solid fa-hat-wizard"></i>`;
         }
 
     } catch (error) {
@@ -199,7 +219,7 @@ async function loadOnlinePlayers() {
         document.getElementById('players').innerHTML = 'Error loading online players.';
         const playersTitle = document.getElementById('players-title');
         if (playersTitle) {
-            playersTitle.innerText = 'Sims Online: 0'; // Update the title in case of error
+            playersTitle.innerHTML = `<i class="fa-solid fa-hat-wizard"></i> Sims Online: 0 <i class="fa-solid fa-hat-wizard"></i>`; // Keep the icons even in case of an error
         }
     }
 }
@@ -352,21 +372,21 @@ async function loadOnlinePlayers() {
     </script>
 </head>
 <body>
-    <h1>SimNation Dashboard - v1.2</h1>
+    <h1><i class="fa-solid fa-ghost"></i> SimNation Dashboard - Halloween Version <i class="fa-solid fa-ghost"></i></h1>
     <div id="tempoSim">Time in Eldorado: Loading time...</div>
     <p style="font-style: italic; text-align: center;">Data is refreshed every minute for the most current information.</p>
     <div id="main-container">
         <div class="container">
-            <h3 id="players-title">Sims Online: 0</h3>
+            <h3 id="players-title"><i class="fa-solid fa-hat-wizard"></i> Sims Online: 0 <i class="fa-solid fa-hat-wizard"></i></h3>
             <div class="scrollable" id="players"></div>
         </div>
         <div class="container">
-            <h3 id="lots-title">Active Lots</h3>
+            <h3 id="lots-title"><i class="fa-solid fa-spider"></i> Active Lots <i class="fa-solid fa-spider"></i></h3>
             <div class="scrollable" id="lots"></div>
         </div>
     </div>
     <div id="rewards">
-        <h3>Current Patreon Rewards</h3>
+        <h3><i class="fa-solid fa-wand-sparkles"></i> Current Patreon Rewards <i class="fa-solid fa-wand-sparkles"></i></h3>
         <div id="rewards-dropdown"></div>
     </div>
 </body>

@@ -489,7 +489,7 @@ async function displayPlayerInfo(avatarId) {
 
     // Create table rows for rewards
     options.forEach(option => {
-        const imageUrl = 'http://simnationserver.com/redeem/' + option.dataset.image; // Use root URL for images
+        const imageUrl = 'https://images.weserv.nl/?url=simnationserver.com/redeem/' + option.dataset.image; // Use root URL for images
         const row = rewardsContainer.insertRow();
         row.innerHTML = `
             <td>${option.text}</td>

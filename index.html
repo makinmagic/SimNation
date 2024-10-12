@@ -378,7 +378,7 @@ async function loadOnlinePlayers() {
         );
 
         // Replace \r\n with <br> in description
-        const formattedDescription = (lotData.description || 'No description available.').replace(/\r\n/g, '<br>');
+        const formattedDescription = (lotData.description || 'No description available.').replace(/(\r\n|\n|\r)/g, '<br>');
 
         // Find known Sims inside the lot (from the Sims Online table)
         const playersContainer = document.getElementById('players');
@@ -437,7 +437,7 @@ async function displayPlayerInfo(avatarId) {
         const playerLocation = locationRow ? locationRow.querySelector('td:nth-child(4)').textContent : 'Unknown'; // Get location name
 
         // Replace \r\n with <br> in description
-        const formattedDescription = (playerData.description || 'No description available.').replace(/\r\n/g, '<br>');
+        const formattedDescription = (playerData.description || 'No description available.').replace(/(\r\n|\n|\r)/g, '<br>');
 
         // Display all information in the Console
         consoleContent.innerHTML = `

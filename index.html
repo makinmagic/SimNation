@@ -91,18 +91,33 @@
         margin: 0 auto;
     }
 
+    .hidden {
+    display: none;
+}
+
     @media (max-width: 768px) {
-        #main-container, #bottom-container {
-            flex-direction: column;
-        }
-        .container {
-            width: 100%;
-            margin-bottom: 20px;
-        }
+    #main-container, #bottom-container {  
+        flex-direction: column;
     }
 
-    .hidden {
-        display: none;
+    .container {
+        width: 100%;
+        margin-bottom: 20px;
+    }
+
+#bottom-container {
+        flex-direction: column;
+    }
+
+    #rewards-container {
+        order: 4; 
+        width: 100%;
+    }
+
+    #console-container {
+        order: 3; 
+        width: 100%; 
+    }
     }
 
     /* Show icon on row hover */
@@ -134,38 +149,44 @@
         // JavaScript functions as provided earlier
         async function loadLotName(lotId) {
             if (lotId === 0) return 'Unknown'; // Return 'Unknown' for lot ID 0
-            const lotData = await fetch('https://makinmagic.github.io/SimNation/data/active-lots.json');
+            const lotData = await fetch('https://web-production-3227.up.railway.app/http://simnation.ddns.net:9000/userapi/city/1/city.json');
             return lotData ? lotData.name : 'N/A'; // Return the lot name if valid
         }
 
         async function loadActiveLots() {
-            try {
-                const response = await fetch('https://makinmagic.github.io/SimNation/data/active-lots.json');
-                if (!response.ok) {
-                    throw new Error(`HTTP error! status: ${response.status}`);
-                }
-                const activeLotsData = await response.json();
-
-                // Create a mapping of lot IDs to lot names
-                const lotMapping = {};
-                const names = activeLotsData.names;
-                const reservedLots = activeLotsData.reservedLots;
-
-                reservedLots.forEach((id, index) => {
-                    lotMapping[id] = names[index]; // Map each ID to its corresponding name
-                });
-
-                return lotMapping; // Return the mapping
-            } catch (error) {
-                console.error('Failed to load active lots:', error);
-                return {}; // Return an empty object on error
-            }
-        }
-
-        async function loadOnlinePlayers() {
     try {
-        const response = await fetch('https://makinmagic.github.io/SimNation/data/online-players.json');
+        const response = await fetch('https://web-production-3227.up.railway.app/http://simnation.ddns.net:9000/userapi/city/1/city.json');
+        if (!response.ok) {
+            throw new Error(`HTTP error! status: ${response.status}`);
+        }
+        const activeLotsData = await response.json();
 
+        // Create a mapping of lot IDs to lot names
+        const lotMapping = {};
+        const names = activeLotsData.names;
+        const reservedLots = activeLotsData.reservedLots;
+
+        reservedLots.forEach((id, index) => {
+            lotMapping[id] = names[index]; // Map each ID to its corresponding name
+        });
+
+        return lotMapping; // Return the mapping
+    } catch (error) {
+        console.error('Failed to load active lots:', error);
+        return {}; // Return an empty object on error
+    }
+}
+
+async function loadOnlinePlayers() {
+    try {
+
+        // Set the Sims Online title to "Loading..." while data is being fetched
+        const playersTitle = document.getElementById('players-title');
+        if (playersTitle) {
+            playersTitle.innerHTML = `<i class="fa-solid fa-hat-wizard"></i> Sims Online: Loading... <i class="fa-solid fa-hat-wizard"></i>`;
+        }
+        
+        const response = await fetch('https://web-production-3227.up.railway.app/http://simnation.ddns.net:9000/userapi/avatars/online');
         if (!response.ok) {
             throw new Error(`HTTP error! status: ${response.status}`);
         }
@@ -220,25 +241,24 @@
             });
         });
 
-        // Update the title with the online player count and keep the icons
-        const playersTitle = document.getElementById('players-title');
+        // Update the title with the online player count
         if (playersTitle) {
             playersTitle.innerHTML = `<i class="fa-solid fa-hat-wizard"></i> Sims Online: ${onlineData.avatars_online_count} <i class="fa-solid fa-hat-wizard"></i>`;
         }
 
-    } catch (error) {
+} catch (error) {
         console.error('Failed to load online players:', error);
         document.getElementById('players').innerHTML = 'Error loading online players.';
-        const playersTitle = document.getElementById('players-title');
+        // If there is an error, reset the title to show 0
         if (playersTitle) {
-            playersTitle.innerHTML = `<i class="fa-solid fa-hat-wizard"></i> Sims Online: 0 <i class="fa-solid fa-hat-wizard"></i>`; // Keep the icons even in case of an error
+            playersTitle.innerHTML = `<i class="fa-solid fa-hat-wizard"></i> Sims Online: 0 <i class="fa-solid fa-hat-wizard"></i>`;
         }
     }
 }
 
         async function loadLots() {
     try {
-        const response = await fetch('https://makinmagic.github.io/SimNation/data/active-lots.json');
+        const response = await fetch('https://web-production-3227.up.railway.app/http://simnation.ddns.net:9000/userapi/city/1/city.json');
         const jsonData = await response.json();
 
         const activeLots = jsonData.activeLots;
@@ -528,7 +548,6 @@ function displayRewardInfo(rewardName, rewardImage) {
 <body>
     <h1><i class="fa-solid fa-ghost"></i> SimNation Dashboard - Halloween Version <i class="fa-solid fa-ghost"></i></h1>
     <div id="tempoSim">Time in Eldorado: Loading time...</div>
-    <p style="font-style: italic; text-align: center;">Data is refreshed every minute for the most current information.</p>
     <div id="main-container">
         <div class="container">
             <h3 id="players-title"><i class="fa-solid fa-hat-wizard"></i> Sims Online: 0 <i class="fa-solid fa-hat-wizard"></i></h3>
@@ -541,9 +560,9 @@ function displayRewardInfo(rewardName, rewardImage) {
     </div>
 
     <div id="bottom-container" style="display: flex; justify-content: space-between; gap: 1%;">
-    <div class="container">
+    <div id="rewards-container" class="container">
         <h3><i class="fa-solid fa-wand-sparkles"></i> Current Patreon Rewards <i class="fa-solid fa-wand-sparkles"></i></h3>
-        <div class="scrollable" id="rewards-container">
+        <div class="scrollable">
             <!-- Rewards table will be populated here -->
             <table id="rewards-table">
                 <thead>
@@ -558,10 +577,10 @@ function displayRewardInfo(rewardName, rewardImage) {
             </table>
         </div>
     </div>
-    <div class="container">
+    <div id="console-container" class="container">
         <h3><i class="fa-solid fa-book-skull"></i> Console <i class="fa-solid fa-book-skull"></i></h3>
         <div id="console-content">
-                <p style="text-align: center; color: #ccc;">Select a Sim or a Lot to see more information.</p>
+            <p style="text-align: center; color: #ccc;">Select a Sim or a Lot to see more information.</p>
             <!-- Content for Console will go here -->
         </div>
     </div>

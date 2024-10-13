@@ -1,4 +1,4 @@
-name: Update Rewards
+name: Check and Update Rewards
 
 on:
   workflow_dispatch:
@@ -19,15 +19,26 @@ jobs:
     - name: Fetch rewards data
       run: |
         # Fetch the rewards data using curl
-        curl -s "https://api.allorigins.win/get?url=http%3A%2F%2Fsimnationserver.com%2Fredeem%2F" -o rewards.json
+        curl -s "https://api.allorigins.win/get?url=http%3A%2F%2Fsimnationserver.com%2Fredeem%2F" -o new_rewards.json
         # Check if the fetched data contains "502" error
-        if grep -q '502' rewards.json; then
+        if grep -q '502' new_rewards.json; then
           echo "Error 502 detected in the response, aborting update."
           exit 1
         fi
 
+    - name: Compare new rewards data with the existing file
+      run: |
+        # Check if the new data differs from the existing data
+        if cmp -s new_rewards.json rewards.json; then
+          echo "No changes in rewards data, skipping update."
+          exit 0
+        else
+          echo "New rewards data detected, proceeding with update."
+          mv new_rewards.json rewards.json
+        fi
+
     - name: Commit updated rewards data
-      if: success()  # Only proceed if the previous step succeeds
+      if: success()  # Only proceed if changes were detected
       run: |
         git config --global user.name "github-actions[bot]"
         git config --global user.email "github-actions[bot]@users.noreply.github.com"

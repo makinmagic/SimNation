@@ -357,6 +357,15 @@ async function loadOnlinePlayers() {
             11: 'Community'
         };
 
+         // Mapping for admit modes
+        const admitModeMapping = {
+            0: 'Admit All',
+            1: 'Admit List',
+            2: 'Ban List',
+            3: 'Ban All',
+            4: 'Admit All'
+        };
+
         // Fetch owner's name using owner_id
         const ownerNameUrl = `https://web-production-3227.up.railway.app/http://simnation.ddns.net:9000/userapi/avatars/${lotData.owner_id}`;
         const ownerResponse = await fetch(ownerNameUrl);
@@ -404,6 +413,7 @@ async function loadOnlinePlayers() {
             <p><strong>Description:</strong></p>
             <div class="description-container">${formattedDescription}</div>
             <p><strong>Lot Type:</strong> ${categoryMapping[lotData.category] || 'Unknown'}</p>
+            <p><strong>Admit Mode:</strong> ${admitModeMapping[lotData.admit_mode] || 'Unknown'}</p>
             <p><strong>Owner:</strong> ${ownerName || 'Unknown'}</p>
             <p><strong>Roommates:</strong> ${roommateNames.length > 0 ? roommateNames.join(', ') : 'None'}</p>
             <p><strong>Known Sims Inside:</strong> ${knownSims.length > 0 ? knownSims.join(', ') : 'None'}</p>

@@ -95,6 +95,10 @@
     display: none;
 }
 
+    .preserve-whitespace {
+        white-space: pre-wrap; 
+    }
+
     @media (max-width: 768px) {
     #main-container, #bottom-container {  
         flex-direction: column;
@@ -346,7 +350,7 @@ async function loadOnlinePlayers() {
             6: 'Skills',
             7: 'Welcome',
             8: 'Games',
-            9: 'Offbeat',
+            9: 'Entertainment',
             10: 'Residential',
             11: 'Community'
         };
@@ -395,7 +399,8 @@ async function loadOnlinePlayers() {
                 ${lotData.name}
             </div>
             <img src="https://images.weserv.nl/?url=simnationserver.com:9000/userapi/city/1/${lotId}.png" alt="${lotData.name}" style="width: 200px; height: 200px; border-radius: 8px; border: 3px solid #ff7518; display: block; margin: 10px auto;">
-            <p><strong>Description:</strong> ${formattedDescription}</p>
+            <p><strong>Description:</strong></p>
+        <div class="preserve-whitespace">${formattedDescription}</div>
             <p><strong>Lot Type:</strong> ${categoryMapping[lotData.category] || 'Unknown'}</p>
             <p><strong>Owner:</strong> ${ownerName || 'Unknown'}</p>
             <p><strong>Roommates:</strong> ${roommateNames.length > 0 ? roommateNames.join(', ') : 'None'}</p>
@@ -444,7 +449,8 @@ async function displayPlayerInfo(avatarId) {
             <div style="background-color: #ff7518; padding: 10px; color: white; text-align: center; font-size: 20px;">
                 ${playerData.name}
             </div>
-            <p><strong>Description:</strong> ${formattedDescription}</p>
+            <p><strong>Description:</strong></p>
+        <div class="preserve-whitespace">${formattedDescription}</div>
             <p><strong>Age:</strong> ${ageInDays} days old</p>
             <p><strong>Location:</strong> ${playerLocation}</p>
         `;

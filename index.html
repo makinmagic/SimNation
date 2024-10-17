@@ -134,13 +134,13 @@
     table tr:hover::after {
         content: '';
         position: absolute;
-        width: 20px; /* Adjust size */
-        height: 20px; /* Adjust size */
+        width: 20px; 
+        height: 20px; 
         background-image: url('https://cdn-icons-png.flaticon.com/512/685/685844.png'); 
         background-size: contain;
         background-repeat: no-repeat;
-        right: 10px; /* Adjust position */
-        top: 10px; /* Adjust position */
+        right: 10px; 
+        top: 10px; 
         animation: fade-in 0.3s; 
     }
 
@@ -409,7 +409,7 @@ async function loadOnlinePlayers() {
             <div style="background-color: #ff7518; padding: 10px; color: white; text-align: center; font-size: 20px;">
                 ${lotData.name}
             </div>
-            <img src="https://images.weserv.nl/?url=simnationserver.com:9000/userapi/city/1/${lotId}.png" alt="${lotData.name}" style="width: 200px; height: 200px; border-radius: 8px; border: 3px solid #ff7518; display: block; margin: 10px auto;">
+            <img src="https://images.weserv.nl/?url=simnationserver.com:9000/userapi/city/1/${lotId}.png" alt="${lotData.name}" style="width: 200px; height: 200px; border-radius: 8px; border: 3px solid #ff7518; display: block; margin: 10px auto; background: #d3d3d3;">
             <p><strong>Description:</strong></p>
             <div class="description-container">${formattedDescription}</div>
             <p><strong>Lot Type:</strong> ${categoryMapping[lotData.category] || 'Unknown'}</p>

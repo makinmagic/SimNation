@@ -198,7 +198,6 @@ async function loadOnlinePlayers() {
         }
 
         const onlineData = await response.json();
-
         const playersContainer = document.getElementById('players');
         playersContainer.innerHTML = ''; // Clear previous content
 
@@ -208,12 +207,21 @@ async function loadOnlinePlayers() {
         // Sort the avatars alphabetically by name
         const sortedAvatars = onlineData.avatars.sort((a, b) => a.name.localeCompare(b.name));
 
+        // Prepare fetch requests for all avatars in parallel
+        const fetchPlayerDetailsPromises = sortedAvatars.map(avatar =>
+            fetch(`https://web-production-3227.up.railway.app/http://simnation.ddns.net:9000/userapi/avatars/${avatar.avatar_id}`).then(response => response.json())
+        );
+
+        // Wait for all player detail requests to complete
+        const playerDetailsArray = await Promise.all(fetchPlayerDetailsPromises);
+
         let tableHtml = `
             <table>
                 <thead>
                     <tr>
                         <th>Sim</th>
                         <th class="hidden">ID</th>
+                        <th>Age (days)</th>
                         <th class="hidden">Location ID</th>
                         <th>Location</th>
                     </tr>
@@ -221,13 +229,20 @@ async function loadOnlinePlayers() {
                 <tbody>`;
 
         // Process sorted online players
-        sortedAvatars.forEach(avatar => {
-            const lotName = lotMapping[avatar.location] || 'Unknown'; // Get the lot name using the mapping
+        sortedAvatars.forEach((avatar, index) => {
+            const lotName = lotMapping[avatar.location] || 'Unknown'; // Get lot name
+            const playerDetails = playerDetailsArray[index]; // Get the corresponding player details
+            
+            // Calculate player age from Unix timestamp (avatar.date)
+            const creationDate = new Date(playerDetails.date * 1000); // Convert to milliseconds
+            const currentDate = new Date();
+            const ageInDays = Math.floor((currentDate - creationDate) / (1000 * 60 * 60 * 24)); // Age in days
+
             tableHtml += `
                 <tr data-avatar-id="${avatar.avatar_id}">
                     <td>${avatar.name}</td>
                     <td class="hidden">${avatar.avatar_id}</td>
-                    <td class="hidden">${avatar.location}</td>
+                    <td>${ageInDays} days</td>
                     <td>${lotName}</td>
                 </tr>`;
         });
@@ -261,7 +276,21 @@ async function loadOnlinePlayers() {
         }
     }
 }
-
+       // Mapping for lot categories
+        const categoryMapping = {
+            1: 'Money',
+            2: 'Money',
+            3: 'Romance',
+            4: 'Service',
+            5: 'Store',
+            6: 'Skills',
+            7: 'Welcome',
+            8: 'Games',
+            9: 'Entertainment',
+            10: 'Residential',
+            11: 'Community'
+        };
+        
         async function loadLots() {
     try {
         const response = await fetch('https://web-production-3227.up.railway.app/http://simnation.ddns.net:9000/userapi/city/1/city.json');
@@ -288,22 +317,35 @@ async function loadOnlinePlayers() {
         // Sort lots by Sims count (busiest first)
         lotsData.sort((a, b) => b.count - a.count);
 
+        const fetchLotDetailsPromises = lotsData.map(lot =>
+            fetch(`https://web-production-3227.up.railway.app/http://simnationserver.com:9000/userapi/city/1/i${lot.id}.json`).then(response => response.json())
+        );
+
+        // Wait for all lot detail requests to complete
+        const lotDetailsArray = await Promise.all(fetchLotDetailsPromises);
+
         let tableHtml = `
             <table>
                 <thead>
                     <tr>
                         <th>Location</th>
                         <th>Sims Inside</th>
+                        <th>Lot Type</th>
                     </tr>
                 </thead>
                 <tbody>`;
 
-        lotsData.forEach(lot => {
+ // Process active lots and display them along with their types
+        lotsData.forEach((lot, index) => {
             if (lot.count > 0) {
+                const lotDetails = lotDetailsArray[index];
+                const lotType = categoryMapping[lotDetails.category] || 'Unknown'; // Map category to lot type
+                
                 tableHtml += `
                     <tr data-lot-id="${lot.id}"> <!-- Store lot ID in a data attribute -->
                         <td>${lot.name}</td>
                         <td>${lot.count}</td>
+                        <td>${lotType}</td> <!-- Display Lot Type -->
                     </tr>`;
             }
         });
@@ -341,21 +383,6 @@ async function loadOnlinePlayers() {
 
         const data = await response.json(); 
         const lotData = data; 
-
-        // Mapping for lot categories
-        const categoryMapping = {
-            1: 'Money',
-            2: 'Money',
-            3: 'Romance',
-            4: 'Service',
-            5: 'Store',
-            6: 'Skills',
-            7: 'Welcome',
-            8: 'Games',
-            9: 'Entertainment',
-            10: 'Residential',
-            11: 'Community'
-        };
 
          // Mapping for admit modes
         const admitModeMapping = {
@@ -400,7 +427,10 @@ async function loadOnlinePlayers() {
         const playersRows = Array.from(playersContainer.querySelectorAll('tr'));
 
         const knownSims = playersRows
-            .filter(row => row.querySelector('.hidden:nth-child(3)').textContent === lotId.toString()) // Match lotId with player's "location"
+            .filter(row => {
+                const locationCell = row.querySelector('.hidden:nth-child(4)');
+                return locationCell && locationCell.textContent === lotId.toString(); // Ensure cell exists and matches lot ID
+            })
             .map(row => row.querySelector('td').textContent); // Get the player's name
 
         // Display lot information in Console

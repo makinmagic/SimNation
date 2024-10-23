@@ -152,7 +152,7 @@
 
     </style>
     <script>
-        // JavaScript functions as provided earlier
+        // JavaScript functions
         async function loadLotName(lotId) {
             if (lotId === 0) return 'Unknown'; // Return 'Unknown' for lot ID 0
             const lotData = await fetch('https://web-production-3227.up.railway.app/http://simnation.ddns.net:9000/userapi/city/1/city.json');
@@ -221,7 +221,7 @@ async function loadOnlinePlayers() {
                     <tr>
                         <th>Sim</th>
                         <th class="hidden">ID</th>
-                        <th>Age (days)</th>
+                        <th>Age</th>
                         <th class="hidden">Location ID</th>
                         <th>Location</th>
                     </tr>

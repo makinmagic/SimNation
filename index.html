@@ -239,12 +239,13 @@ async function loadOnlinePlayers() {
             const ageInDays = Math.floor((currentDate - creationDate) / (1000 * 60 * 60 * 24)); // Age in days
 
             tableHtml += `
-                <tr data-avatar-id="${avatar.avatar_id}">
-                    <td>${avatar.name}</td>
-                    <td class="hidden">${avatar.avatar_id}</td>
-                    <td>${ageInDays} days</td>
-                    <td>${lotName}</td>
-                </tr>`;
+            <tr data-avatar-id="${avatar.avatar_id}">
+        <td>${avatar.name}</td>
+        <td class="hidden">${avatar.avatar_id}</td>
+        <td>${ageInDays} days</td>
+        <td class="hidden">${avatar.location}</td> <!-- This should be the Location ID (hidden) -->
+        <td>${lotName}</td> <!-- This should be the visible Location name -->
+    </tr>`;
         });
 
         tableHtml += `

@@ -482,7 +482,7 @@ async function displayPlayerInfo(avatarId) {
         const playersContainer = document.getElementById('players');
         const locationRow = Array.from(playersContainer.querySelectorAll('tr'))
             .find(row => row.querySelector('.hidden:nth-child(2)').textContent === avatarId.toString()); // Match avatar ID
-        const playerLocation = locationRow ? locationRow.querySelector('td:nth-child(4)').textContent : 'Unknown'; // Get location name
+        const playerLocation = locationRow ? locationRow.querySelector('td:nth-child(5)').textContent : 'Unknown'; // Get location name
 
         // Replace \r\n with <br> in description
         const formattedDescription = (playerData.description || 'No description available.').replace(/(\r\n|\n|\r)/g, '<br>');

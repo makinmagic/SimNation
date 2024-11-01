@@ -172,6 +172,59 @@
     color: #0056b3;
 }
 
+#dark-mode-toggle i {
+    font-size: 24px;
+}
+
+body.dark-mode {
+    background-color: #1c1c1c;
+    color: #f1f1f1;
+}
+
+.dark-mode .container {
+    background-color: #333;
+    color: #f1f1f1;
+}
+
+.dark-mode th {
+    background-color: #444;
+}
+
+.dark-mode tr:hover {
+    background-color: #555;
+}
+
+.dark-mode h1, .dark-mode h3, .dark-mode #tempoSim {
+    color: #f1f1f1;
+}
+
+.dark-mode #lot-filter i {
+    color: #f1f1f1; 
+}
+
+.dark-mode #lot-filter i:hover {
+    color: ##f1f1f1; 
+}
+
+.dark-mode tr:hover {
+    background-color: #444; 
+    color: #f1f1f1; 
+}
+
+.dark-mode #console-content > div[style*="background-color: #007bff"] {
+    background-color: #444 !important; 
+    color: #ffffff !important; 
+}
+
+.dark-mode .description-container {
+    background-color: transparent; 
+    color: #f1f1f1;
+}
+
+.dark-mode #console-content img {
+    border-color: #888 !important;
+}
+        
     </style>
     <script>
         // JavaScript functions
@@ -637,9 +690,29 @@ function displayRewardInfo(rewardName, rewardImage) {
         }
 
         window.onload = init; // Initialize on window load
+
+document.addEventListener('DOMContentLoaded', () => {
+    document.getElementById('dark-mode-toggle').addEventListener('click', () => {
+        document.body.classList.toggle('dark-mode');
+
+        // Toggle icon between moon and sun
+        const icon = document.getElementById('darkModeIcon');
+        if (document.body.classList.contains('dark-mode')) {
+            icon.classList.remove('fa-moon');
+            icon.classList.add('fa-sun-bright');
+        } else {
+            icon.classList.remove('fa-sun-bright');
+            icon.classList.add('fa-moon');
+        }
+    });
+});
+        
     </script>
 </head>
 <body>
+    <div id="dark-mode-toggle" style="position: absolute; top: 20px; right: 20px; cursor: pointer;">
+    <i id="darkModeIcon" class="fa-solid fa-moon"></i>
+    </div>
     <h1><i class="fa-sharp fa-solid fa-rhombus"></i> SimNation Dashboard <i class="fa-sharp fa-solid fa-rhombus"></i></h1>
     <div id="tempoSim" style="font-weight: bold;">Time in Eldorado: Loading time...</div>
     <div id="main-container">

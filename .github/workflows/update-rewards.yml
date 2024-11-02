@@ -19,7 +19,7 @@ jobs:
     - name: Fetch rewards data
       run: |
         # Fetch the rewards data using curl
-        curl -s "https://api.allorigins.win/get?url=http%3A%2F%2Fsimnationserver.com%2Fredeem%2F" -o new_rewards.json
+        curl -s "curl -s https://web-production-3227.up.railway.app/http://simnationserver.com/redeem/ -o rewards.json" -o new_rewards.json
         # Check if the fetched data contains "502" error
         if grep -q '502' new_rewards.json; then
           echo "Error 502 detected in the response, aborting update."

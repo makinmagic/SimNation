@@ -1,1 +1,463 @@
-{"contents":"<!DOCTYPE html>\r\n<html lang=\"en\">\r\n<head>\r\n    <meta charset=\"UTF-8\">\r\n    <meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\">\r\n    <title>Gift Code Redemption</title>\r\n    <link href=\"css/bootstrap.min.css\" rel=\"stylesheet\">\r\n\t<style>\r\n        .item-image {\r\n            margin-top: 20px;\r\n            height: 187px;\r\n            width: auto;\r\n        }\r\n    </style>\r\n</head>\r\n<body>\r\n    <div class=\"container\">\r\n        <h1 class=\"mt-5\">Redeem Your Gift</h1>\r\n        <form id=\"giftForm\">\r\n            <div class=\"form-group\" id=\"codeStep\">\r\n                <label for=\"giftCode\">Enter your gift code</label>\r\n                <input type=\"text\" class=\"form-control\" id=\"giftCode\" required>\r\n                <button type=\"button\" class=\"btn btn-primary mt-2\" onclick=\"validateCode()\">Validate Code</button>\r\n            </div>\r\n            <div class=\"form-group d-none\" id=\"nameStep\">\r\n                <label for=\"avatarName\">Enter your avatar name</label>\r\n                <input type=\"text\" class=\"form-control\" id=\"avatarName\" required>\r\n                <button type=\"button\" class=\"btn btn-primary mt-2\" onclick=\"validateName()\">Validate Name</button>\r\n            </div>\r\n            <div class=\"form-group d-none\" id=\"giftStep\">\r\n                <label for=\"giftSelection\">Choose your gift</label>\r\n                <select class=\"form-control\" id=\"giftSelection\" required>\r\n\t\t\t\t\t<!-- value é o código decimal do objeto, ele deve ser acrescentado na lista de checagem server-side também -->\r\n                    <option value=\"181302305\" data-image=\"images/icecreamm.png\">Ice Cream Machine</option>\r\n\t\t\t\t\t<option value=\"331101779\" data-image=\"images/pinklimo.png\">Pink Limo</option>\r\n\t\t\t\t\t<option value=\"430002131\" data-image=\"images/fairy.png\">Fairy Wings Trunk</option>\r\n                    <option value=\"1930670885\" data-image=\"images/mausoleum.png\">Goth Family Private Mausoleum</option>\r\n                    <option value=\"1528310837\" data-image=\"images/goldein_toilet.png\">Golden Toilet</option>\r\n                    <option value=\"1438789058\" data-image=\"images/magic_table.png\">Magic Table</option>\r\n                    <option value=\"3761594258\" data-image=\"images/spin_the_bottle.png\">Spin The Bottle</option>\r\n                    <option value=\"1004241556\" data-image=\"images/simmy_the_founder.png\">Simmy - The Founder</option>\r\n                    <option value=\"477669820\" data-image=\"images/silver_cat.png\">Silver Cat Sculpture</option>\r\n                    <option value=\"1295762813\" data-image=\"images/cotton_candy_machine_red.png\">Cotton Candy Machine (Red)</option>\r\n                    <option value=\"217488443\" data-image=\"images/cotton_candy_machine_pink.png\">Cotton Candy Machine (Pink)</option>\r\n                    <option value=\"1168872189\" data-image=\"images/icetopia_shaving_machine.png\">Icetopia Shaving Machine</option>\r\n                    <option value=\"4040797823\" data-image=\"images/campfire.png\">Campfire</option>\r\n                    <option value=\"341423637\" data-image=\"images/blue_cannon.png\">Blue Cannon</option>\r\n                    <option value=\"341423777\" data-image=\"images/green_cannon.png\">Green Cannon</option>\r\n                    <option value=\"341423567\" data-image=\"images/red_cannon.png\">Red Cannon</option>\r\n                    <option value=\"341423707\" data-image=\"images/yellow_cannon.png\">Yellow Cannon</option>\r\n                    <option value=\"1209707198\" data-image=\"images/mystic_tree_apple.png\">Mystic Tree (Apple)</option>\r\n                    <option value=\"1209671968\" data-image=\"images/mystic_tree_orange.png\">Mystic Tree (Orange)</option>\r\n                    <option value=\"312222258\" data-image=\"images/the_grim_reaper.png\">The Grim Reaper</option>\r\n                    <option value=\"3481920635\" data-image=\"images/bean_tree.png\">Bean Tree</option>\r\n                    <option value=\"3241737132\" data-image=\"images/garden_gnome_pet.gif\">Garden Gnome Pet</option>\r\n                    <option value=\"903766756\" data-image=\"images/gnome_statue.png\">Gnome Statue</option>\r\n                    <option value=\"1310398231\" data-image=\"images/cow_plant.gif\">Cow Plant</option>\r\n                    <option value=\"54373623\" data-image=\"images/mini_ghost.png\">Pet Ghost (random color)</option>\r\n                    <option value=\"1234733558\" data-image=\"images/magic_pink_mirror.png\">Magic Pink Mirror</option>\r\n                    <option value=\"1168320904\" data-image=\"images/book_of_curses.png\">Book of Curses</option>\r\n                    <option value=\"257651368\" data-image=\"images/magic_crystal.png\">Magic Crystal</option>\r\n                    <option value=\"1439082688\" data-image=\"images/gingerbread_man.png\">Gingerbread Man</option>\r\n                    <option value=\"1084257137\" data-image=\"images/blue_christmas_sleigh.png\">Blue Christmas Sleigh</option>\r\n                    <option value=\"2214257137\" data-image=\"images/white_christmas_sleigh.png\">White Christmas Sleigh</option>\r\n                    <option value=\"3173842033\" data-image=\"images/orange_christmas_sleigh.png\">Orange Christmas Sleigh</option>\r\n                    <option value=\"1245257137\" data-image=\"images/black_christmas_sleigh.png\">Black Christmas Sleigh</option>\r\n                    <option value=\"1663257137\" data-image=\"images/purple_christmas_sleigh.png\">Purple Christmas Sleigh</option>\r\n                    <option value=\"1352692593\" data-image=\"images/green_christmas_sleigh.png\">Green Christmas Sleigh</option>\r\n                    <option value=\"1664257137\" data-image=\"images/red_christmas_sleigh.png\">Red Christmas Sleigh</option>\r\n                    <option value=\"1339322545\" data-image=\"images/pink_christmas_sleigh.png\">Pink Christmas Sleigh</option>\r\n                </select>\r\n\t\t\t\t<img id=\"itemImage\" class=\"item-image d-none\" src=\"\" alt=\"Item Image\">\r\n\t\t\t\t<br><br>\r\n                <button type=\"button\" class=\"btn btn-primary mt-2\" onclick=\"redeemGift()\">Redeem Gift</button>\r\n            </div>\r\n        </form>\r\n    </div>\r\n\r\n    <!-- Modal -->\r\n    <div class=\"modal fade\" id=\"messageModal\" tabindex=\"-1\" aria-labelledby=\"messageModalLabel\" aria-hidden=\"true\">\r\n        <div class=\"modal-dialog\">\r\n            <div class=\"modal-content\">\r\n                <div class=\"modal-header\">\r\n                    <h5 class=\"modal-title\" id=\"messageModalLabel\">Message</h5>\r\n                    <button type=\"button\" class=\"close\" data-dismiss=\"modal\" aria-label=\"Close\">\r\n                        <span aria-hidden=\"true\">&times;</span>\r\n                    </button>\r\n                </div>\r\n                <div class=\"modal-body\" id=\"modalMessage\">\r\n                </div>\r\n                <div class=\"modal-footer\">\r\n                    <button type=\"button\" class=\"btn btn-secondary\" data-dismiss=\"modal\">Close</button>\r\n                </div>\r\n            </div>\r\n        </div>\r\n    </div>\r\n\r\n    <script src=\"js/jquery-3.5.1.min.js\"></script>\r\n    <script src=\"js/bootstrap.bundle.min.js\"></script>\r\n\t<script>\r\n        document.addEventListener('DOMContentLoaded', function() {\r\n            var giftSelection = document.getElementById('giftSelection');\r\n            var firstOption = giftSelection.options[giftSelection.selectedIndex];\r\n            var imageUrl = firstOption.getAttribute('data-image');\r\n            var itemImage = document.getElementById('itemImage');\r\n\r\n            if (imageUrl) {\r\n                itemImage.src = imageUrl;\r\n                itemImage.classList.remove('d-none');\r\n            }\r\n\r\n            giftSelection.addEventListener('change', function() {\r\n                var selectedOption = this.options[this.selectedIndex];\r\n                var imageUrl = selectedOption.getAttribute('data-image');\r\n                \r\n                if (imageUrl) {\r\n                    itemImage.src = imageUrl;\r\n                    itemImage.classList.remove('d-none');\r\n                } else {\r\n                    itemImage.classList.add('d-none');\r\n                }\r\n            });\r\n        });\r\n    </script>\r\n\t<!-- Script para Troca da Imagem -->\r\n\t<script>\r\n        document.getElementById('giftSelection').addEventListener('change', function() {\r\n            var selectedOption = this.options[this.selectedIndex];\r\n            var imageUrl = selectedOption.getAttribute('data-image');\r\n            var itemImage = document.getElementById('itemImage');\r\n\r\n            if (imageUrl) {\r\n                itemImage.src = imageUrl;\r\n                itemImage.classList.remove('d-none');\r\n            } else {\r\n                itemImage.classList.add('d-none');\r\n            }\r\n        });\r\n    </script>\r\n    <script>\r\n        function showMessage(message) {\r\n            $('#modalMessage').text(message);\r\n            $('#messageModal').modal('show');\r\n        }\r\n\r\n        function validateCode() {\r\n            let code = $('#giftCode').val();\r\n            $.post('validate_code.php', { code: code }, function(response) {\r\n                if (response.valid) {\r\n                    $('#codeStep').addClass('d-none');\r\n                    $('#nameStep').removeClass('d-none');\r\n                } else {\r\n                    showMessage(response.message);\r\n                }\r\n            }, 'json');\r\n        }\r\n\r\n        function validateName() {\r\n            let name = $('#avatarName').val();\r\n            $.post('validate_name.php', { name: name }, function(response) {\r\n                if (response.valid) {\r\n                    $('#nameStep').addClass('d-none');\r\n                    $('#giftStep').removeClass('d-none');\r\n                } else {\r\n                    showMessage(response.message);\r\n                }\r\n            }, 'json');\r\n        }\r\n\r\n        function redeemGift() {\r\n            let code = $('#giftCode').val();\r\n            let name = $('#avatarName').val();\r\n            let gift = $('#giftSelection').val();\r\n            $.post('redeem_gift.php', { code: code, name: name, gift: gift }, function(response) {\r\n                if (response.success) {\r\n                    showMessage('Gift redeemed successfully, just relog!');\r\n                } else {\r\n                    showMessage(response.message);\r\n                }\r\n            }, 'json');\r\n        }\r\n    </script>\r\n</body>\r\n</html>\r\n","status":{"url":"http://simnationserver.com/redeem/","content_type":"text/html; charset=UTF-8","http_code":200,"response_time":336,"content_length":10253}}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gift Redemption Store</title>
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+	<style>
+         /* Cabeçalho com imagem de fundo */
+         .header {
+            position: relative;
+            height: 300px;
+            background-image: url('images/city.png'); /* Adicione aqui o caminho da imagem da cidade */
+            background-size: cover;
+            background-position: center;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+        }
+        .header-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5); /* Camada opaca preta */
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .header-title {
+            font-size: 3em;
+            font-weight: bold;
+            z-index: 1;
+            text-align: center;
+        }
+        /* Estilo para a visualização em cards */
+        .gift-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 20px;
+            margin-top: 30px;
+        }
+        .gift-card {
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            padding: 15px;
+            text-align: center;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            transition: transform 0.2s ease;
+            cursor: pointer;
+        }
+        .gift-card:hover {
+            transform: scale(1.05);
+        }
+        .gift-card img {
+            width: 100%;
+            height: 150px;
+            object-fit: contain;
+            margin-bottom: 10px;
+        }
+        .gift-card h5 {
+            font-size: 1.1em;
+            margin-bottom: 10px;
+            font-weight: bold;
+        }
+        /* Estilo para a visualização em cards */
+        .gift-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 20px;
+            margin-top: 30px;
+        }
+        .gift-card {
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            padding: 15px;
+            text-align: center;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            transition: transform 0.2s ease;
+            cursor: pointer;
+        }
+        .gift-card:hover {
+            transform: scale(1.05);
+        }
+        .gift-card img {
+            width: 100%;
+            height: 150px;
+            object-fit: contain;
+            margin-bottom: 10px;
+        }
+        .gift-card h5 {
+            font-size: 1.1em;
+            margin-bottom: 10px;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <!-- Cabeçalho com imagem de fundo -->
+    <div class="header">
+        <div class="header-overlay">
+            <h1 class="header-title">Gift Shop</h1>
+        </div>
+    </div>
+    <div class="container">
+        <h2 class="mt-5">Choose Your Gift</h2>
+        <div class="gift-container">
+           
+		   <!--<div class="gift-card" onclick="showGiftModal('181302305', 'images/gold_cannon.png', 'Golden Cannon', '')">
+                <img src="images/cc_b.png" alt="">
+                <h5>Golden Cannon</h5>
+            </div>-->
+		   
+		    <div class="gift-card" onclick="showGiftModal('1828082784', 'images/cc_b.png', 'Cotton Candy (Halloween)', '')">
+                <img src="images/cc_b.png" alt="">
+                <h5>Cotton Candy (Halloween)</h5>
+            </div>
+		   
+		    <div class="gift-card" onclick="showGiftModal('1939185134', 'images/cc_g.png', 'Cotton Candy (Halloween)', '')">
+                <img src="images/cc_g.png" alt="">
+                <h5>Cotton Candy (Halloween)</h5>
+            </div>
+		   
+		    <div class="gift-card" onclick="showGiftModal('1088055737', 'images/cc_p.png', 'Cotton Candy (Halloween)', '')">
+                <img src="images/cc_p.png" alt="">
+                <h5>Cotton Candy (Halloween)</h5>
+            </div>
+		   
+		   <div class="gift-card" onclick="showGiftModal('99931423', 'images/cc_o.png', 'Cotton Candy (Halloween)', '')">
+                <img src="images/cc_o.png" alt="">
+                <h5>Cotton Candy (Halloween)</h5>
+            </div>
+		   
+		   <div class="gift-card" onclick="showGiftModal('1652674168', 'images/vroom_broom.png', 'Vroom Broom (Halloween)', '')">
+                <img src="images/vroom_broom.png" alt="">
+                <h5>Vroom Broom (Halloween)</h5>
+            </div>
+		   
+			<div class="gift-card" onclick="showGiftModal('1129035235', 'images/icecreamm_black.png', 'Ice Cream Machine (Halloween)', '')">
+                <img src="images/icecreamm_black.png" alt="Ice Cream Machine">
+                <h5>Ice Cream Machine (Halloween)</h5>
+            </div>
+			
+			<div class="gift-card" onclick="showGiftModal('1756944924', 'images/icecreamm_green.png', 'Ice Cream Machine (Halloween)', '')">
+                <img src="images/icecreamm_green.png" alt="Ice Cream Machine">
+                <h5>Ice Cream Machine (Halloween)</h5>
+            </div>
+			
+			<div class="gift-card" onclick="showGiftModal('1811012767', 'images/icecreamm_purple.png', 'Ice Cream Machine (Halloween)', '')">
+                <img src="images/icecreamm_purple.png" alt="Ice Cream Machine">
+                <h5>Ice Cream Machine (Halloween)</h5>
+            </div>
+		  
+		  <div class="gift-card" onclick="showGiftModal('141559314', 'images/icecreamm_orange.png', 'Ice Cream Machine (Halloween)', '')">
+                <img src="images/icecreamm_orange.png" alt="Ice Cream Machine">
+                <h5>Ice Cream Machine (Halloween)</h5>
+            </div>
+			
+			<div class="gift-card" onclick="showGiftModal('181302305', 'images/icecreamm.png', 'Ice Cream Machine (Beach)', '')">
+                <img src="images/icecreamm.png" alt="Ice Cream Machine">
+                <h5>Ice Cream Machine (Beach)</h5>
+            </div>
+            
+            <div class="gift-card" onclick="showGiftModal('1739988787', 'images/pink_limo.png', 'Pink Limo', '')">
+                <img src="images/pink_limo.png" alt="Pink Limo">
+                <h5>Pink Limo</h5>
+            </div>
+            
+            <div class="gift-card" onclick="showGiftModal('430002131', 'images/fairy.png', 'Fairy Wings Trunk', '')">
+                <img src="images/fairy.png" alt="Fairy Wings Trunk">
+                <h5>Fairy Wings Trunk</h5>
+            </div>
+            
+            <div class="gift-card" onclick="showGiftModal('1930670885', 'images/mausoleum.png', 'Goth Family Private Mausoleum', '')">
+                <img src="images/mausoleum.png" alt="Goth Family Private Mausoleum">
+                <h5>Goth Family Private Mausoleum</h5>
+            </div>
+            
+            <div class="gift-card" onclick="showGiftModal('1528310837', 'images/goldein_toilet.png', 'Golden Toilet', '')">
+                <img src="images/goldein_toilet.png" alt="Golden Toilet">
+                <h5>Golden Toilet</h5>
+            </div>
+            
+            <div class="gift-card" onclick="showGiftModal('1438789058', 'images/magic_table.png', 'Magic Table', '')">
+                <img src="images/magic_table.png" alt="Magic Table">
+                <h5>Magic Table</h5>
+            </div>
+            
+            <div class="gift-card" onclick="showGiftModal('3761594258', 'images/spin_the_bottle.png', 'Spin The Bottle', '')">
+                <img src="images/spin_the_bottle.png" alt="Spin The Bottle">
+                <h5>Spin The Bottle</h5>
+            </div>
+            
+            <div class="gift-card" onclick="showGiftModal('1004241556', 'images/simmy_the_founder.png', 'Simmy - The Founder (RANDOM COLOR)', '(RANDOM COLOR)')">
+                <img src="images/simmy_the_founder.png" alt="Simmy - The Founder">
+                <h5>Simmy - The Founder</h5>
+            </div>
+            
+            <div class="gift-card" onclick="showGiftModal('477669820', 'images/silver_cat.png', 'Silver Cat Sculpture', '')">
+                <img src="images/silver_cat.png" alt="Silver Cat Sculpture">
+                <h5>Silver Cat Sculpture</h5>
+            </div>
+            
+            <div class="gift-card" onclick="showGiftModal('1295762813', 'images/cotton_candy_machine_red.png', 'Cotton Candy Machine (Red)', '')">
+                <img src="images/cotton_candy_machine_red.png" alt="Cotton Candy Machine (Red)">
+                <h5>Cotton Candy Machine (Red)</h5>
+            </div>
+            
+            <div class="gift-card" onclick="showGiftModal('217488443', 'images/cotton_candy_machine_pink.png', 'Cotton Candy Machine (Pink)', '')">
+                <img src="images/cotton_candy_machine_pink.png" alt="Cotton Candy Machine (Pink)">
+                <h5>Cotton Candy Machine (Pink)</h5>
+            </div>
+            
+            <div class="gift-card" onclick="showGiftModal('1168872189', 'images/icetopia_shaving_machine.png', 'Icetopia Shaving Machine', '')">
+                <img src="images/icetopia_shaving_machine.png" alt="Icetopia Shaving Machine">
+                <h5>Icetopia Shaving Machine</h5>
+            </div>
+            
+            <div class="gift-card" onclick="showGiftModal('4040797823', 'images/campfire.png', 'Campfire', '')">
+                <img src="images/campfire.png" alt="Campfire">
+                <h5>Campfire</h5>
+            </div>
+            
+            <div class="gift-card" onclick="showGiftModal('341423637', 'images/blue_cannon.png', 'Blue Cannon', '')">
+                <img src="images/blue_cannon.png" alt="Blue Cannon">
+                <h5>Blue Cannon</h5>
+            </div>
+            
+            <div class="gift-card" onclick="showGiftModal('341423777', 'images/green_cannon.png', 'Green Cannon', '')">
+                <img src="images/green_cannon.png" alt="Green Cannon">
+                <h5>Green Cannon</h5>
+            </div>
+            
+            <div class="gift-card" onclick="showGiftModal('341423567', 'images/red_cannon.png', 'Red Cannon', '')">
+                <img src="images/red_cannon.png" alt="Red Cannon">
+                <h5>Red Cannon</h5>
+            </div>
+            
+            <div class="gift-card" onclick="showGiftModal('341423707', 'images/yellow_cannon.png', 'Yellow Cannon', '')">
+                <img src="images/yellow_cannon.png" alt="Yellow Cannon">
+                <h5>Yellow Cannon</h5>
+            </div>
+            
+            <div class="gift-card" onclick="showGiftModal('1209707198', 'images/mystic_tree_apple.png', 'Mystic Tree (Apple)', '')">
+                <img src="images/mystic_tree_apple.png" alt="Mystic Tree (Apple)">
+                <h5>Mystic Tree (Apple)</h5>
+            </div>
+            
+            <div class="gift-card" onclick="showGiftModal('1209671968', 'images/mystic_tree_orange.png', 'Mystic Tree (Orange)', '')">
+                <img src="images/mystic_tree_orange.png" alt="Mystic Tree (Orange)">
+                <h5>Mystic Tree (Orange)</h5>
+            </div>
+            
+            <div class="gift-card" onclick="showGiftModal('312222258', 'images/the_grim_reaper.png', 'The Grim Reaper', '')">
+                <img src="images/the_grim_reaper.png" alt="The Grim Reaper">
+                <h5>The Grim Reaper</h5>
+            </div>
+            
+            <div class="gift-card" onclick="showGiftModal('3481920635', 'images/bean_tree.png', 'Bean Tree', '')">
+                <img src="images/bean_tree.png" alt="Bean Tree">
+                <h5>Bean Tree</h5>
+            </div>
+            
+            <div class="gift-card" onclick="showGiftModal('3241737132', 'images/garden_gnome_pet.gif', 'Garden Gnome Pet', '')">
+                <img src="images/garden_gnome_pet.gif" alt="Garden Gnome Pet">
+                <h5>Garden Gnome Pet</h5>
+            </div>
+            
+            <div class="gift-card" onclick="showGiftModal('903766756', 'images/gnome_statue.png', 'Gnome Statue', '')">
+                <img src="images/gnome_statue.png" alt="Gnome Statue">
+                <h5>Gnome Statue</h5>
+            </div>
+            
+            <div class="gift-card" onclick="showGiftModal('1310398231', 'images/cow_plant.gif', 'Cow Plant', '')">
+                <img src="images/cow_plant.gif" alt="Cow Plant">
+                <h5>Cow Plant</h5>
+            </div>
+            
+            <div class="gift-card" onclick="showGiftModal('54373623', 'images/mini_ghost.png', 'Pet Ghost (RANDOM COLOR)', '(RANDOM COLOR)')">
+                <img src="images/mini_ghost.png" alt="Pet Ghost (random color)">
+                <h5>Pet Ghost (random color)</h5>
+            </div>
+            
+            <div class="gift-card" onclick="showGiftModal('1234733558', 'images/magic_pink_mirror.png', 'Magic Pink Mirror', '')">
+                <img src="images/magic_pink_mirror.png" alt="Magic Pink Mirror">
+                <h5>Magic Pink Mirror</h5>
+            </div>
+            
+            <div class="gift-card" onclick="showGiftModal('1168320904', 'images/book_of_curses.png', 'Book of Curses', '')">
+                <img src="images/book_of_curses.png" alt="Book of Curses">
+                <h5>Book of Curses</h5>
+            </div>
+			
+			<div class="gift-card" onclick="showGiftModal('257651368', 'images/magic_crystal.png', 'Magic Crystal', '')">
+    <img src="images/magic_crystal.png" alt="Magic Crystal">
+    <h5>Magic Crystal</h5>
+</div>
+
+<div class="gift-card" onclick="showGiftModal('1439082688', 'images/gingerbread_man.png', 'Gingerbread Man', '')">
+    <img src="images/gingerbread_man.png" alt="Gingerbread Man">
+    <h5>Gingerbread Man</h5>
+</div>
+
+<div class="gift-card" onclick="showGiftModal('1084257137', 'images/blue_christmas_sleigh.png', 'Blue Christmas Sleigh', '')">
+    <img src="images/blue_christmas_sleigh.png" alt="Blue Christmas Sleigh">
+    <h5>Blue Christmas Sleigh</h5>
+</div>
+
+<div class="gift-card" onclick="showGiftModal('2214257137', 'images/white_christmas_sleigh.png', 'White Christmas Sleigh', '')">
+    <img src="images/white_christmas_sleigh.png" alt="White Christmas Sleigh">
+    <h5>White Christmas Sleigh</h5>
+</div>
+
+<div class="gift-card" onclick="showGiftModal('3173842033', 'images/orange_christmas_sleigh.png', 'Orange Christmas Sleigh', '')">
+    <img src="images/orange_christmas_sleigh.png" alt="Orange Christmas Sleigh">
+    <h5>Orange Christmas Sleigh</h5>
+</div>
+
+<div class="gift-card" onclick="showGiftModal('1245257137', 'images/black_christmas_sleigh.png', 'Black Christmas Sleigh', '')">
+    <img src="images/black_christmas_sleigh.png" alt="Black Christmas Sleigh">
+    <h5>Black Christmas Sleigh</h5>
+</div>
+
+<div class="gift-card" onclick="showGiftModal('1663257137', 'images/purple_christmas_sleigh.png', 'Purple Christmas Sleigh', '')">
+    <img src="images/purple_christmas_sleigh.png" alt="Purple Christmas Sleigh">
+    <h5>Purple Christmas Sleigh</h5>
+</div>
+
+<div class="gift-card" onclick="showGiftModal('1352692593', 'images/green_christmas_sleigh.png', 'Green Christmas Sleigh', '')">
+    <img src="images/green_christmas_sleigh.png" alt="Green Christmas Sleigh">
+    <h5>Green Christmas Sleigh</h5>
+</div>
+
+<div class="gift-card" onclick="showGiftModal('1664257137', 'images/red_christmas_sleigh.png', 'Red Christmas Sleigh', '')">
+    <img src="images/red_christmas_sleigh.png" alt="Red Christmas Sleigh">
+    <h5>Red Christmas Sleigh</h5>
+</div>
+
+<div class="gift-card" onclick="showGiftModal('1339322545', 'images/pink_christmas_sleigh.png', 'Pink Christmas Sleigh', '')">
+    <img src="images/pink_christmas_sleigh.png" alt="Pink Christmas Sleigh">
+    <h5>Pink Christmas Sleigh</h5>
+</div>
+
+            
+        </div>
+    </div>
+
+    <!-- Modal para exibir detalhes do item selecionado -->
+    <div class="modal fade" id="giftModal" tabindex="-1" aria-labelledby="giftModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="giftModalLabel">Item Details</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <img id="modalItemImage" class="img-fluid mb-3" src="" alt="Item Image">
+                    <h5 id="modalItemName"></h5>
+                    <p id="modalItemDescription"></p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary" onclick="showRedeemForm()">Redeem Gift</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal para o formulário de resgate -->
+    <div class="modal fade" id="redeemModal" tabindex="-1" aria-labelledby="redeemModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="redeemModalLabel">Redeem Your Gift</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <form id="redeemForm">
+                        <div class="form-group">
+                            <label for="giftCode">Enter your gift code</label>
+                            <input type="text" class="form-control" id="giftCode" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="avatarName">Enter your avatar name</label>
+                            <input type="text" class="form-control" id="avatarName" required>
+                        </div>
+                        <input type="hidden" id="giftSelection" required>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary" onclick="redeemGift()">Confirm Redemption</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="js/jquery-3.5.1.min.js"></script>
+    <script src="js/bootstrap.bundle.min.js"></script>
+    <script>
+        function showGiftModal(value, imageUrl, name, description) {
+            // Define os dados do item no modal de detalhes
+            $('#giftSelection').val(value);
+            $('#modalItemImage').attr('src', imageUrl);
+            $('#modalItemName').text(name);
+            $('#modalItemDescription').text(description);
+            // Mostra o modal de detalhes
+            $('#giftModal').modal('show');
+        }
+
+        function showRedeemForm() {
+            // Fecha o modal de detalhes e abre o modal de formulário de resgate
+            $('#giftModal').modal('hide');
+            $('#redeemModal').modal('show');
+        }
+
+        function redeemGift() {
+            let code = $('#giftCode').val();
+            let name = $('#avatarName').val();
+            let gift = $('#giftSelection').val();
+
+            $.post('redeem_gift.php', { code: code, name: name, gift: gift }, function(response) {
+                if (response.success) {
+                    $('#redeemModal').modal('hide');  // Fecha o modal
+                    showMessage('Gift redeemed successfully, just relog!');
+                } else {
+                    showMessage(response.message);
+                }
+            }, 'json');
+        }
+
+        function showMessage(message) {
+            $('#modalMessage').text(message);
+            $('#messageModal').modal('show');
+        }
+    </script>
+
+    <!-- Modal para mensagens de confirmação e erro -->
+    <div class="modal fade" id="messageModal" tabindex="-1" aria-labelledby="messageModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="messageModalLabel">Message</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body" id="modalMessage">
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

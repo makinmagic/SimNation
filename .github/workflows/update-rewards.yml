@@ -1,9 +1,9 @@
 name: Check and Update Rewards
 
 on:
-  workflow_dispatch:
+  workflow_dispatch: # Allows manual triggering
   schedule:
-    - cron: '0 * * * *'
+    - cron: '0 * * * *' # Runs every hour
 
 permissions:
   contents: write  # Allow the workflow to write to the repository contents
@@ -16,22 +16,22 @@ jobs:
     - name: Checkout repository
       uses: actions/checkout@v2
 
-- name: Fetch Rewards Data
-  run: |
-    # Fetch the rewards data using curl
-    curl -s -H "origin: https://web-production-3227.up.railway.app" \
-            -H "x-requested-with: XMLHttpRequest" \
-            https://web-production-3227.up.railway.app/http://simnationserver.com/redeem/ -o rewards.json
+    - name: Fetch Rewards Data
+      run: |
+        # Fetch the rewards data using curl
+        curl -s -H "origin: https://web-production-3227.up.railway.app" \
+                -H "x-requested-with: XMLHttpRequest" \
+                https://web-production-3227.up.railway.app/http://simnationserver.com/redeem/ -o new_rewards.json
 
-- name: Check for 502 Error
-  run: |
-    # Check if the fetched data contains "502" error
-    if grep -q '502' rewards.json; then
-      echo "Error 502 detected in the response, aborting update."
-      exit 1
-    fi
+    - name: Check for 502 Error
+      run: |
+        # Check if the fetched data contains "502" error
+        if grep -q '502' new_rewards.json; then
+          echo "Error 502 detected in the response, aborting update."
+          exit 1
+        fi
 
-  - name: Compare new rewards data with the existing file
+    - name: Compare new rewards data with the existing file
       run: |
         # Check if the new data differs from the existing data
         if cmp -s new_rewards.json rewards.json; then

@@ -31,7 +31,7 @@ jobs:
       exit 1
     fi
 
-    - name: Compare new rewards data with the existing file
+  - name: Compare new rewards data with the existing file
       run: |
         # Check if the new data differs from the existing data
         if cmp -s new_rewards.json rewards.json; then

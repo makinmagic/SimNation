@@ -16,15 +16,20 @@ jobs:
     - name: Checkout repository
       uses: actions/checkout@v2
 
-    - name: Fetch rewards data
-      run: |
-        # Fetch the rewards data using curl
-        run: curl -s -H "origin: https://web-production-3227.up.railway.app" https://web-production-3227.up.railway.app/http://simnationserver.com/redeem/ -o rewards.json
-        # Check if the fetched data contains "502" error
-        if grep -q '502' new_rewards.json; then
-          echo "Error 502 detected in the response, aborting update."
-          exit 1
-        fi
+- name: Fetch Rewards Data
+  run: |
+    # Fetch the rewards data using curl
+    curl -s -H "origin: https://web-production-3227.up.railway.app" \
+            -H "x-requested-with: XMLHttpRequest" \
+            https://web-production-3227.up.railway.app/http://simnationserver.com/redeem/ -o rewards.json
+
+- name: Check for 502 Error
+  run: |
+    # Check if the fetched data contains "502" error
+    if grep -q '502' rewards.json; then
+      echo "Error 502 detected in the response, aborting update."
+      exit 1
+    fi
 
     - name: Compare new rewards data with the existing file
       run: |

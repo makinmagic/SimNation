@@ -95,6 +95,37 @@
             margin-bottom: 10px;
             font-weight: bold;
         }
+		
+		#confettiContainer {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            pointer-events: none;
+            overflow: hidden;
+        }
+
+        .confetti {
+            position: absolute;
+            width: 10px;
+            height: 10px;
+            background-color: #f0f;
+            opacity: 0.7;
+            border-radius: 50%;
+            animation: fall 2.5s ease-out forwards;
+        }
+
+        @keyframes fall {
+            0% {
+                opacity: 1;
+                transform: translateY(0) rotate(0);
+            }
+            100% {
+                opacity: 0;
+                transform: translateY(100vh) rotate(720deg);
+            }
+        }
     </style>
 </head>
 <body>
@@ -107,11 +138,11 @@
     <div class="container">
         <h2 class="mt-5">Choose Your Gift</h2>
         <div class="gift-container">
-           
-		   <!--<div class="gift-card" onclick="showGiftModal('181302305', 'images/gold_cannon.png', 'Golden Cannon', '')">
-                <img src="images/cc_b.png" alt="">
-                <h5>Golden Cannon</h5>
-            </div>-->
+		   
+		   <div class="gift-card" onclick="showGiftModal('191602179', 'images/ghost_cow_plant.gif', 'Ghost Cow Plant (Halloween)', '')">
+                <img src="images/ghost_cow_plant.gif" alt="">
+                <h5>Ghost Cow Plant (Halloween)</h5>
+            </div>
 		   
 		    <div class="gift-card" onclick="showGiftModal('1828082784', 'images/cc_b.png', 'Cotton Candy (Halloween)', '')">
                 <img src="images/cc_b.png" alt="">
@@ -134,7 +165,7 @@
             </div>
 		   
 		   <div class="gift-card" onclick="showGiftModal('1652674168', 'images/vroom_broom.png', 'Vroom Broom (Halloween)', '')">
-                <img src="images/vroom_broom.png" alt="">
+                <img src="images/vroom_broom.gif" alt="">
                 <h5>Vroom Broom (Halloween)</h5>
             </div>
 		   
@@ -195,12 +226,37 @@
             
             <div class="gift-card" onclick="showGiftModal('1004241556', 'images/simmy_the_founder.png', 'Simmy - The Founder (RANDOM COLOR)', '(RANDOM COLOR)')">
                 <img src="images/simmy_the_founder.png" alt="Simmy - The Founder">
-                <h5>Simmy - The Founder</h5>
+                <h5>Simmy - The Founder (RANDOM COLOR)</h5>
             </div>
             
+            <div class="gift-card" onclick="showGiftModal('209052098', 'images/gold_dog.png', 'Gold Dog Sculpture', '')">
+                <img src="images/gold_dog.png" alt="">
+                <h5>Gold Dog Sculpture</h5>
+            </div>
+			
+			<div class="gift-card" onclick="showGiftModal('923651228', 'images/silver_dog.png', 'Silver Dog Sculpture', '')">
+                <img src="images/silver_dog.png" alt="">
+                <h5>Silver Dog Sculpture</h5>
+            </div>
+			
+			<div class="gift-card" onclick="showGiftModal('4016419767', 'images/bronze_dog.png', 'Bronze Dog Sculpture', '')">
+                <img src="images/bronze_dog.png" alt="">
+                <h5>Bronze Dog Sculpture</h5>
+            </div>
+			
+            <div class="gift-card" onclick="showGiftModal('1611850447', 'images/gold_cat.png', 'Gold Cat Sculpture', '')">
+                <img src="images/gold_cat.png" alt="">
+                <h5>Gold Cat Sculpture</h5>
+            </div>
+			
             <div class="gift-card" onclick="showGiftModal('477669820', 'images/silver_cat.png', 'Silver Cat Sculpture', '')">
                 <img src="images/silver_cat.png" alt="Silver Cat Sculpture">
                 <h5>Silver Cat Sculpture</h5>
+            </div>
+			
+            <div class="gift-card" onclick="showGiftModal('3190375151', 'images/bronze_cat.png', 'Bronze Cat Sculpture', '')">
+                <img src="images/bronze_cat.png" alt="">
+                <h5>Bronze Cat Sculpture</h5>
             </div>
             
             <div class="gift-card" onclick="showGiftModal('1295762813', 'images/cotton_candy_machine_red.png', 'Cotton Candy Machine (Red)', '')">
@@ -223,6 +279,11 @@
                 <h5>Campfire</h5>
             </div>
             
+			<div class="gift-card" onclick="showGiftModal('2538662557', 'images/gold_cannon.png', 'Golden Cannon', '')">
+                <img src="images/gold_cannon.png" alt="">
+                <h5>Golden Cannon</h5>
+            </div>
+			
             <div class="gift-card" onclick="showGiftModal('341423637', 'images/blue_cannon.png', 'Blue Cannon', '')">
                 <img src="images/blue_cannon.png" alt="Blue Cannon">
                 <h5>Blue Cannon</h5>
@@ -428,7 +489,8 @@
             $.post('redeem_gift.php', { code: code, name: name, gift: gift }, function(response) {
                 if (response.success) {
                     $('#redeemModal').modal('hide');  // Fecha o modal
-                    showMessage('Gift redeemed successfully, just relog!');
+                    showMessage('Gift redeemed successfully, just relog and check your inventory!');
+					launchConfetti()
                 } else {
                     showMessage(response.message);
                 }
@@ -439,11 +501,33 @@
             $('#modalMessage').text(message);
             $('#messageModal').modal('show');
         }
+	
+	function launchConfetti() {
+            const confettiContainer = document.getElementById("confettiContainer");
+
+            for (let i = 0; i < 100; i++) {
+                const confetti = document.createElement("div");
+                confetti.classList.add("confetti");
+
+                // Define a posição inicial e cores aleatórias
+                confetti.style.left = Math.random() * 100 + "vw";
+                confetti.style.backgroundColor = `hsl(${Math.random() * 360}, 100%, 50%)`;
+                confetti.style.animationDuration = 1.5 + Math.random() * 1 + "s";
+
+                confettiContainer.appendChild(confetti);
+
+                // Remove os confetes após a animação
+                setTimeout(() => {
+                    confetti.remove();
+                }, 2500); // A duração total da animação é 2.5s
+            }
+        }
     </script>
 
     <!-- Modal para mensagens de confirmação e erro -->
     <div class="modal fade" id="messageModal" tabindex="-1" aria-labelledby="messageModalLabel" aria-hidden="true">
-        <div class="modal-dialog">
+        <div id="confettiContainer"></div>
+		<div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
                     <h5 class="modal-title" id="messageModalLabel">Message</h5>

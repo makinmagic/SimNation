@@ -102,30 +102,32 @@
         white-space: pre-wrap; 
     }
         
-    @media (max-width: 768px) {
-    #main-container, #bottom-container {  
+@media (max-width: 768px) {
+    #main-container, #bottom-container {
         flex-direction: column;
+        align-items: center;
     }
 
     .container {
-        width: 100%;
-        margin: 0 10px 20px 10px;
+        width: 95%;
+        margin: 0 auto 20px auto;
+    }
+    
+    #bottom-container {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
     }
 
-#bottom-container {
-        flex-direction: column;
+    /* Adjust order on mobile */
+    #console-container {
+        order: 1; /* Console first in mobile view */
     }
 
     #rewards-container {
-        order: 4; 
-        width: 100%;
+        order: 2; /* Rewards after Console in mobile view */
     }
-
-    #console-container {
-        order: 3; 
-        width: 100%; 
-    }
-    }
+}
 
     /* Show icon on row hover */
     table tr {

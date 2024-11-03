@@ -138,7 +138,27 @@
     <div class="container">
         <h2 class="mt-5">Choose Your Gift</h2>
         <div class="gift-container">
-		  
+			
+			<div class="gift-card" onclick="showGiftModal('881257790', 'images/birthday_table.png', 'Table Of Birthday Accessories', '')">
+                <img src="images/birthday_table.png" alt="">
+                <h5>Table Of Birthday Accessories</h5>
+            </div>
+			
+			<div class="gift-card" onclick="showGiftModal('318103998', 'images/sunbathing.png', 'Sunbathing Towel (RANDOM COLOR)', '')">
+                <img src="images/sunbathing.png" alt="">
+                <h5>Sunbathing Towel (RANDOM COLOR)</h5>
+            </div>
+
+		   <div class="gift-card" onclick="showGiftModal('1379715874', 'images/plant_c.png', 'Carnivorous Plant Donation Jar', '')">
+                <img src="images/plant_c.png" alt="">
+                <h5>Carnivorous Plant Donation Jar</h5>
+            </div>
+
+		   <div class="gift-card" onclick="showGiftModal('2005544305', 'images/fairy_statue.png', 'Fairy Statue', '')">
+                <img src="images/fairy_statue.png" alt="">
+                <h5>Fairy Statue</h5>
+            </div>
+		  <!---->
 		   <div class="gift-card" onclick="showGiftModal('329418863412248589', 'images/grim_reaper_skin.png', 'Grim Reaper Skin (Halloween)', 'Once you redeem this skin, you can find it in your wardrobe.')">
                 <img src="images/grim_reaper_skin.png" alt="">
                 <h5>Grim Reaper Skin (Halloween)</h5>

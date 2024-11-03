@@ -664,7 +664,7 @@ function populateRewardsFromHTML(htmlContent) {
     giftCards.forEach(card => {
         const imageSrc = card.querySelector('img').getAttribute('src');
         const rewardName = card.querySelector('h5').textContent;
-        const imageUrl = `https://images.weserv.nl/?url=simnationserver.com/redeem/${imageSrc}`;
+        const imageUrl = `https://images.weserv.nl/?url=simnationserver.com/redeem/${imageSrc}&n=-1`;
 
         const row = rewardsContainer.insertRow();
         row.innerHTML = `

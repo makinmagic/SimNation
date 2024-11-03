@@ -139,6 +139,16 @@
         <h2 class="mt-5">Choose Your Gift</h2>
         <div class="gift-container">
 			
+			<div class="gift-card" onclick="showGiftModal('10386489458814877709', 'images/orange_hat.png', 'Orange Witch Hat (Halloween)', 'Once you redeem this hat, you can find it in your wardrobe.')">
+                <img src="images/orange_hat.png" alt="">
+                <h5>Orange Witch Hat (Halloween)</h5>
+            </div>
+			
+			<div class="gift-card" onclick="showGiftModal('10401407632580542477', 'images/black_hat.png', 'Black Witch Hat (Halloween)', 'Once you redeem this hat, you can find it in your wardrobe.')">
+                <img src="images/black_hat.png" alt="">
+                <h5>Black Witch Hat (Halloween)</h5>
+            </div>
+			
 			<div class="gift-card" onclick="showGiftModal('881257790', 'images/birthday_table.png', 'Table Of Birthday Accessories', '')">
                 <img src="images/birthday_table.png" alt="">
                 <h5>Table Of Birthday Accessories</h5>
@@ -158,7 +168,7 @@
                 <img src="images/fairy_statue.png" alt="">
                 <h5>Fairy Statue</h5>
             </div>
-		  <!---->
+			
 		   <div class="gift-card" onclick="showGiftModal('329418863412248589', 'images/grim_reaper_skin.png', 'Grim Reaper Skin (Halloween)', 'Once you redeem this skin, you can find it in your wardrobe.')">
                 <img src="images/grim_reaper_skin.png" alt="">
                 <h5>Grim Reaper Skin (Halloween)</h5>
@@ -430,6 +440,13 @@
 </div>
 
             
+        </div>
+    </div>
+<!--foot-->
+	<br><br>
+	<div class="header" style="height: 100px;">
+        <div class="header-overlay">
+			<p>With love, SimNation Dev Team and Ursula The Bear - 2024</p>
         </div>
     </div>
 

@@ -70,7 +70,7 @@
         flex-grow: 1;
     }
 
-    #tempoSim {
+    #tempoSim, #zombieCountdown {
         text-align: center;
         font-size: 18px;
         margin-bottom: 30px;
@@ -196,7 +196,7 @@ body.dark-mode {
     background-color: #555;
 }
 
-.dark-mode h1, .dark-mode h3, .dark-mode #tempoSim {
+.dark-mode h1, .dark-mode h3, .dark-mode #tempoSim, .dark-mode #zombieCountdown {
     color: #f1f1f1;
 }
 
@@ -759,7 +759,7 @@ document.addEventListener('DOMContentLoaded', () => {
     </div>
     <h1><i class="fa-sharp fa-solid fa-rhombus"></i> SimNation Dashboard <i class="fa-sharp fa-solid fa-rhombus"></i></h1>
     <div id="tempoSim" style="font-weight: bold;">Time in Eldorado: Loading time...</div>
-    <div id="zombieCountdown" style="font-weight: bold; text-align: center; font-size: 18px; margin-top: 10px; margin-bottom: 30px;">Time left to vanquish zombies: Loading...</div>
+    <div id="zombieCountdown" style="font-weight: bold; text-align: center; font-size: 18px; margin-bottom: 30px;">Time left to vanquish zombies: Loading...</div>
     <div id="main-container">
         <div class="container">
             <h3 id="players-title"><i class="fa-solid fa-person"></i></i> Sims Online: 0 <i class="fa-solid fa-person-dress"></i></h3>

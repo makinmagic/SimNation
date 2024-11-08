@@ -70,7 +70,7 @@
         flex-grow: 1;
     }
 
-    #tempoSim, #zombieCountdown {
+    #tempoSim {
         text-align: center;
         font-size: 18px;
         margin-bottom: 30px;
@@ -196,7 +196,7 @@ body.dark-mode {
     background-color: #555;
 }
 
-.dark-mode h1, .dark-mode h3, .dark-mode #tempoSim, .dark-mode #zombieCountdown {
+.dark-mode h1, .dark-mode h3, .dark-mode #tempoSim {
     color: #f1f1f1;
 }
 
@@ -690,37 +690,9 @@ function displayRewardInfo(rewardName, rewardImage) {
     `;
 }
 
-function updateCountdown() {
-    const countdownElement = document.getElementById('zombieCountdown');
-    const now = new Date();
-
-    // Set target time for 23:00 BRT today, which is 23:00 UTC-3
-    const targetTime = new Date();
-    targetTime.setUTCHours(23 + 3, 0, 0, 0); // 23:00 BRT is 02:00 UTC (next day)
-
-    // If the target time has passed, show 0h 0m 0s
-    if (now > targetTime) {
-        countdownElement.innerHTML = "Time left to vanquish zombies: 0h 0m 0s";
-        return; // Stop the countdown after reaching 23:00 BRT
-    }
-
-    // Calculate the time difference
-    const timeLeft = targetTime - now;
-    const hours = Math.floor((timeLeft / (1000 * 60 * 60)) % 24);
-    const minutes = Math.floor((timeLeft / (1000 * 60)) % 60);
-    const seconds = Math.floor((timeLeft / 1000) % 60);
-
-    // Format and display the countdown
-    countdownElement.innerHTML = `Time left to vanquish zombies: ${hours}h ${minutes}m ${seconds}s`;
-
-    // Update every second
-    setTimeout(updateCountdown, 1000);
-}
-
         // Initialize the dashboard
         async function init() {
             tempoSim();
-            updateCountdown();
             await loadOnlinePlayers();
             await loadLots();
             await fetchRewards(); // Load rewards data
@@ -758,7 +730,6 @@ document.addEventListener('DOMContentLoaded', () => {
     </div>
     <h1><i class="fa-sharp fa-solid fa-rhombus"></i> SimNation Dashboard <i class="fa-sharp fa-solid fa-rhombus"></i></h1>
     <div id="tempoSim" style="font-weight: bold;">Time in Eldorado: Loading time...</div>
-    <div id="zombieCountdown" style="font-weight: bold; text-align: center; font-size: 18px; margin-bottom: 30px;">Time left to vanquish zombies: Loading...</div>
     <div id="main-container">
         <div class="container">
             <h3 id="players-title"><i class="fa-solid fa-person"></i></i> Sims Online: 0 <i class="fa-solid fa-person-dress"></i></h3>

@@ -226,6 +226,16 @@ body.dark-mode {
 .dark-mode #console-content img {
     border-color: #888 !important;
 }
+
+.dashboard-icon {
+    width: 40px; 
+    height: auto; 
+    vertical-align: middle; 
+}
+
+.mirrored {
+    transform: scaleX(-1); 
+}
         
     </style>
     <script>
@@ -779,7 +789,9 @@ document.addEventListener('DOMContentLoaded', () => {
     <div id="dark-mode-toggle" style="position: absolute; top: 20px; right: 20px; cursor: pointer;">
     <i id="darkModeIcon" class="fa-solid fa-moon"></i>
     </div>
-    <h1><i class="fa-sharp fa-solid fa-rhombus"></i> SimNation Dashboard <i class="fa-sharp fa-solid fa-rhombus"></i></h1>
+    <h1><img src="https://blogimages6.wordpress.com/wp-content/uploads/2024/11/ursula.png" class="dashboard-icon" alt="Icon">
+        <i class="fa-sharp fa-solid fa-rhombus"></i> SimNation Dashboard <i class="fa-sharp fa-solid fa-rhombus"></i></h1>
+    <img src="https://blogimages6.wordpress.com/wp-content/uploads/2024/11/ursula.png" class="dashboard-icon mirrored" alt="Mirrored Icon">
     <div id="tempoSim" style="font-weight: bold;">Time in Eldorado: Loading time...</div>
     <div id="currentEvent" style="text-align: center; font-weight: bold;"></div>
     <div id="main-container">

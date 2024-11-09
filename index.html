@@ -70,7 +70,7 @@
         flex-grow: 1;
     }
 
-    #tempoSim, #currentEvent {
+    #tempoSim, #currentEvent, #guideLink {
         text-align: center;
         font-size: 18px;
         margin-bottom: 30px;
@@ -196,7 +196,7 @@ body.dark-mode {
     background-color: #555;
 }
 
-.dark-mode h1, .dark-mode h3, .dark-mode #tempoSim, .dark-mode #currentEvent {
+.dark-mode h1, .dark-mode h3, .dark-mode #tempoSim, .dark-mode #currentEvent, .dark-mode #guideLink {
     color: #f1f1f1;
 }
 
@@ -794,6 +794,11 @@ document.addEventListener('DOMContentLoaded', () => {
     SimNation Dashboard
     <img src="https://blogimages6.wordpress.com/wp-content/uploads/2024/11/ursula.png" class="dashboard-icon mirrored" alt="Mirrored Icon">
 </h1>
+    <div style="text-align: center; margin-top: 10px;">
+    <a href="https://simnation.neocities.org/" target="_blank" title="SimNation Manual" id="guideLink">
+        <i class="fa-solid fa-circle-question"></i> Guide
+    </a>
+</div>
     <div id="tempoSim" style="font-weight: bold;">Time in Eldorado: Loading time...</div>
     <div id="currentEvent" style="text-align: center; font-weight: bold;"></div>
     <div id="main-container">

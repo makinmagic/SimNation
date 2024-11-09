@@ -438,11 +438,10 @@ function filterLots(type) {
             if (lot.count > 0) {
                 const lotDetails = lotDetailsArray[index];
                 const lotType = categoryMapping[lotDetails.category] || 'Unknown';
-                const eventIcon = lot.name === event.lotName ? '<i class="fa-solid fa-balloons" title="Event is ongoing!"></i>' : '';
 
                 tableHtml += `
                     <tr data-lot-id="${lot.id}">
-                        <td>${lot.name} ${eventIcon}</td>
+                        <td>${lot.name}</td>
                         <td>${lot.count}</td>
                         <td>${lotType}</td>
                     </tr>`;
@@ -689,12 +688,12 @@ function displayRewardInfo(rewardName, rewardImage) {
 
 const event = {
     name: "Fire Bingo at THE PIGGY BANK",
-    lotName: "N/A",
-    startTime: new Date("2024-11-08T21:00:00-05:00"),
+    lotName: "THE PIGGY BANK",
+    startTime: new Date("2024-11-08T20:00:00-05:00"),
     endTime: new Date("2024-11-08T23:00:00-05:00")
 };
 
-// Display current event if it's ongoing
+// Function to display current event if it's ongoing
 function displayCurrentEvent() {
     const now = new Date();
     const eventContainer = document.getElementById("currentEvent");
@@ -706,19 +705,50 @@ function displayCurrentEvent() {
     }
 }
 
-        // Initialize the dashboard
-        async function init() {
-            tempoSim();
-            displayCurrentEvent();
-            await loadOnlinePlayers();
-            await loadLots();
-            await fetchRewards(); // Load rewards data
-        }
+// Function to toggle the event icon for the event lot
+function toggleEventIcon() {
+    const now = new Date();
+    const lotsTable = document.getElementById("lots");
 
+    // Ensure the table is loaded and find the event lot row
+    if (lotsTable) {
+        const rows = lotsTable.querySelectorAll("tbody tr");
+        rows.forEach(row => {
+            const locationCell = row.querySelector("td:first-child");
+            if (locationCell && locationCell.textContent.includes(event.lotName)) {
+                // Check if the event is active and add/remove the icon
+                if (now >= event.startTime && now <= event.endTime) {
+                    if (!locationCell.querySelector(".fa-balloons")) {
+                        locationCell.innerHTML += ' <i class="fa-solid fa-balloons" title="Event is ongoing!"></i>';
+                    }
+                } else {
+                    const icon = locationCell.querySelector(".fa-balloons");
+                    if (icon) {
+                        icon.remove(); // Remove the icon when the event is over
+                    }
+                }
+            }
+        });
+    }
+}
+
+// Initialize the dashboard
+async function init() {
+    tempoSim();
+    displayCurrentEvent();
+    await loadOnlinePlayers();
+    await loadLots();
+    toggleEventIcon(); // Ensure this runs only after lots have loaded
+    await fetchRewards(); // Load rewards data
+}
+
+// Initialize the event display and update it periodically
 window.onload = () => {
     init();
-    displayCurrentEvent();
-    setInterval(displayCurrentEvent, 60000); // Check every minute
+    setInterval(() => {
+        displayCurrentEvent();
+        toggleEventIcon(); // Update the icon every minute
+    }, 60000); // Update every minute
 };
         
 document.addEventListener('DOMContentLoaded', () => {

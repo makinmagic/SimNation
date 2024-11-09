@@ -70,7 +70,7 @@
         flex-grow: 1;
     }
 
-    #tempoSim {
+    #tempoSim, #currentEvent {
         text-align: center;
         font-size: 18px;
         margin-bottom: 30px;
@@ -196,7 +196,7 @@ body.dark-mode {
     background-color: #555;
 }
 
-.dark-mode h1, .dark-mode h3, .dark-mode #tempoSim {
+.dark-mode h1, .dark-mode h3, .dark-mode #tempoSim, .dark-mode #currentEvent {
     color: #f1f1f1;
 }
 
@@ -409,20 +409,18 @@ function filterLots(type) {
 
         let lotsData = activeLots.map((lotID, index) => {
             return {
-                name: lotMapping[lotID] || lotID, // Fallback to ID if name not found
+                name: lotMapping[lotID] || lotID,
                 count: onlineCounts[index],
-                id: lotID // Add ID for later use
+                id: lotID
             };
         });
 
-        // Sort lots by Sims count (busiest first)
         lotsData.sort((a, b) => b.count - a.count);
 
         const fetchLotDetailsPromises = lotsData.map(lot =>
             fetch(`https://web-production-3227.up.railway.app/http://simnationserver.com:9000/userapi/city/1/i${lot.id}.json`).then(response => response.json())
         );
 
-        // Wait for all lot detail requests to complete
         const lotDetailsArray = await Promise.all(fetchLotDetailsPromises);
 
         let tableHtml = `
@@ -436,17 +434,17 @@ function filterLots(type) {
                 </thead>
                 <tbody>`;
 
- // Process active lots and display them along with their types
         lotsData.forEach((lot, index) => {
             if (lot.count > 0) {
                 const lotDetails = lotDetailsArray[index];
-                const lotType = categoryMapping[lotDetails.category] || 'Unknown'; // Map category to lot type
-                
+                const lotType = categoryMapping[lotDetails.category] || 'Unknown';
+                const eventIcon = lot.name === event.lotName ? '<i class="fa-solid fa-balloons" title="Event is ongoing!"></i>' : '';
+
                 tableHtml += `
-                    <tr data-lot-id="${lot.id}"> <!-- Store lot ID in a data attribute -->
-                        <td>${lot.name}</td>
+                    <tr data-lot-id="${lot.id}">
+                        <td>${lot.name} ${eventIcon}</td>
                         <td>${lot.count}</td>
-                        <td>${lotType}</td> <!-- Display Lot Type -->
+                        <td>${lotType}</td>
                     </tr>`;
             }
         });
@@ -457,12 +455,11 @@ function filterLots(type) {
 
         lotsContainer.innerHTML = tableHtml;
 
-        // Add event listeners to each row
         const rows = lotsContainer.querySelectorAll('tr[data-lot-id]');
         rows.forEach(row => {
             row.addEventListener('click', () => {
-                const lotId = row.dataset.lotId; // Get the lot ID
-                displayLotInfo(lotId); // Fetch and display lot info
+                const lotId = row.dataset.lotId;
+                displayLotInfo(lotId);
             });
         });
 
@@ -690,16 +687,40 @@ function displayRewardInfo(rewardName, rewardImage) {
     `;
 }
 
+const event = {
+    name: "Fire Bingo at THE PIGGY BANK",
+    lotName: "THE PIGGY BANK",
+    startTime: new Date("2024-11-08T21:00:00-05:00"),
+    endTime: new Date("2024-11-08T23:00:00-05:00")
+};
+
+// Display current event if it's ongoing
+function displayCurrentEvent() {
+    const now = new Date();
+    const eventContainer = document.getElementById("currentEvent");
+
+    if (now >= event.startTime && now <= event.endTime) {
+        eventContainer.innerHTML = `<i class="fa-solid fa-balloons"></i> Current event: ${event.name}!`;
+    } else {
+        eventContainer.innerHTML = ""; // Clear message outside event hours
+    }
+}
+
         // Initialize the dashboard
         async function init() {
             tempoSim();
+            displayCurrentEvent();
             await loadOnlinePlayers();
             await loadLots();
             await fetchRewards(); // Load rewards data
         }
 
-        window.onload = init; // Initialize on window load
-
+window.onload = () => {
+    init();
+    displayCurrentEvent();
+    setInterval(displayCurrentEvent, 60000); // Check every minute
+};
+        
 document.addEventListener('DOMContentLoaded', () => {
     // Check if dark mode was previously enabled
     if (localStorage.getItem('darkMode') === 'enabled') {
@@ -730,6 +751,7 @@ document.addEventListener('DOMContentLoaded', () => {
     </div>
     <h1><i class="fa-sharp fa-solid fa-rhombus"></i> SimNation Dashboard <i class="fa-sharp fa-solid fa-rhombus"></i></h1>
     <div id="tempoSim" style="font-weight: bold;">Time in Eldorado: Loading time...</div>
+    <div id="currentEvent" style="text-align: center; font-weight: bold;"></div>
     <div id="main-container">
         <div class="container">
             <h3 id="players-title"><i class="fa-solid fa-person"></i></i> Sims Online: 0 <i class="fa-solid fa-person-dress"></i></h3>

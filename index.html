@@ -227,12 +227,16 @@ body.dark-mode {
     border-color: #888 !important;
 }
 
-#dark-mode-toggle i {
+#questionIcon {
     color: #0056b3;
 }
 
-.dark-mode #dark-mode-toggle i {
+.dark-mode #questionIcon {
     color: #f1f1f1;
+}
+
+.dark-mode #darkModeIcon {
+    color: #f1f1f1; 
 }
 
 .dashboard-icon {
@@ -776,7 +780,8 @@ document.addEventListener('DOMContentLoaded', () => {
         document.getElementById('darkModeIcon').classList.replace('fa-moon', 'fa-sun');
     }
 
-    document.getElementById('dark-mode-toggle').addEventListener('click', () => {
+document.getElementById('dark-mode-toggle').addEventListener('click', (event) => {
+    if (event.target.id === 'darkModeIcon') { // Only toggle if clicking the moon/sun icon
         document.body.classList.toggle('dark-mode');
 
         // Toggle icon between moon and sun
@@ -788,18 +793,18 @@ document.addEventListener('DOMContentLoaded', () => {
             icon.classList.replace('fa-sun', 'fa-moon');
             localStorage.setItem('darkMode', 'disabled'); // Save preference
         }
-    });
+    }
 });
         
     </script>
 </head>
 <body>
     <div id="dark-mode-toggle" style="position: absolute; top: 20px; right: 20px; cursor: pointer;">
-        <a href="https://simnation.neocities.org/" target="_blank" title="SimNation Guide">
-        <i class="fa-solid fa-circle-question" style="margin-right: 10px;"></i>
+    <a href="https://simnation.neocities.org/" target="_blank" title="SimNation Manual">
+        <i id="questionIcon" class="fa-solid fa-circle-question" style="margin-right: 10px;"></i>
     </a>
     <i id="darkModeIcon" class="fa-solid fa-moon"></i>
-    </div>
+</div>
     <h1>
     <img src="https://blogimages6.wordpress.com/wp-content/uploads/2024/11/ursula.png" class="dashboard-icon" alt="Icon">
     SimNation Dashboard

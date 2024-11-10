@@ -87,6 +87,17 @@
     font-weight: bold; 
 }
 
+.search-icon {
+    color: #0056b3;
+    cursor: pointer;
+    font-size: 20px;
+    margin-left: 10px;
+    transition: color 0.2s ease;
+}
+.search-icon:hover {
+    color: #003f7d;
+}
+
     #rewards {
         margin-top: 30px;
         text-align: center;
@@ -706,6 +717,168 @@ function displayRewardInfo(rewardName, rewardImage) {
     `;
 }
 
+// Toggle search input visibility
+function toggleSearch(type) {
+    const simSearchInput = document.getElementById(`${type}-search`);
+    if (simSearchInput.style.display === 'none') {
+        simSearchInput.style.display = 'inline-block';
+        simSearchInput.focus();
+    } else {
+        simSearchInput.style.display = 'none';
+        simSearchInput.value = '';
+        document.getElementById('console-content').innerHTML = '<p style="text-align: center; color: #black;">Select a Sim or a Lot to see more information.</p>';
+    }
+}
+
+async function searchSim(event) {
+    if (event.key === 'Enter' || event.keyCode === 13) {
+        const simName = event.target.value.trim();
+        if (!simName) return;
+
+        const url = `https://web-production-3227.up.railway.app/http://simnationserver.com:9000/userapi/city/1/avatars/name/${simName}`;
+
+        try {
+            const response = await fetch(url);
+            if (!response.ok) throw new Error('Sim not found');
+
+            const playerData = await response.json();
+
+            // Format description and age for display
+            const formattedDescription = (playerData.description || 'No description available.').replace(/(\r\n|\n|\r)/g, '<br>');
+            const creationDate = new Date(playerData.date * 1000);
+            const ageInDays = Math.floor((new Date() - creationDate) / (1000 * 60 * 60 * 24));
+
+            // Check if the player is online by searching in the Sims Online table
+            const playersContainer = document.getElementById('players');
+            const isOnline = Array.from(playersContainer.querySelectorAll('tr')).some(row => {
+                const firstCell = row.querySelector('td');
+                return firstCell && firstCell.textContent === playerData.name;
+            });
+
+            const onlineStatus = isOnline ? 'Yes' : 'No';
+
+            // Display in Console
+            const consoleContent = document.getElementById('console-content');
+            consoleContent.innerHTML = `
+                <div style="background-color: #007bff; padding: 10px; color: white; text-align: center; font-size: 20px;">
+                    ${playerData.name}
+                </div>
+                <p><strong>Description:</strong></p>
+                <div class="description-container">${formattedDescription}</div>
+                <p><strong>Age:</strong> ${ageInDays} days old</p>
+                <p><strong>Currently Online:</strong> ${onlineStatus}</p>
+            `;
+        } catch (error) {
+            console.error('Failed to fetch sim details:', error);
+            document.getElementById('console-content').innerHTML = 'Sim not found.';
+        }
+    }
+}
+
+async function searchLot(event) {
+    if (event.key === 'Enter' || event.keyCode === 13) {
+        const lotName = event.target.value.trim();
+        if (!lotName) return;
+
+        const url = `https://web-production-3227.up.railway.app/http://simnationserver.com:9000/userapi/city/1/lots/name/${lotName}`;
+
+        try {
+            const response = await fetch(url);
+            if (!response.ok) throw new Error('Lot not found');
+
+            const lotData = await response.json();
+
+            // Mapping for admit modes
+            const admitModeMapping = {
+                0: 'Admit All',
+                1: 'Admit List',
+                2: 'Ban List',
+                3: 'Ban All',
+                4: 'Admit All'
+            };
+
+            // Mapping for lot categories
+            const categoryMapping = {
+                1: 'Money',
+                2: 'Money',
+                3: 'Romance',
+                4: 'Service',
+                5: 'Store',
+                6: 'Skills',
+                7: 'Welcome',
+                8: 'Games',
+                9: 'Entertainment',
+                10: 'Residential',
+                11: 'Community'
+            };
+
+            // Format description and creation date
+            const formattedDescription = (lotData.description || 'No description available.').replace(/(\r\n|\n|\r)/g, '<br>');
+            const creationDate = new Date(lotData.created_date * 1000).toLocaleDateString();
+
+            // Check if the lot is currently active by searching in the Active Lots table
+            const lotsContainer = document.getElementById('lots');
+            const isActive = Array.from(lotsContainer.querySelectorAll('tr')).some(row => {
+                const firstCell = row.querySelector('td');
+                return firstCell && firstCell.textContent === lotData.name;
+            });
+
+            const activeStatus = isActive ? 'Yes' : 'No';
+
+            // Fetch owner's name using owner_id
+            const ownerResponse = await fetch(`https://web-production-3227.up.railway.app/http://simnation.ddns.net:9000/userapi/avatars/${lotData.owner_id}`);
+            const ownerData = ownerResponse.ok ? await ownerResponse.json() : { name: 'Unknown' };
+            const ownerName = ownerData.name;
+
+            // Fetch roommate names
+            const roommateNames = await Promise.all(
+                lotData.roommates
+                    .filter(id => id !== lotData.owner_id) // Exclude owner from roommates
+                    .map(async (roommateId) => {
+                        const roommateUrl = `https://web-production-3227.up.railway.app/http://simnation.ddns.net:9000/userapi/avatars/${roommateId}`;
+                        const roommateResponse = await fetch(roommateUrl);
+                        if (!roommateResponse.ok) {
+                            console.error(`Failed to fetch roommate with id ${roommateId}`);
+                            return 'Unknown';
+                        }
+                        const roommateData = await roommateResponse.json();
+                        return roommateData.name || 'Unknown';
+                    })
+            );
+
+            // Known Sims inside the lot from Sims Online table
+            const playersContainer = document.getElementById('players');
+            const knownSims = Array.from(playersContainer.querySelectorAll('tr'))
+                .filter(row => {
+                    const locationCell = row.querySelector('.hidden:nth-child(4)');
+                    return locationCell && locationCell.textContent == lotData.location;
+                })
+                .map(row => row.querySelector('td').textContent);
+
+            // Display lot information in Console
+            const consoleContent = document.getElementById('console-content');
+            consoleContent.innerHTML = `
+                <div style="background-color: #007bff; padding: 10px; color: white; text-align: center; font-size: 20px;">
+                    ${lotData.name}
+                </div>
+                <img src="https://images.weserv.nl/?url=simnationserver.com:9000/userapi/city/1/${lotData.location}.png" alt="${lotData.name}" style="width: 200px; height: 200px; border-radius: 8px; border: 3px solid #0056b3; display: block; margin: 10px auto; background: #f2f5f5;">
+                <p><strong>Description:</strong></p>
+                <div class="description-container">${formattedDescription}</div>
+                <p><strong>Lot Type:</strong> ${categoryMapping[lotData.category] || 'Unknown'}</p>
+                <p><strong>Admit Mode:</strong> ${admitModeMapping[lotData.admit_mode] || 'Unknown'}</p>
+                <p><strong>Owner:</strong> ${ownerName || 'Unknown'}</p>
+                <p><strong>Roommates:</strong> ${roommateNames.length > 0 ? roommateNames.join(', ') : 'None'}</p>
+                <p><strong>Currently Active:</strong> ${activeStatus}</p>
+                <p><strong>Known Sims Inside:</strong> ${knownSims.length > 0 ? knownSims.join(', ') : 'None'}</p>
+                <p><em>There may be sims inside with their location hidden.</em></p>
+            `;
+        } catch (error) {
+            console.error('Failed to fetch lot details:', error);
+            document.getElementById('console-content').innerHTML = 'Lot not found.';
+        }
+    }
+}
+
 const event = {
     name: "Fire Bingo at THE PIGGY BANK",
     lotName: "THE PIGGY BANK",
@@ -812,12 +985,20 @@ document.addEventListener('DOMContentLoaded', () => {
     <div id="tempoSim" style="font-weight: bold;">Time in Eldorado: Loading time...</div>
     <div id="currentEvent" style="text-align: center; font-weight: bold;"></div>
     <div id="main-container">
-        <div class="container">
-            <h3 id="players-title"><i class="fa-solid fa-person"></i></i> Sims Online: 0 <i class="fa-solid fa-person-dress"></i></h3>
+<div class="container">
+            <div style="display: flex; align-items: center;">
+    <h3 id="players-title" style="flex-grow: 1; text-align: center;"><i class="fa-solid fa-person"></i> Sims Online: 0 <i class="fa-solid fa-person-dress"></i></h3>
+    <i class="fa-solid fa-search search-icon" onclick="toggleSearch('sim')" style="margin-left: 10px;"></i>
+    <input type="text" id="sim-search" placeholder="Search Sim..." autocomplete="off" style="display: none; margin-left: 10px;" onkeyup="searchSim(event)">
+</div>
             <div class="scrollable" id="players"></div>
         </div>
         <div class="container">
-            <h3 id="lots-title"><i class="fa-solid fa-house"></i> Active Lots <i class="fa-solid fa-house"></i></h3>
+            <div style="display: flex; align-items: center;">
+    <h3 id="lots-title" style="flex-grow: 1; text-align: center;"><i class="fa-solid fa-house"></i> Active Lots <i class="fa-solid fa-house"></i></h3>
+    <i class="fa-solid fa-search search-icon" onclick="toggleSearch('lot')"></i>
+    <input type="text" id="lot-search" placeholder="Search Lot..." autocomplete="off" style="display:none; margin-left: 10px;" onkeyup="searchLot(event)">
+</div>
             <div id="lot-filter">
     <i class="fa-solid fa-mug-hot" title="Service" onclick="filterLots('Service')"></i>
     <i class="fa-solid fa-hammer" title="Skills" onclick="filterLots('Skills')"></i>

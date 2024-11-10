@@ -753,14 +753,18 @@ async function searchSim(event) {
 
             // Check if the player is online by searching in the Sims Online table
             const playersContainer = document.getElementById('players');
-            const isOnline = Array.from(playersContainer.querySelectorAll('tr')).some(row => {
+            const onlineRow = Array.from(playersContainer.querySelectorAll('tr')).find(row => {
                 const firstCell = row.querySelector('td');
                 return firstCell && firstCell.textContent === playerData.name;
             });
 
+            const isOnline = Boolean(onlineRow);
             const onlineStatus = isOnline ? 'Yes' : 'No';
+            const playerLocation = isOnline
+                ? onlineRow.querySelector('td:nth-child(5)').textContent
+                : 'Offline';
 
-            // Display in Console
+            // Display all information in the Console
             const consoleContent = document.getElementById('console-content');
             consoleContent.innerHTML = `
                 <div style="background-color: #007bff; padding: 10px; color: white; text-align: center; font-size: 20px;">
@@ -769,6 +773,7 @@ async function searchSim(event) {
                 <p><strong>Description:</strong></p>
                 <div class="description-container">${formattedDescription}</div>
                 <p><strong>Age:</strong> ${ageInDays} days old</p>
+                <p><strong>Location:</strong> ${playerLocation}</p>
                 <p><strong>Currently Online:</strong> ${onlineStatus}</p>
             `;
         } catch (error) {

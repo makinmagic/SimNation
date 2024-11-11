@@ -34,5 +34,14 @@
         "location": "THE PIGGY BANK",
         "startTime": "2024-11-16T01:00:00Z",
         "endTime": "2024-11-16T03:00:00Z"
+    },
+        {
+        "name": "Palace Skills Sanctuary Grand Opening",
+        "description": "🥂🎉Prizes every half hour!🥳🎁",
+        "date": "Saturday, November 16",
+        "time": "1pm to 3pm EST",
+        "location": "Palace Skills Sanctuary",
+        "startTime": "2024-11-16T18:00:00Z",
+        "endTime": "2024-11-16T20:00:00Z"
     }
 ]

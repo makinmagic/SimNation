@@ -8,4 +8,13 @@
         "startTime": "2024-12-04T22:00:00",
         "endTime": "2024-12-04T23:59:59"
     },
+    {
+        "name": "INSTO Asia Workshop",
+        "description": "A workshop focused on sustainable tourism.",
+        "date": "2024-12-05",
+        "time": "10:00 PM",
+        "location": "Asia Hall",
+        "startTime": "2024-12-05T22:00:00",
+        "endTime": "2024-12-05T23:59:59"
+    }
 ]

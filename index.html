@@ -848,12 +848,9 @@ async function fetchEvents() {
         events
             .filter(event => new Date(event.startTime) > now)
             .forEach(event => {
-                const eventDate = new Date(event.date);
-                const formattedDate = eventDate.toLocaleDateString('en-US', { weekday: 'long', month: 'long', day: 'numeric' });
-
                 const row = eventsContainer.insertRow();
                 row.innerHTML = `
-                    <td>${formattedDate}</td>
+                    <td>${event.date}</td> <!-- Use the date field directly -->
                     <td>${event.name}</td>
                     <td>${event.location}</td>
                 `;

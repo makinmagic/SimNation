@@ -2,11 +2,11 @@
     {
         "name": "UNWTO - ICCA Masterclass on the Meetings Industry",
         "description": "An in-depth masterclass on meeting industry trends and best practices.",
-        "date": "2024-12-04",
-        "time": "10:00 PM",
-        "location": "Conference Center",
-        "startTime": "2024-12-04T22:00:00",
-        "endTime": "2024-12-04T23:59:59"
+        "date": "2024-11-11",
+        "time": "8 to 10 PM CST",
+        "location": "THE PIGGY BANK",
+        "startTime": "2024-11-11T02:00:00Z",
+        "endTime": "2024-11-11T04:00:00Z"
     },
     {
         "name": "INSTO Asia Workshop",
@@ -14,7 +14,7 @@
         "date": "2024-12-05",
         "time": "10:00 PM",
         "location": "Asia Hall",
-        "startTime": "2024-12-05T22:00:00",
-        "endTime": "2024-12-05T23:59:59"
+        "startTime": "2024-12-05T22:00:00Z",
+        "endTime": "2024-12-05T23:59:59Z"
     }
 ]

@@ -866,21 +866,19 @@ async function fetchEvents() {
             cell.textContent = "No upcoming events.";
             cell.style.fontStyle = "italic"; // Optional styling
         } else {
-            // Populate the table with upcoming events
-            upcomingEvents.forEach(event => {
-                const eventDate = new Date(event.date);
-                const formattedDate = eventDate.toLocaleDateString('en-US', { weekday: 'long', month: 'long', day: 'numeric' });
+        // Populate the table with upcoming events
+        upcomingEvents.forEach(event => {
+        const row = eventsContainer.insertRow();
+        row.innerHTML = `
+            <td>${event.date}</td>
+            <td>${event.name}</td>
+            <td>${event.location}</td>
+        `;
+            row.addEventListener('click', () => {
+        displayEventInfo(event); // Show details in the Console when clicked
+        });
+    });
 
-                const row = eventsContainer.insertRow();
-                row.innerHTML = `
-                    <td>${formattedDate}</td>
-                    <td>${event.name}</td>
-                    <td>${event.location}</td>
-                `;
-                row.addEventListener('click', () => {
-                    displayEventInfo(event); // Show details in the Console when clicked
-                });
-            });
         }
     } catch (error) {
         console.error('Failed to fetch events:', error);
@@ -894,7 +892,7 @@ function displayEventInfo(event) {
             ${event.name}
         </div>
         <p><strong>Description:</strong> ${event.description}</p>
-        <p><strong>Date:</strong> ${new Date(event.startTime).toLocaleDateString('en-US', { weekday: 'long', month: 'long', day: 'numeric' })}</p>
+        <p><strong>Date:</strong> ${event.date}</p> <!-- Use event.date directly -->
         <p><strong>Time:</strong> ${event.time}</p>
         <p><strong>Location:</strong> ${event.location}</p>
     `;

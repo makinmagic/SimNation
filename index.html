@@ -251,6 +251,16 @@ body.dark-mode {
     border-color: #888 !important;
 }
 
+#events-container a {
+    color: #0056b3;
+    text-decoration: underline;
+    font-weight: bold;
+}
+
+body.dark-mode #events-container a {
+    color: #f1f1f1;
+}
+
 .dashboard-icon {
     width: 40px; 
     height: auto; 
@@ -844,13 +854,26 @@ async function fetchEvents() {
 
         const now = new Date();
 
-        // Filter and display only upcoming events
-        events
-            .filter(event => new Date(event.startTime) > now)
-            .forEach(event => {
+        // Filter upcoming events
+        const upcomingEvents = events.filter(event => new Date(event.startTime) > now);
+
+        if (upcomingEvents.length === 0) {
+            // Add a single row if there are no upcoming events
+            const row = eventsContainer.insertRow();
+            const cell = row.insertCell();
+            cell.colSpan = 3;
+            cell.style.textAlign = 'center';
+            cell.textContent = "No upcoming events.";
+            cell.style.fontStyle = "italic"; // Optional styling
+        } else {
+            // Populate the table with upcoming events
+            upcomingEvents.forEach(event => {
+                const eventDate = new Date(event.date);
+                const formattedDate = eventDate.toLocaleDateString('en-US', { weekday: 'long', month: 'long', day: 'numeric' });
+
                 const row = eventsContainer.insertRow();
                 row.innerHTML = `
-                    <td>${event.date}</td> <!-- Use the date field directly -->
+                    <td>${formattedDate}</td>
                     <td>${event.name}</td>
                     <td>${event.location}</td>
                 `;
@@ -858,6 +881,7 @@ async function fetchEvents() {
                     displayEventInfo(event); // Show details in the Console when clicked
                 });
             });
+        }
     } catch (error) {
         console.error('Failed to fetch events:', error);
     }
@@ -938,9 +962,8 @@ async function init() {
     displayCurrentEvent(); // Initial check for any ongoing event and add balloon icon
 }
 
-// Consolidated window.onload to handle all initialization
 window.onload = () => {
-    init(); // Run the initialization function
+    init();
     setInterval(displayCurrentEvent, 60000); // Update "Current Event" status every minute
 };
         
@@ -1018,8 +1041,13 @@ document.addEventListener('DOMContentLoaded', () => {
 
     <div id="bottom-container" style="display: flex; justify-content: space-between; gap: 1%;">
     <div id="events-container" class="container">
-    <h3><i class="fa-solid fa-calendar-day"></i> Upcoming Events <i class="fa-solid fa-calendar-day"></i></h3>
-    <div class="scrollable">
+    <h3 style="margin-bottom: 10px; margin-top: 20px;"><i class="fa-solid fa-calendar-day"></i> Upcoming Events <i class="fa-solid fa-calendar-day"></i></h3>
+    <div style="text-align: center; margin-top: 5px; margin-bottom: 10px;">
+            <a href="https://forms.gle/LgcNWCMhwdFu8w2T9" target="_blank" style="text-decoration: underline; font-weight: bold;">
+                Click here to add your event!
+            </a>
+        </div>
+        <div class="scrollable">
         <table id="events-table">
             <thead>
                 <tr>
@@ -1032,12 +1060,12 @@ document.addEventListener('DOMContentLoaded', () => {
                 <!-- Events will be populated dynamically -->
             </tbody>
         </table>
+                </div>
     </div>
-</div>
     <div id="console-container" class="container">
         <h3><i class="fa-solid fa-circle-info"></i> Console <i class="fa-solid fa-circle-info"></i></h3>
         <div id="console-content">
-            <p style="text-align: center; color: #black;">Select or search for a Sim or Lot to see more information, or click on an Event to view details.</p>
+            <p style="text-align: center; color: #black;">Select or search for a Sim or a Lot to see more information.</p>
             <!-- Content for Console will go here -->
         </div>
     </div>

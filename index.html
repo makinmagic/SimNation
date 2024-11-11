@@ -662,64 +662,6 @@ async function displayPlayerInfo(avatarId) {
             setTimeout(tempoSim, 1000);
         }
 
-        // Rewards fetching and displaying logic
-        const rewardsUrl = 'https://makinmagic.github.io/SimNation/rewards.json';
-
-async function fetchRewards() {
-    try {
-        const response = await fetch(rewardsUrl);
-        if (!response.ok) {
-            throw new Error('Network response was not ok');
-        }
-        
-        const htmlText = await response.text(); // Fetch as text since it's HTML
-        populateRewardsFromHTML(htmlText); // Process HTML directly
-    } catch (error) {
-        console.error('There was a problem with the fetch operation:', error);
-        const rewardsElement = document.getElementById('rewards');
-        if (rewardsElement) {
-            rewardsElement.textContent = 'Failed to load rewards.';
-        }
-    }
-}
-
-function populateRewardsFromHTML(htmlContent) {
-    const parser = new DOMParser();
-    const doc = parser.parseFromString(htmlContent, 'text/html');
-    const giftCards = doc.querySelectorAll('.gift-card');
-    const rewardsContainer = document.getElementById('rewards-table').getElementsByTagName('tbody')[0];
-    rewardsContainer.innerHTML = ''; // Clear existing content
-
-    // Create table rows for each reward
-    giftCards.forEach(card => {
-        const imageSrc = card.querySelector('img').getAttribute('src');
-        const rewardName = card.querySelector('h5').textContent;
-        const imageUrl = `https://images.weserv.nl/?url=simnationserver.com/redeem/${imageSrc}&n=-1`;
-
-        const row = rewardsContainer.insertRow();
-        row.innerHTML = `
-            <td style="width: 70%;">${rewardName}</td>
-            <td style="width: 30%;"><img src="${imageUrl}" alt="${rewardName}" style="width: 50px; height: 50px;"/></td>
-        `;
-
-        // Add event listener for row click
-        row.addEventListener('click', () => {
-            displayRewardInfo(rewardName, imageUrl);
-        });
-    });
-}
-
-// Function to display reward details in the Console
-function displayRewardInfo(rewardName, rewardImage) {
-    const consoleContent = document.getElementById('console-content');
-    consoleContent.innerHTML = `
-        <div style="background-color: #007bff; padding: 10px; color: white; text-align: center; font-size: 20px;">
-            ${rewardName}
-        </div>
-        <img src="${rewardImage}" alt="${rewardName}" style="width: 300px; height: 300px; display: block; margin: 20px auto;">
-    `;
-}
-
 // Toggle search input visibility
 function toggleSearch(type) {
     const simSearchInput = document.getElementById(`${type}-search`);
@@ -887,69 +829,122 @@ async function searchLot(event) {
     }
 }
 
-const event = {
-    name: "Fire Bingo at THE PIGGY BANK",
-    lotName: "THE PIGGY BANK",
-    startTime: new Date("2024-11-08T20:00:00-05:00"),
-    endTime: new Date("2024-11-08T23:00:00-05:00")
-};
+const eventsUrl = 'https://makinmagic.github.io/SimNation/events.json';
 
-// Function to display current event if it's ongoing
-function displayCurrentEvent() {
-    const now = new Date();
-    const eventContainer = document.getElementById("currentEvent");
+async function fetchEvents() {
+    try {
+        const response = await fetch(eventsUrl);
+        if (!response.ok) {
+            throw new Error('Failed to load events.json');
+        }
+        const events = await response.json();
 
-    if (now >= event.startTime && now <= event.endTime) {
-        eventContainer.innerHTML = `<i class="fa-solid fa-balloons"></i> Current event: ${event.name}!`;
-    } else {
-        eventContainer.innerHTML = ""; // Clear message outside event hours
+        const eventsContainer = document.getElementById('events-table').getElementsByTagName('tbody')[0];
+        eventsContainer.innerHTML = ''; // Clear any existing events
+
+        const now = new Date();
+
+        // Filter and display only upcoming events
+        events
+            .filter(event => new Date(event.startTime) > now)
+            .forEach(event => {
+                const eventDate = new Date(event.date);
+                const formattedDate = eventDate.toLocaleDateString('en-US', { weekday: 'long', month: 'long', day: 'numeric' });
+
+                const row = eventsContainer.insertRow();
+                row.innerHTML = `
+                    <td>${formattedDate}</td>
+                    <td>${event.name}</td>
+                    <td>${event.location}</td>
+                `;
+                row.addEventListener('click', () => {
+                    displayEventInfo(event); // Show details in the Console when clicked
+                });
+            });
+    } catch (error) {
+        console.error('Failed to fetch events:', error);
     }
 }
 
-// Function to toggle the event icon for the event lot
-function toggleEventIcon() {
-    const now = new Date();
-    const lotsTable = document.getElementById("lots");
+function displayEventInfo(event) {
+    const consoleContent = document.getElementById('console-content');
+    consoleContent.innerHTML = `
+        <div style="background-color: #007bff; padding: 10px; color: white; text-align: center; font-size: 20px;">
+            ${event.name}
+        </div>
+        <p><strong>Description:</strong> ${event.description}</p>
+        <p><strong>Date:</strong> ${new Date(event.startTime).toLocaleDateString('en-US', { weekday: 'long', month: 'long', day: 'numeric' })}</p>
+        <p><strong>Time:</strong> ${event.time}</p>
+        <p><strong>Location:</strong> ${event.location}</p>
+    `;
+}
 
-    // Ensure the table is loaded and find the event lot row
-    if (lotsTable) {
-        const rows = lotsTable.querySelectorAll("tbody tr");
-        rows.forEach(row => {
-            const locationCell = row.querySelector("td:first-child");
-            if (locationCell && locationCell.textContent.includes(event.lotName)) {
-                // Check if the event is active and add/remove the icon
-                if (now >= event.startTime && now <= event.endTime) {
-                    if (!locationCell.querySelector(".fa-balloons")) {
-                        locationCell.innerHTML += ' <i class="fa-solid fa-balloons" title="Event is ongoing!"></i>';
-                    }
-                } else {
-                    const icon = locationCell.querySelector(".fa-balloons");
-                    if (icon) {
-                        icon.remove(); // Remove the icon when the event is over
-                    }
-                }
+async function displayCurrentEvent() {
+    try {
+        const response = await fetch(eventsUrl);
+        if (!response.ok) {
+            throw new Error('Failed to load events.json');
+        }
+        const events = await response.json();
+
+        const now = new Date();
+        const currentEventContainer = document.getElementById("currentEvent");
+        let currentEvents = []; // Array to store all currently ongoing events
+
+        // Check if any events are currently ongoing
+        events.forEach(event => {
+            const startTime = new Date(event.startTime);
+            const endTime = new Date(event.endTime);
+
+            if (now >= startTime && now <= endTime) {
+                currentEvents.push(event); // Add ongoing event to the list
             }
         });
+
+        // Display all overlapping events
+        if (currentEvents.length > 0) {
+            currentEventContainer.innerHTML = currentEvents
+                .map(event => `<i class="fa-solid fa-balloons"></i> Current Event: ${event.name} at ${event.location}!`)
+                .join('<br>'); // Join with line breaks for multiple events
+
+            currentEvents.forEach(event => addEventIconToLocation(event.location)); // Add balloon icon for each location
+        } else {
+            currentEventContainer.innerHTML = ""; // Clear if no event is ongoing
+        }
+    } catch (error) {
+        console.error('Failed to fetch current events:', error);
     }
 }
 
-// Initialize the dashboard
-async function init() {
-    tempoSim();
-    displayCurrentEvent();
-    await loadOnlinePlayers();
-    await loadLots();
-    toggleEventIcon(); // Ensure this runs only after lots have loaded
-    await fetchRewards(); // Load rewards data
+// Function to add the balloon icon to the active event's location in the Active Lots
+function addEventIconToLocation(locationName) {
+    const lotsTable = document.getElementById("lots");
+    const rows = lotsTable.querySelectorAll("tbody tr");
+
+    rows.forEach(row => {
+        const locationCell = row.querySelector("td:first-child");
+        if (locationCell && locationCell.textContent.trim().toLowerCase() === locationName.trim().toLowerCase()) {
+            // Check if the balloon icon is already present to avoid duplicates
+            if (!locationCell.querySelector(".fa-balloons")) {
+                locationCell.innerHTML += ' <i class="fa-solid fa-balloons" title="Event is ongoing!"></i>';
+            }
+        }
+    });
 }
 
-// Initialize the event display and update it periodically
+// Initialize the dashboard and set up periodic checks
+async function init() {
+    tempoSim(); // Start simulation timing
+    await loadOnlinePlayers(); // Load online players
+    await loadLots(); // Load active lots
+    fetchEvents(); // Load and display upcoming events
+    displayCurrentEvent(); // Initial check for any ongoing event and add balloon icon
+}
+
+// Consolidated window.onload to handle all initialization
 window.onload = () => {
-    init();
-    setInterval(() => {
-        displayCurrentEvent();
-        toggleEventIcon(); // Update the icon every minute
-    }, 60000); // Update every minute
+    init(); // Run the initialization function
+    setInterval(displayCurrentEvent, 60000); // Update "Current Event" status every minute
 };
         
 document.addEventListener('DOMContentLoaded', () => {
@@ -1025,23 +1020,23 @@ document.addEventListener('DOMContentLoaded', () => {
     </div>
 
     <div id="bottom-container" style="display: flex; justify-content: space-between; gap: 1%;">
-    <div id="rewards-container" class="container">
-        <h3><i class="fa-solid fa-gift"></i> Current Patreon Rewards <i class="fa-solid fa-gift"></i></h3>
-        <div class="scrollable">
-            <!-- Rewards table will be populated here -->
-            <table id="rewards-table">
-                <thead>
-                    <tr>
-                        <th>Reward Name</th>
-                        <th>Image</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <!-- Content will be populated dynamically by JavaScript -->
-                </tbody>
-            </table>
-        </div>
+    <div id="events-container" class="container">
+    <h3><i class="fa-solid fa-calendar-day"></i> Upcoming Events <i class="fa-solid fa-calendar-day"></i></h3>
+    <div class="scrollable">
+        <table id="events-table">
+            <thead>
+                <tr>
+                    <th>Date</th>
+                    <th>Event Name</th>
+                    <th>Location</th>
+                </tr>
+            </thead>
+            <tbody>
+                <!-- Events will be populated dynamically -->
+            </tbody>
+        </table>
     </div>
+</div>
     <div id="console-container" class="container">
         <h3><i class="fa-solid fa-circle-info"></i> Console <i class="fa-solid fa-circle-info"></i></h3>
         <div id="console-content">

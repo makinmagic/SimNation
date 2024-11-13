@@ -64,7 +64,7 @@
     },
         {
         "name": "SPRING CLEANING / FREE LOOT",
-        "description": "Shuffer and Moon River will be cleaning out their inventories with many items to donate. This will be great especially for new sims to start building their homes or businesses! The list is long but will include toilets, showers, butter churns, skill objects, money objects, tables, chairs and more! 1pm-2pm EST / 3pm-4pm ART/BRT",
+        "description": "Shuffee and Moon River will be cleaning out their inventories with many items to donate. This will be great especially for new sims to start building their homes or businesses! The list is long but will include toilets, showers, butter churns, skill objects, money objects, tables, chairs and more! 1pm-2pm EST / 3pm-4pm ART/BRT",
         "date": "Sunday, November 17",
         "time": "1pm to 2pm EST",
         "location": "Palace Skills Sanctuary",
@@ -82,11 +82,20 @@
     },
     {
         "name": "🧁 B-Day Bash: November",
-       "description": "Let’s celebrate all the birthdays this month with $2+ MILLION in prizes! <strong>LIVE Music</strong> all night, <strong>Hall Pull or Surprise Spot</strong> every 15 minutes—where standing on the right tile could win you up to $1M!<br><br><strong>If your Birthday is/was THIS MONTH please DM AirRockStar your sim name to be pre-registered for a special B-Day Prize Event held at the end!</strong>",
+        "description": "Let’s celebrate all the birthdays this month with $2+ MILLION in prizes! <strong>LIVE Music</strong> all night, <strong>Hall Pull or Surprise Spot</strong> every 15 minutes—where standing on the right tile could win you up to $1M!<br><br><strong>If your Birthday is/was THIS MONTH please DM AirRockStar your sim name to be pre-registered for a special B-Day Prize Event held at the end!</strong>",
         "date": "Friday, November 29",
         "time": "8pm to 10pm EST",
         "location": "THE PIGGY BANK",
         "startTime": "2024-11-30T01:00:00Z",
         "endTime": "2024-11-30T03:00:00Z"
     }
+    {
+        "name": "Christmas Trivia and Skill",
+        "description": "As we skill, Santa (Papai Noel) will be asking Christmas trivia questions. Mrs. Claus (Mamae Noel) will be baking cookies, Frosty Noel will sing or do bench press to the guests if needed. Prizes will be based on points accumulated. Prizes are...Two Mystic Trees, Gardening gnome, Driveable car, Shrinking crystal, Green sleigh, Giant vegetables, and much more!!! this is 4pm eastern time! I hope you all can come! Look for the NO L on the roof!",
+        "date": "Saturday, December 14",
+        "time": "4pm to 6pm EST",
+        "location": "Santas Skills",
+        "startTime": "2024-12-14T21:00:00Z",
+        "endTime": "2024-12-14T23:00:00Z"
+    },
 ]

@@ -1,23 +1,5 @@
 [
     {
-        "name": "Candyland Casino",
-        "description": "There will be trivia, spin the bottle - truth or trivia, bingo, hat game, and normal gambling with slots, cards, and roulette!",
-        "date": "Wednesday, November 13",
-        "time": "7pm to 9pm EST",
-        "location": "Candyland Casino",
-        "startTime": "2024-11-14T00:00:00Z",
-        "endTime": "2024-11-14T01:59:59Z"
-    },
-    {
-        "name": "Games Night",
-        "description": "Come to The Three Broomsticks to play Trivia Race and, back by popular demand, Bingo! The winners will get $1 million each!",
-        "date": "Wednesday, November 13",
-        "time": "9pm to 11pm EST",
-        "location": "The Three Broomsticks",
-        "startTime": "2024-11-14T02:00:00Z",
-        "endTime": "2024-11-14T04:00:00Z"
-    },
-    {
         "name": "MONEYMAKER III Grand Opening",
         "description": "With Paint Poker. And some great prizes to give away. With more fun stuff coming up like the original coding war. And more. I just finished the huge maze. With many hidden boogie traps all over the place. \"Can you make it all the way through it? Get ready for some fun times. Contest and more.\"",
         "date": "Thursday, November 14",
@@ -88,6 +70,15 @@
         "location": "THE PIGGY BANK",
         "startTime": "2024-11-30T01:00:00Z",
         "endTime": "2024-11-30T03:00:00Z"
+    },
+    {
+        "name": "✌️ DOUBLE BINGO! ✌️",
+        "description": "Come for Bingo Night at The Three Broomsticks, where we will have not one, but TWO rounds of bingo! Double the fun, double the chances to become a millionaire!",
+        "date": "Wednesday, December 11",
+        "time": "8pm to 10pm EST",
+        "location": "The Three Broomsticks",
+        "startTime": "2024-12-12T02:00:00Z",
+        "endTime": "2024-12-12T04:00:00Z"
     },
     {
         "name": "Christmas Trivia and Skill",

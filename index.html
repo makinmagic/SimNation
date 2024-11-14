@@ -79,7 +79,7 @@
         flex-grow: 1;
     }
 
-    #tempoSim, #currentEvent, #guideLink {
+    #tempoSim, #currentEvent, #guideLink, #countdown {
         text-align: center;
         font-size: 18px;
         margin-bottom: 30px;
@@ -260,7 +260,8 @@ body.dark-mode {
 .dark-mode #tempoSim, 
 .dark-mode #currentEvent, 
 .dark-mode #guideLink, 
-.dark-mode #guideLink a, 
+.dark-mode #guideLink a,
+.dark_mode #countdown,
 .dark-mode .search-icon {
     color: #f1f1f1;
 }
@@ -1027,10 +1028,31 @@ function addEventIconToLocation(locationName) {
     });
 }
 
+function updateCountdown() {
+    const endTime = new Date("November 15, 2024 02:00:00 UTC").getTime();
+    const now = new Date().getTime();
+    const timeRemaining = endTime - now;
+
+    if (timeRemaining > 0) {
+      const days = Math.floor(timeRemaining / (1000 * 60 * 60 * 24));
+      const hours = Math.floor((timeRemaining % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+      const minutes = Math.floor((timeRemaining % (1000 * 60 * 60)) / (1000 * 60));
+      const seconds = Math.floor((timeRemaining % (1000 * 60)) / 1000);
+
+      document.getElementById("time").innerHTML = `${days}d ${hours}h ${minutes}m ${seconds}s`;
+    } else {
+      document.getElementById("countdown").style.display = "none";
+      clearInterval(countdownInterval);
+    }
+  }
+
+const countdownInterval = setInterval(updateCountdown, 1000);
+
 // Initialize the dashboard and set up periodic checks
 async function init() {
     createSnowflakes();
     tempoSim(); // Start simulation timing
+    updateCountdown();
     await loadOnlinePlayers(); // Load online players
     await loadLots(); // Load active lots
     fetchEvents(); // Load and display upcoming events
@@ -1081,6 +1103,7 @@ document.addEventListener('DOMContentLoaded', () => {
     </a>
 </div>
     <div id="tempoSim" style="font-weight: bold;">Time in Eldorado: Loading time...</div>
+    <div id="countdown" style="text-align: center; font-weight: bold;">Time left in Icetopia and the Witches NPCs: <span id="time"></span></div>
     <div id="currentEvent" style="text-align: center; font-weight: bold;"></div>
     <div id="main-container">
 <div class="container">

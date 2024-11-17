@@ -1,50 +1,5 @@
 [
     {
-        "name": "MONEYMAKER III Grand Opening",
-        "description": "With Paint Poker. And some great prizes to give away. With more fun stuff coming up like the original coding war. And more. I just finished the huge maze. With many hidden boogie traps all over the place. \"Can you make it all the way through it? Get ready for some fun times. Contest and more.\"",
-        "date": "Thursday, November 14",
-        "time": "4:30pm to 6:30pm EST",
-        "location": "MONEYMAKER III",
-        "startTime": "2024-11-14T21:30:00Z",
-        "endTime": "2024-11-14T23:30:00Z"
-    },
-        {
-        "name": "💍 Elsia & JaHu Wedding & After Party",
-        "description": "Let’s celebrate the wedding of Elsia & JaHu in an icy wonderland! Bundle up and join us for a night of frosty vibes and warm hearts—where shimmering ice meets a celebration to remember. Come for the chill, stay for the fun!",
-        "date": "Thursday, November 14",
-        "time": "9pm to 11pm EST",
-        "location": "THE PIGGY BANK",
-        "startTime": "2024-11-15T02:00:00Z",
-        "endTime": "2024-11-15T04:00:00Z"
-    },
-        {
-        "name": "💎 Y2K Night!",
-        "description": "A night of throwback fun and big wins with $2 MILLION up for grabs! <strong>Live Music</strong> all night, <strong>Hall Pull or Surprise Spot</strong> every 15 minutes—where standing on the right tile could win you up to $1 MILLION! Don't miss out on the Y2K vibes and the chance to score big!",
-        "date": "Friday, November 15",
-        "time": "8pm to 10pm EST",
-        "location": "THE PIGGY BANK",
-        "startTime": "2024-11-16T01:00:00Z",
-        "endTime": "2024-11-16T03:00:00Z"
-    },
-        {
-        "name": "🎙️ Karaoke Night!",
-        "description": "Come vibe with us and sing your heart out in a laid-back, fun atmosphere! Everyone’s welcome—whether you’re here to perform or just enjoy the music, you don’t have to sing to join in the fun!<br><br>Hosted by Rick Jordan",
-        "date": "Friday, November 15",
-        "time": "9pm to 10pm EST",
-        "location": "THE PIGGY BANK",
-        "startTime": "2024-11-16T02:00:00Z",
-        "endTime": "2024-11-16T04:00:00Z"
-    },
-        {
-        "name": "Palace Skills Sanctuary Grand Opening",
-        "description": "Hat pull for 200k prizes every 15 minutes, must be present within 1 minute of announcement to win!",
-        "date": "Saturday, November 16",
-        "time": "12pm to 2pm EST",
-        "location": "Palace Skills Sanctuary",
-        "startTime": "2024-11-16T17:00:00Z",
-        "endTime": "2024-11-16T19:00:00Z"
-    },
-        {
         "name": "WOOT TOOT FREE LOOT",
         "description": "Shuffee and Moon River will be cleaning out their inventories with many items to donate. This will be great especially for new sims to start building their homes or businesses! The list is long but will include toilets, showers, butter churns, skill objects, money objects, tables, chairs and more! 1pm-2pm EST / 3pm-4pm ART/BRT",
         "date": "Sunday, November 17",
@@ -53,7 +8,16 @@
         "startTime": "2024-11-17T18:00:00Z",
         "endTime": "2024-11-17T19:00:00Z"
     },
-        {
+    {
+        "name": "The Grand Opening of Hayley's Money House",
+        "description": "Get ready to win your share of $2 Million running wild with Turkeys! You will be split up into teams running, collecting and stealing turkeys in an action packed event! Gobble Gobble!",
+        "date": "Monday, November 18",
+        "time": "4pm to 6pm PST",
+        "location": "Hayley's Money House",
+        "startTime": "2024-11-19T00:00:00Z",
+        "endTime": "2024-11-19T02:00:00Z"
+    },    
+    {
         "name": "🦃 Turkey Trot",
         "description": "Get ready to win your share of $2 Million running wild with Turkeys! You will be split up into teams running, collecting and stealing turkeys in an action packed event! Gobble Gobble!",
         "date": "Friday, November 22",

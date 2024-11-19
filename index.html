@@ -871,53 +871,57 @@ async function searchSim(event) {
         if (!simName) return;
 
         const url = `https://web-production-3227.up.railway.app/http://simnationserver.com:9000/userapi/city/1/avatars/name/${simName}`;
+        const consoleContent = document.getElementById('console-content');
+        consoleContent.innerHTML = ''; // Clear existing content
+        consoleContent.dataset.id = simName; // Set the current Sim ID (by name)
+        consoleContent.dataset.type = 'sims'; // Set the type to Sims
 
         try {
+            const playerImages = await fetchPlayerImages();
             const response = await fetch(url);
             if (!response.ok) throw new Error('Sim not found');
 
             const playerData = await response.json();
 
-            // Format description and age for display
-            const formattedDescription = (playerData.description || 'No description available.').replace(/(\r\n|\n|\r)/g, '<br>');
-            const creationDate = new Date(playerData.date * 1000);
-            const ageInDays = Math.floor((new Date() - creationDate) / (1000 * 60 * 60 * 24));
-			
-			// Check for favorites in localStorage
+            // Match the Sim name to the JSON file
+            const playerImage = playerImages[playerData.name] || 'https://makinmagic.github.io/SimNation/images/pfp-placeholder.png';
+
+            // Debug
+            if (!playerImages[playerData.name]) {
+                console.warn(`Image not found for Sim: ${playerData.name}. Using placeholder.`);
+            } else {
+                console.log(`Image found for Sim: ${playerData.name}: ${playerImage}`);
+            }
+
+            // Calculate player age from Unix timestamp
+            const creationDate = new Date(playerData.date * 1000); // Convert to milliseconds
+            const currentDate = new Date();
+            const ageInDays = Math.floor((currentDate - creationDate) / (1000 * 60 * 60 * 24)); // Calculate age in days
+
+            // Check for favorites in localStorage
             const favorites = JSON.parse(localStorage.getItem('favorites')) || {};
-            const isFavorite = favorites.sims && favorites.sims[playerData.avatar_id];
-
-            // Check if the player is online by searching in the Sims Online table
-            const playersContainer = document.getElementById('players');
-            const onlineRow = Array.from(playersContainer.querySelectorAll('tr')).find(row => {
-    const firstCell = row.querySelector('td');
-    return firstCell && firstCell.textContent.trim().toLowerCase() === playerData.name.trim().toLowerCase();
-});
-
-            const isOnline = Boolean(onlineRow);
-            const onlineStatus = isOnline ? 'Yes' : 'No';
-            const playerLocation = isOnline
-                ? onlineRow.querySelector('td:nth-child(5)').textContent
-                : 'Offline';
+            const isFavorite = favorites.sims && favorites.sims[playerData.name];
 
             // Display all information in the Console
-            const consoleContent = document.getElementById('console-content');
             consoleContent.innerHTML = `
                 <div style="background-color: #f1c75e; padding: 10px; color: black; text-align: center; font-size: 20px;">
                     ${playerData.name}
-					<i class="${isFavorite ? 'fa-solid fa-star' : 'fa-regular fa-star'}" 
+                    <i class="${isFavorite ? 'fa-solid fa-star' : 'fa-regular fa-star'}" 
                        title="Click to toggle favorite" 
                        onclick="toggleFavorite('sims', '${playerData.avatar_id}', '${playerData.name}', event)"></i>
                 </div>
+                <img src="${playerImage}" alt="Profile Picture" style="width: 200px; height: 200px; border-radius: 8px; border: 3px solid #ffd700; display: block; margin: 10px auto; background: #f2f5f5;">
+                <p style="text-align: center; margin-top: -9px;">
+                    <a href="https://forms.gle/sw6fbLx4iud8xGpc9" target="_blank" style="text-decoration: underline;">Submit/Change Profile Picture</a>
+                </p>
                 <p><strong>Description:</strong></p>
-                <div class="description-container">${formattedDescription}</div>
+                <div class="description-container">${(playerData.description || 'No description available.').replace(/(\r\n|\n|\r)/g, '<br>')}</div>
                 <p><strong>Age:</strong> ${ageInDays} days old</p>
-                <p><strong>Location:</strong> ${playerLocation}</p>
-                <p><strong>Currently Online:</strong> ${onlineStatus}</p>
+                <p><strong>Location:</strong> ${playerData.location || 'Unknown'}</p>
             `;
         } catch (error) {
             console.error('Failed to fetch sim details:', error);
-            document.getElementById('console-content').innerHTML = 'Sim not found.';
+            consoleContent.innerHTML = 'Sim not found.';
         }
     }
 }

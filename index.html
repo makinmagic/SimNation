@@ -322,6 +322,19 @@ body.dark-mode #events-container a {
     color: #f1f1f1;
 }
 
+#console-content a {
+    color: #f1c75e;
+    text-decoration: underline;
+    font-size: 14px;
+    display: inline-block;
+    margin-top: 3px;
+    text-align: center;
+}
+
+body.dark-mode #console-content a {
+    color: #f1f1f1;
+}
+
 .dashboard-icon {
     width: 40px; 
     height: auto; 
@@ -707,6 +720,18 @@ async function displayLotInfo(lotId) {
         consoleContent.innerHTML = 'Error loading lot details.';
     }
 }
+
+async function fetchPlayerImages() {
+    const playerImagesUrl = 'https://makinmagic.github.io/SimNation/profile-pictures.json';
+    try {
+        const response = await fetch(playerImagesUrl);
+        if (!response.ok) throw new Error('Failed to fetch player images.');
+        return await response.json();
+    } catch (error) {
+        console.error(error);
+        return {}; // Return an empty object on error
+    }
+}
 	    
 async function displayPlayerInfo(avatarId) {
     // Remove placeholder text
@@ -714,16 +739,25 @@ async function displayPlayerInfo(avatarId) {
     consoleContent.innerHTML = ''; // Clear existing content
     consoleContent.dataset.id = avatarId; // Set the current Sim ID
     consoleContent.dataset.type = 'sims'; // Set the type to Sims
-    
+
+    const playerImages = await fetchPlayerImages();
     const url = `https://web-production-3227.up.railway.app/http://simnationserver.com:9000/userapi/avatars/${avatarId}`;
 
     try {
         const response = await fetch(url);
-        if (!response.ok) {
-            throw new Error('Network response was not ok');
-        }
-
+        if (!response.ok) throw new Error('Failed to fetch player details.');
         const playerData = await response.json();
+
+        // Match the Sim name to the JSON file
+        const simName = playerData.name; // Sim name from API
+        const playerImage = playerImages[simName] || 'https://makinmagic.github.io/SimNation/images/pfp-placeholder.png';
+
+        // Debug
+        if (!playerImages[simName]) {
+            console.warn(`Image not found for Sim: ${simName}. Using placeholder.`);
+        } else {
+            console.log(`Image found for Sim: ${simName}: ${playerImage}`);
+        }
 
         // Calculate player age from Unix timestamp
         const creationDate = new Date(playerData.date * 1000); // Convert to milliseconds
@@ -751,6 +785,10 @@ async function displayPlayerInfo(avatarId) {
                    title="Click to toggle favorite" 
                    onclick="toggleFavorite('sims', '${avatarId}', '${playerData.name}', event)"></i>
             </div>
+            <img src="${playerImage}" alt="Profile Picture" style="width: 200px; height: 200px; border-radius: 8px; border: 3px solid #ffd700; display: block; margin: 10px auto; background: #f2f5f5;">
+            <p style="text-align: center; margin-top: -9px;">
+                <a href="https://forms.gle/sw6fbLx4iud8xGpc9" target="_blank" style="text-decoration: underline;">Submit/Change Profile Picture</a>
+            </p>
             <p><strong>Description:</strong></p>
             <div class="description-container">${formattedDescription}</div>
             <p><strong>Age:</strong> ${ageInDays} days old</p>

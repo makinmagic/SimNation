@@ -1,23 +1,5 @@
 [
     {
-        "name": "WOOT TOOT FREE LOOT",
-        "description": "Shuffee and Moon River will be cleaning out their inventories with many items to donate. This will be great especially for new sims to start building their homes or businesses! The list is long but will include toilets, showers, butter churns, skill objects, money objects, tables, chairs and more! 1pm-2pm EST / 3pm-4pm ART/BRT",
-        "date": "Sunday, November 17",
-        "time": "1pm to 2pm EST",
-        "location": "Palace Skills Sanctuary",
-        "startTime": "2024-11-17T18:00:00Z",
-        "endTime": "2024-11-17T19:00:00Z"
-    },
-    {
-        "name": "The Grand Opening of Hayley's Money House",
-        "description": "Hello all! I finished rebuilding and adding to my lot from Freeso and I would love to host anyone who wants to join us for some fun, pizza, paint poker, games and more! Come explore, make money, and have fun <3",
-        "date": "Monday, November 18",
-        "time": "4pm to 6pm PST",
-        "location": "Hayley's Money House",
-        "startTime": "2024-11-19T00:00:00Z",
-        "endTime": "2024-11-19T02:00:00Z"
-    },    
-    {
         "name": "🦃 Turkey Trot",
         "description": "Get ready to win your share of $2 Million running wild with Turkeys! You will be split up into teams running, collecting and stealing turkeys in an action packed event! Gobble Gobble!",
         "date": "Friday, November 22",
@@ -25,6 +7,15 @@
         "location": "THE PIGGY BANK",
         "startTime": "2024-11-23T01:00:00Z",
         "endTime": "2024-11-23T03:00:00Z"
+    },    
+    {
+        "name": "Podrick Payne Weds Remi Hutton 💜❤️",
+        "description": "We are holding a second wedding ceremony after 4 years of being happily married ❤️ please come and celebrate with us!! 🥳",
+        "date": "Saturday, November 23",
+        "time": "7pm to 9pm EST",
+        "location": "Wedding Venue",
+        "startTime": "2024-11-24T00:00:00Z",
+        "endTime": "2024-11-24T02:00:00Z"
     },
     {
         "name": "🧁 B-Day Bash: November",

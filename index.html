@@ -81,7 +81,7 @@
         flex-grow: 1;
     }
 
-    #tempoSim, #currentEvent, #guideLink, #countdown, #footer-note {
+    #tempoSim, #currentEvent, #guideLink, #countdown, #footer-note, #money-object {
         text-align: center;
         font-size: 18px;
         margin-bottom: 20px;
@@ -281,6 +281,7 @@ body.dark-mode {
 .dark-mode #guideLink a,
 .dark_mode #countdown,
 .dark_mode #footer-note,
+.dark_mode #money-object,
 .dark-mode .search-icon {
     color: #f1f1f1;
 }
@@ -1234,6 +1235,29 @@ function addFavoriteStar(type, id, name) {
     return starIcon;
 }
 
+async function fetchMoneyObject() {
+	const cacheBuster = `?t=${new Date().getTime()}`;
+    const response = await fetch(`https://makinmagic.github.io/SimNation/data/highest_paying_object.json${cacheBuster}`);
+    const data = await response.json();
+
+    const moneyObjectContainer = document.getElementById("money-object");
+    const now = new Date();
+    const utcNow = new Date(now.toISOString()); // Current time in UTC
+    const today3amUTC = new Date(utcNow);
+    today3amUTC.setUTCHours(3, 0, 0, 0); // Set to 3 AM UTC
+
+    const updatedAt = new Date(data.updated_at);
+
+    // Logic to display or hide the money object
+    if (updatedAt >= today3amUTC) {
+        moneyObjectContainer.innerHTML = `Today's money object is: <strong>${data.highest_paying_object}</strong>! (Brought to you by The Piggy Bank)`;
+        moneyObjectContainer.style.display = "block";
+    } else {
+        moneyObjectContainer.innerHTML = "Today's money object is being updated. Please check in-game for now!";
+        moneyObjectContainer.style.display = "block";
+    }
+}
+	    
 /* function updateCountdown() {
     const endTime = new Date("November 15, 2024 02:00:00 UTC").getTime();
     const now = new Date().getTime();
@@ -1258,6 +1282,7 @@ const countdownInterval = setInterval(updateCountdown, 1000); */
 async function init() {
     createSnowflakes();
     tempoSim(); // Start simulation timing
+fetchMoneyObject(); // Display the money object
     // updateCountdown();
     await loadOnlinePlayers(); // Load online players
     await loadLots(); // Load active lots
@@ -1309,6 +1334,7 @@ document.addEventListener('DOMContentLoaded', () => {
     </a>
 </div>
     <div id="tempoSim" style="font-weight: bold;">Time in Eldorado: Loading time...</div>
+	<div id="money-object" style="font-weight: bold;">Loading today's money object...</div>
    <!-- <div id="countdown" style="text-align: center; font-weight: bold;">Time left in Icetopia and the Witches NPCs: <span id="time"></span></div> -->
     <div id="currentEvent" style="text-align: center; font-weight: bold;"></div>
     <div id="main-container">

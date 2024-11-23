@@ -1243,19 +1243,25 @@ async function fetchMoneyObject() {
     const moneyObjectContainer = document.getElementById("money-object");
     const now = new Date();
     const utcNow = new Date(now.toISOString()); // Current time in UTC
+
+    // Define 3 AM UTC for the current day
     const today3amUTC = new Date(utcNow);
-    today3amUTC.setUTCHours(3, 0, 0, 0); // Set to 3 AM UTC
+    today3amUTC.setUTCHours(3, 0, 0, 0);
+
+    // Define 3 AM UTC for the previous day
+    const yesterday3amUTC = new Date(today3amUTC);
+    yesterday3amUTC.setUTCDate(today3amUTC.getUTCDate() - 1);
 
     const updatedAt = new Date(data.updated_at);
 
-    // Logic to display or hide the money object
-    if (updatedAt >= today3amUTC) {
+    // Logic to check if the JSON is up-to-date
+    if (updatedAt >= yesterday3amUTC && updatedAt < today3amUTC) {
         let content;
 
         if (data.image_url) {
-            content = `Today's money object is: <strong>${data.highest_paying_object}</strong>! See all objects <a href="${data.image_url}" target="_blank">here</a>. (Brought to you by The Piggy Bank)`;
+            content = `Today's money object is: <strong>${data.highest_paying_object.trim()}</strong>! See all objects <a href="${data.image_url}" target="_blank">here</a>. (Brought to you by The Piggy Bank)`;
         } else {
-            content = `Today's money object is: <strong>${data.highest_paying_object}</strong>! (Brought to you by The Piggy Bank)`;
+            content = `Today's money object is: <strong>${data.highest_paying_object.trim()}</strong>! (Brought to you by The Piggy Bank)`;
         }
 
         moneyObjectContainer.innerHTML = content;

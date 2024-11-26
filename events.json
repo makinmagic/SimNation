@@ -1,32 +1,5 @@
 [
     {
-        "name": "Jam til you drop Friday",
-        "description": "10k hat draws every 15 minutes. 5 mil 1st place, 2.5 mil second place, 1.5 mil third place.",
-        "date": "Friday, November 22",
-        "time": "7pm to 9pm EST",
-        "location": "Serenity Springs",
-        "startTime": "2024-11-23T00:00:00Z",
-        "endTime": "2024-11-23T02:00:00Z"
-    },
-    {
-        "name": "🦃 Turkey Trot",
-        "description": "Get ready to win your share of $2 Million running wild with Turkeys! You will be split up into teams running, collecting and stealing turkeys in an action packed event! Gobble Gobble!",
-        "date": "Friday, November 22",
-        "time": "8pm to 10pm EST",
-        "location": "THE PIGGY BANK",
-        "startTime": "2024-11-23T01:00:00Z",
-        "endTime": "2024-11-23T03:00:00Z"
-    },    
-    {
-        "name": "Podrick Payne Weds Remi Hutton 💜❤️",
-        "description": "We are holding a second wedding ceremony after 4 years of being happily married ❤️ please come and celebrate with us!! 🥳",
-        "date": "Saturday, November 23",
-        "time": "7pm to 9pm EST",
-        "location": "Wedding Venue",
-        "startTime": "2024-11-24T00:00:00Z",
-        "endTime": "2024-11-24T02:00:00Z"
-    },
-    {
         "name": "🧁 B-Day Bash: November",
         "description": "Let’s celebrate all the birthdays this month with $2+ MILLION in prizes! <strong>LIVE Music</strong> all night, <strong>Hall Pull or Surprise Spot</strong> every 15 minutes—where standing on the right tile could win you up to $1M!<br><br><strong>If your Birthday is/was THIS MONTH please DM AirRockStar your sim name to be pre-registered for a special B-Day Prize Event held at the end!</strong>",
         "date": "Friday, November 29",
@@ -34,6 +7,24 @@
         "location": "THE PIGGY BANK",
         "startTime": "2024-11-30T01:00:00Z",
         "endTime": "2024-11-30T03:00:00Z"
+    },
+    {
+        "name": "🏆 Wheel Wednesday",
+        "description": "For your shot at $1 MILLION, post a screenshot of your Sim on our DAILY SMO in #📸-screenshots, and don't forget to include your Sim's name! Winner will be posted in #📢-announcements shortly after 10PM EST.",
+        "date": "Wednesday, December 4",
+        "time": "8pm to 10pm EST",
+        "location": "THE PIGGY BANK",
+        "startTime": "2024-12-05T01:00:00Z",
+        "endTime": "2024-12-05T03:00:00Z"
+    },
+    {
+        "name": "👑 Gold Heist",
+        "description": "Do you have what it takes to unlock golden treasure?! Gather clues and make your way to the $1 MILLION grand prize room and earn gold along the way!",
+        "date": "Friday, December 6",
+        "time": "7pm to 9pm EST",
+        "location": "THE PIGGY BANK",
+        "startTime": "2024-12-07T00:00:00Z",
+        "endTime": "2024-12-07T02:00:00Z"
     },
     {
         "name": "✌️ DOUBLE BINGO! ✌️",
@@ -45,6 +36,15 @@
         "endTime": "2024-12-12T04:00:00Z"
     },
     {
+        "name": "🌈 '70s Night",
+        "description": "A night of throwback fun and big wins with $2 MILLION up for grabs! <strong>Live Music</strong> all night, <strong>Hall Pull or Surprise Spot</strong> every 15 minutes—where standing on the right tile could win you up to $1 MILLION!",
+        "date": "Friday, December 13",
+        "time": "7pm to 9pm EST",
+        "location": "THE PIGGY BANK",
+        "startTime": "2024-12-14T00:00:00Z",
+        "endTime": "2024-12-14T02:00:00Z"
+    },
+    {
         "name": "Christmas Trivia and Skill",
         "description": "As we skill, Santa (Papai Noel) will be asking Christmas trivia questions. Mrs. Claus (Mamae Noel) will be baking cookies, Frosty Noel will sing or do bench press to the guests if needed. Prizes will be based on points accumulated. Prizes are...Two Mystic Trees, Gardening gnome, Driveable car, Shrinking crystal, Green sleigh, Giant vegetables, and much more!!! this is 4pm eastern time! I hope you all can come! Look for the NO L on the roof!",
         "date": "Saturday, December 14",
@@ -52,5 +52,23 @@
         "location": "Santas Skills",
         "startTime": "2024-12-14T21:00:00Z",
         "endTime": "2024-12-14T23:00:00Z"
+    },
+    {
+        "name": "🎄 Holiday Hustle",
+        "description": "Get ready to win your share of $1 MILLION PER RUN! You will be split up into 3 teams running, collecting and stealing fruitcake in an action packed event!",
+        "date": "Friday, December 20",
+        "time": "7pm to 9pm EST",
+        "location": "THE PIGGY BANK",
+        "startTime": "2024-12-21T00:00:00Z",
+        "endTime": "2024-12-21T02:00:00Z"
+    },
+    {
+        "name": "🧁 B-Day Bash: December",
+        "description": "Let’s celebrate all the birthdays this month with $2+ MILLION in prizes! <strong>LIVE Music</strong> all night, <strong>Hall Pull or Surprise Spot</strong> every 15 minutes—where standing on the right tile could win you up to $1M!<br><br><strong>If your Birthday is/was THIS MONTH please DM AirRockStar your sim name to be pre-registered for a special B-Day Prize Event held at the end!</strong>",
+        "date": "Friday, December 27",
+        "time": "7pm to 9pm EST",
+        "location": "THE PIGGY BANK",
+        "startTime": "2024-12-28T00:00:00Z",
+        "endTime": "2024-12-28T02:00:00Z"
     }
 ]

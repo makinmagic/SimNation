@@ -437,12 +437,11 @@ async function loadOnlinePlayers() {
             <table>
                 <thead>
     <tr>
-        <th>
-            Sim 
-            <i class="fa-solid fa-arrow-up-arrow-down" 
-               style="cursor: pointer;" 
-               onclick="sortTable(0, 'text')"></i>
-        </th>
+	<th>
+    	Sim
+    	<i class="fa-solid fa-arrow-up-arrow-down" style="cursor: pointer;" onclick="sortTable(0, 'text')"></i>
+    	<i class="fa-solid fa-star" style="cursor: pointer;" onclick="sortByFavorites()"></i>
+	</th>
         <th class="hidden">ID</th>
         <th>
             Age 
@@ -1335,6 +1334,23 @@ function sortTable(columnIndex, type) {
     }
   });
 
+  const tbody = table.tBodies[0];
+  rows.forEach(row => tbody.appendChild(row));
+}
+
+function sortByFavorites() {
+  const table = document.querySelector('#players table');
+  const rows = Array.from(table.tBodies[0].rows);
+
+  // Sort by favorite status
+  rows.sort((rowA, rowB) => {
+    const isAFavorite = rowA.querySelector('.fa-solid.fa-star') ? 1 : 0;
+    const isBFavorite = rowB.querySelector('.fa-solid.fa-star') ? 1 : 0;
+
+    return isBFavorite - isAFavorite; // Favorites first
+  });
+
+  // Re-append rows in sorted order
   const tbody = table.tBodies[0];
   rows.forEach(row => tbody.appendChild(row));
 }

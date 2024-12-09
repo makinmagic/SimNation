@@ -249,7 +249,7 @@ body.dark-mode {
     color: #f1f1f1; 
 }
 
-.dark-mode #console-content {
+.dark-mode #console-title {
     background-color: #444;
     color: #ffffff;
 }

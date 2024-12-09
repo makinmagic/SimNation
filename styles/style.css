@@ -287,8 +287,9 @@ body.dark-mode #console-content a {
 .mirrored {
     transform: scaleX(-1); 
 }
+
 .sims-online-icon::before {
-    content: '\f0c0';
+    content: '\f500';
     font-family: 'Font Awesome 6 Free';
     font-weight: 900;
 }

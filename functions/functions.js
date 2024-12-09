@@ -144,7 +144,7 @@ async function loadOnlinePlayers() {
 
         // Update the title with the online player count
         if (playersTitle) {
-            playersTitle.innerHTML = `<i class="fa-solid fa-champagne-glasses"></i> Sims Online: ${onlineData.avatars_online_count} <i class="fa-solid fa-champagne-glasses"></i>`;
+            playersTitle.innerHTML = `<span class="sims-online-icon"></span> Sims Online: ${onlineData.avatars_online_count} <span class="sims-online-icon"></span>`;
         }
 
 } catch (error) {
@@ -152,7 +152,7 @@ async function loadOnlinePlayers() {
         document.getElementById('players').innerHTML = 'Error loading online players.';
         // If there is an error, reset the title to show 0
         if (playersTitle) {
-            playersTitle.innerHTML = `<i class="fa-solid fa-hat-wizard"></i> Sims Online: 0 <i class="fa-solid fa-hat-wizard"></i>`;
+            playersTitle.innerHTML = `<span class="sims-online-icon"></span> Sims Online: 0 <span class="sims-online-icon"></span>`;
         }
     }
 }

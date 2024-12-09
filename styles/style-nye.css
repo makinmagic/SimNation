@@ -310,3 +310,29 @@ body.dark-mode #console-content a {
         opacity: 0;
     }
 }
+
+.icon::before {
+  display: inline-block;
+  text-rendering: auto;
+  -webkit-font-smoothing: antialiased;
+}
+
+.sims-online-icon::before {
+    font: var(--fa-font-solid);
+    content: "\f79f";
+}
+
+.active-lots-icon::before {
+    font: var(--fa-font-solid);
+    content: "\e31b";
+}
+
+.upcoming-events-icon::before {
+    font: var(--fa-font-solid);
+    content: "\f073";
+}
+
+.console-icon::before {
+    font: var(--fa-font-solid);
+    content: "\f0ac";
+}

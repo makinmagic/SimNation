@@ -482,29 +482,6 @@ async function displayPlayerInfo(avatarId) {
             setTimeout(tempoSim, 1000);
         }
 
-/* function createSnowflakes() {
-    const snowflakeCount = 50; // Number of snowflakes
-    const snowflakeContainer = document.createElement('div');
-    snowflakeContainer.classList.add('snowflake-container');
-    document.body.appendChild(snowflakeContainer);
-
-    for (let i = 0; i < snowflakeCount; i++) {
-        const snowflake = document.createElement('div');
-        snowflake.classList.add('snowflake');
-        // Randomize the horizontal position
-        snowflake.style.left = Math.random() * 100 + 'vw';
-        // Randomize the animation duration between 5s and 15s
-        snowflake.style.animationDuration = (Math.random() * 10 + 5) + 's';
-        // Randomize the animation delay
-        snowflake.style.animationDelay = '-' + (Math.random() * 15) + 's';
-        // Randomize the size of snowflakes
-        const size = Math.random() * 5 + 5; // 5px to 10px
-        snowflake.style.width = size + 'px';
-        snowflake.style.height = size + 'px';
-        snowflakeContainer.appendChild(snowflake);
-    }
-} */
-
 // Toggle search input visibility
 function toggleSearch(type) {
     const simSearchInput = document.getElementById(`${type}-search`);
@@ -996,76 +973,13 @@ function sortByFavorites() {
   const tbody = table.tBodies[0];
   rows.forEach(row => tbody.appendChild(row));
 }
-	    
-/* function updateCountdown() {
-    const endTime = new Date("November 15, 2024 02:00:00 UTC").getTime();
-    const now = new Date().getTime();
-    const timeRemaining = endTime - now;
-
-    if (timeRemaining > 0) {
-      const days = Math.floor(timeRemaining / (1000 * 60 * 60 * 24));
-      const hours = Math.floor((timeRemaining % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-      const minutes = Math.floor((timeRemaining % (1000 * 60 * 60)) / (1000 * 60));
-      const seconds = Math.floor((timeRemaining % (1000 * 60)) / 1000);
-
-      document.getElementById("time").innerHTML = `${days}d ${hours}h ${minutes}m ${seconds}s`;
-    } else {
-      document.getElementById("countdown").style.display = "none";
-      clearInterval(countdownInterval);
-    }
-  }
-
-const countdownInterval = setInterval(updateCountdown, 1000); */
-
-function createFirework() {
-    // Create a container for the firework
-    const fireworkContainer = document.createElement('div');
-    fireworkContainer.style.position = 'absolute';
-    fireworkContainer.style.top = Math.random() * 50 + 'vh'; // Random vertical position (top half)
-    fireworkContainer.style.left = Math.random() * 100 + 'vw'; // Random horizontal position
-    document.body.appendChild(fireworkContainer);
-
-    // Add particles to the firework
-    const particleCount = 20; // Number of particles per firework
-    for (let i = 0; i < particleCount; i++) {
-        const particle = document.createElement('div');
-        particle.classList.add('firework-particle');
-
-        // Randomize the direction of each particle
-        const angle = (i / particleCount) * 360; // Spread particles evenly in a circle
-        const distance = Math.random() * 100 + 50; // Distance the particle will travel
-        const x = Math.cos((angle * Math.PI) / 180) * distance + 'px';
-        const y = Math.sin((angle * Math.PI) / 180) * distance + 'px';
-
-        particle.style.setProperty('--x', x);
-        particle.style.setProperty('--y', y);
-
-        const colors = ['#806C00', '#BFA100', '#FFD700', '#FFE140', '#FFEB80'];
-        particle.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
-
-        // Append particle to the container
-        fireworkContainer.appendChild(particle);
-    }
-
-    // Remove the firework container after the animation
-    setTimeout(() => {
-        fireworkContainer.remove();
-    }, 2000); // Slightly longer than the explosion animation
-}
-
-// Continuously Create Fireworks
-function launchFireworks() {
-    setInterval(() => {
-        createFirework();
-    }, 2000); // Launch a firework every second
-}
 
 // Initialize the dashboard and set up periodic checks
 async function init() {
     // createSnowflakes();
-	launchFireworks();
+    launchFireworks();
     tempoSim(); // Start simulation timing
-fetchMoneyObject(); // Display the money object
+    fetchMoneyObject(); // Display the money object
     // updateCountdown();
     await loadOnlinePlayers(); // Load online players
     await loadLots(); // Load active lots

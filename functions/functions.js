@@ -34,7 +34,7 @@ async function loadOnlinePlayers() {
         // Set the Sims Online title to "Loading..." while data is being fetched
         const playersTitle = document.getElementById('players-title');
         if (playersTitle) {
-            playersTitle.innerHTML = `<i class="fa-solid fa-champagne-glasses"></i> Sims Online: Loading... <i class="fa-solid fa-champagne-glasses"></i>`;
+            playersTitle.innerHTML = `<span class="sims-online-icon"></span> Sims Online: Loading... <span class="sims-online-icon"></span>`;
         }
         
         const response = await fetch('https://web-production-3227.up.railway.app/http://simnation.ddns.net:9000/userapi/avatars/online');

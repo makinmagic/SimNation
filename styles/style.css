@@ -288,8 +288,16 @@ body.dark-mode #console-content a {
     transform: scaleX(-1); 
 }
 
+.icon::before {
+    display: inline-block;
+    font-style: normal;
+    font-variant: normal;
+    text-rendering: auto;
+    -webkit-font-smoothing: antialiased;
+  }
+
 .sims-online-icon::before {
-    content: '\f500';
-    font-family: 'Font Awesome 6 Free';
+    font-family: "Font Awesome 6 Free";
     font-weight: 900;
+    content: "\f500";
 }

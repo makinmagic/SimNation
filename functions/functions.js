@@ -1,5 +1,4 @@
-<script>
-        async function loadLotName(lotId) {
+async function loadLotName(lotId) {
             if (lotId === 0) return 'Unknown'; // Return 'Unknown' for lot ID 0
             const lotData = await fetch('https://web-production-3227.up.railway.app/http://simnation.ddns.net:9000/userapi/city/1/city.json');
             return lotData ? lotData.name : 'N/A'; // Return the lot name if valid
@@ -1100,5 +1099,3 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 });
-        
-    </script>

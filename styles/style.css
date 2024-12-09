@@ -298,3 +298,18 @@ body.dark-mode #console-content a {
     font: var(--fa-font-solid);
     content: "\f500";
 }
+
+.active-lots-icon::before {
+    font: var(--fa-font-solid);
+    content: "\f015";
+}
+
+.upcoming-events-icon::before {
+    font: var(--fa-font-solid);
+    content: "\f073";
+}
+
+.console-icon::before {
+    font: var(--fa-font-solid);
+    content: "\f05a";
+}

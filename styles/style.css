@@ -1,6 +1,6 @@
 body {
         font-family: Arial, sans-serif;
-        background-color: #000052;
+        background-color: #2e4660;
         color: #e7e7e7;
         margin: 0;
         padding: 20px;
@@ -9,7 +9,7 @@ body {
 
     h1 {
         text-align: center;
-        color: #00ffff; 
+        color: #f8f59c; 
         font-size: 32px;
     }
     
@@ -29,9 +29,9 @@ body {
     .container {
         width: 49%;
         border-radius: 8px;
-        border: 2px solid #00ffff;
+        border: 2px solid #7477b0;
         box-shadow: 0 0 15px rgba(255, 215, 0, 0.5);
-        background: #00618c; 
+        background: #000052; 
         border-radius: 8px;
         box-shadow: 0 0 10px rgba(0, 0, 0, 0.3); 
         padding: 10px;
@@ -53,7 +53,7 @@ body {
     }
 
     th {
-        background-color: #001094; 
+        background-color: #00618c; 
         color: #e7e7e7;
     }
 

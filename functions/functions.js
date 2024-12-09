@@ -352,7 +352,7 @@ async function displayLotInfo(lotId) {
 
         // Display lot information in Console
         consoleContent.innerHTML = `
-            <div style="background-color: #f1c75e; padding: 10px; color: black; text-align: center; font-size: 20px;">
+            <div class="console-title">
                 ${lotData.name}
                 <i class="${isFavorite ? 'fa-solid fa-star' : 'fa-regular fa-star'}" 
                    title="Click to toggle favorite" 
@@ -432,7 +432,7 @@ async function displayPlayerInfo(avatarId) {
 
         // Display all information in the Console
         consoleContent.innerHTML = `
-            <div style="background-color: #f1c75e; padding: 10px; color: black; text-align: center; font-size: 20px;">
+            <div class="console-title">
                 ${playerData.name}
                 <i class="${isFavorite ? 'fa-solid fa-star' : 'fa-regular fa-star'}" 
                    title="Click to toggle favorite" 
@@ -549,7 +549,7 @@ async function searchSim(event) {
 
             // Display all information in the Console
             consoleContent.innerHTML = `
-                <div style="background-color: #f1c75e; padding: 10px; color: black; text-align: center; font-size: 20px;">
+                <div class="console-title">
                     ${playerData.name}
                     <i class="${isFavorite ? 'fa-solid fa-star' : 'fa-regular fa-star'}" 
                        title="Click to toggle favorite" 
@@ -659,7 +659,7 @@ async function searchLot(event) {
                         // Display lot information in Console
             const consoleContent = document.getElementById('console-content');
             consoleContent.innerHTML = `
-                <div style="background-color: #f1c75e; padding: 10px; color: black; text-align: center; font-size: 20px;">
+                <div class="console-title">
                     ${lotData.name}
 					<i class="${isFavorite ? 'fa-solid fa-star' : 'fa-regular fa-star'}" 
                        title="Click to toggle favorite" 
@@ -746,7 +746,7 @@ function displayEventInfo(event) {
     const formattedTime = `${eventStartDate.toLocaleTimeString(undefined, { hour: 'numeric', minute: 'numeric', hour12: true })} to ${eventEndDate.toLocaleTimeString(undefined, { hour: 'numeric', minute: 'numeric', hour12: true })} (${Intl.DateTimeFormat().resolvedOptions().timeZone})`;
 
     consoleContent.innerHTML = `
-        <div style="background-color: #f1c75e; padding: 10px; color: black; text-align: center; font-size: 20px;">
+        <div class="console-title">
             ${event.name}
         </div>
         <p><strong>Description:</strong> ${event.description}</p>

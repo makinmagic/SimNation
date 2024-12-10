@@ -358,7 +358,9 @@ async function displayLotInfo(lotId) {
                    title="Click to toggle favorite" 
                    onclick="toggleFavorite('lots', '${lotId}', '${lotData.name}', event)"></i>
             </div>
-            <img src="https://images.weserv.nl/?url=simnationserver.com:9000/userapi/city/1/${lotId}.png" alt="${lotData.name}" style="width: 200px; height: 200px; border-radius: 8px; border: 3px solid #ffd700; display: block; margin: 10px auto; background: #f2f5f5;">
+            <img src="https://images.weserv.nl/?url=simnationserver.com:9000/userapi/city/1/${lotId}.png" 
+                 alt="${lotData.name}" 
+                 class="console-img">
             <p><strong>Description:</strong></p>
             <div class="description-container">${formattedDescription}</div>
             <p><strong>Lot Type:</strong> ${categoryMapping[lotData.category] || 'Unknown'}</p>
@@ -438,7 +440,9 @@ async function displayPlayerInfo(avatarId) {
                    title="Click to toggle favorite" 
                    onclick="toggleFavorite('sims', '${avatarId}', '${playerData.name}', event)"></i>
             </div>
-            <img src="${playerImage}" alt="Profile Picture" style="width: 200px; height: 200px; border-radius: 8px; border: 3px solid #ffd700; display: block; margin: 10px auto; background: #f2f5f5;">
+            <img src="${playerImage}" 
+                 alt="Profile Picture" 
+                 class="console-img">
             <p style="text-align: center; margin-top: -9px;">
                 <a href="https://forms.gle/sw6fbLx4iud8xGpc9" target="_blank" style="text-decoration: underline;">Submit/Change Profile Picture</a>
             </p>
@@ -491,7 +495,7 @@ function toggleSearch(type) {
     } else {
         simSearchInput.style.display = 'none';
         simSearchInput.value = '';
-        document.getElementById('console-content').innerHTML = '<p style="text-align: center; color: #black;">Select a Sim or a Lot to see more information.</p>';
+        document.getElementById('console-content').innerHTML = '<p style="text-align: center; color: black;">Select a Sim or a Lot to see more information.</p>';
     }
 }
 
@@ -555,7 +559,9 @@ async function searchSim(event) {
                        title="Click to toggle favorite" 
                        onclick="toggleFavorite('sims', '${playerData.avatar_id}', '${playerData.name}', event)"></i>
                 </div>
-                <img src="${playerImage}" alt="Profile Picture" style="width: 200px; height: 200px; border-radius: 8px; border: 3px solid #ffd700; display: block; margin: 10px auto; background: #f2f5f5;">
+                <img src="${playerImage}" 
+                   alt="Profile Picture" 
+                   class="console-img">
                 <p style="text-align: center; margin-top: -9px;">
                     <a href="https://forms.gle/sw6fbLx4iud8xGpc9" target="_blank" style="text-decoration: underline;">Submit/Change Profile Picture</a>
                 </p>
@@ -665,7 +671,9 @@ async function searchLot(event) {
                        title="Click to toggle favorite" 
                        onclick="toggleFavorite('lots', '${lotData.location}', '${lotData.name}', event)"></i>
                 </div>
-                <img src="https://images.weserv.nl/?url=simnationserver.com:9000/userapi/city/1/${lotData.location}.png" alt="${lotData.name}" style="width: 200px; height: 200px; border-radius: 8px; border: 3px solid #ffd700; display: block; margin: 10px auto; background: #f2f5f5;">
+                <img src="https://images.weserv.nl/?url=simnationserver.com:9000/userapi/city/1/${lotId}.png" 
+                   alt="${lotData.name}" 
+                   class="console-img">
                 <p><strong>Description:</strong></p>
                 <div class="description-container">${formattedDescription}</div>
                 <p><strong>Lot Type:</strong> ${categoryMapping[lotData.category] || 'Unknown'}</p>

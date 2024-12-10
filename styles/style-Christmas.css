@@ -155,7 +155,7 @@ body {
 .snowflake:nth-of-type(9) { left: 90%; animation-duration: 10s; }
 .snowflake:nth-of-type(10) { left: 100%; animation-duration: 13s; }
 
-.lot-thumbnail {
+.console-img {
     width: 200px;
     height: 200px;
     border-radius: 8px;
@@ -246,11 +246,13 @@ body {
     margin: 10px;
     color: #F1C75E;
 }
+
 #lot-filter i {
     cursor: pointer;
     font-size: 20px;
     transition: transform 0.2s ease;
 }
+
 #lot-filter i:hover {
     transform: scale(1.2);
     color: #F1C75E;
@@ -317,7 +319,7 @@ body.dark-mode {
     color: #f1f1f1;
 }
 
-.dark-mode .lot-thumbnail {
+.dark-mode .console-img {
     border-color: #888 !important;
 }
 

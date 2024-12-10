@@ -976,8 +976,8 @@ function sortByFavorites() {
 
 // Initialize the dashboard and set up periodic checks
 async function init() {
-    // createSnowflakes();
-    launchFireworks();
+    createSnowflakes();
+    // launchFireworks();
     tempoSim(); // Start simulation timing
     fetchMoneyObject(); // Display the money object
     // updateCountdown();

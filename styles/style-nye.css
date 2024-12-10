@@ -250,8 +250,8 @@ body.dark-mode {
 }
 
 .dark-mode #console-title {
-    background-color: #444;
-    color: #ffffff;
+    background-color: #444 !important;
+    color: #ffffff !important;
 }
 
 .dark-mode .description-container {

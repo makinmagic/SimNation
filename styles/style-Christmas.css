@@ -323,10 +323,6 @@ body.dark-mode {
     border-color: #888 !important;
 }
 
-.dark-mode #console-content img {
-    border-color: #888 !important;
-}
-
 #events-container a, #money-object a {
     color: #f1c75e;
     text-decoration: underline;

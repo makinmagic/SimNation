@@ -252,6 +252,7 @@ body.dark-mode {
 .dark-mode .console-title {
     background-color: #444;
     color: #ffffff;
+    border-bottom: 1px solid #eee;
 }
 
 .dark-mode .description-container {

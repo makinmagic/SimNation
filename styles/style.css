@@ -109,7 +109,7 @@ body {
         margin: 0 auto;
     }
 
-.lot-thumbnail {
+.console-img {
     width: 200px;
     height: 200px;
     border-radius: 8px;
@@ -271,7 +271,7 @@ body.dark-mode {
     color: #f1f1f1;
 }
 
-.dark-mode .lot-thumbnail {
+.dark-mode .console-img {
     border-color: #888 !important;
 }
 

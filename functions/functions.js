@@ -973,24 +973,6 @@ function sortByFavorites() {
   const tbody = table.tBodies[0];
   rows.forEach(row => tbody.appendChild(row));
 }
-
-// Initialize the dashboard and set up periodic checks
-async function init() {
-    createSnowflakes();
-    // launchFireworks();
-    tempoSim(); // Start simulation timing
-    fetchMoneyObject(); // Display the money object
-    // updateCountdown();
-    await loadOnlinePlayers(); // Load online players
-    await loadLots(); // Load active lots
-    fetchEvents(); // Load and display upcoming events
-    displayCurrentEvent(); // Initial check for any ongoing event and add balloon icon
-}
-
-window.onload = () => {
-    init();
-    setInterval(displayCurrentEvent, 60000); // Update "Current Event" status every minute
-};
         
 document.addEventListener('DOMContentLoaded', () => {
     // Check if dark mode was previously enabled

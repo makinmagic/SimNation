@@ -155,6 +155,16 @@ body {
 .snowflake:nth-of-type(9) { left: 90%; animation-duration: 10s; }
 .snowflake:nth-of-type(10) { left: 100%; animation-duration: 13s; }
 
+.lot-thumbnail {
+    width: 200px;
+    height: 200px;
+    border-radius: 8px;
+    border: 3px solid #ffd700;
+    display: block;
+    margin: 10px auto;
+    background: #f2f5f5;
+}
+
 .console-title {
     background-color: #f1c75e;
     color: black;
@@ -305,6 +315,10 @@ body.dark-mode {
 .dark-mode .description-container {
     background-color: transparent; 
     color: #f1f1f1;
+}
+
+.dark-mode .lot-thumbnail {
+    border-color: #888 !important;
 }
 
 .dark-mode #console-content img {

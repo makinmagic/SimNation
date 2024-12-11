@@ -671,7 +671,7 @@ async function searchLot(event) {
                        title="Click to toggle favorite" 
                        onclick="toggleFavorite('lots', '${lotData.location}', '${lotData.name}', event)"></i>
                 </div>
-                <img src="https://images.weserv.nl/?url=simnationserver.com:9000/userapi/city/1/${lotId}.png" 
+                <img src="https://images.weserv.nl/?url=simnationserver.com:9000/userapi/city/1/${lotData.location}.png" 
                    alt="${lotData.name}" 
                    class="console-img">
                 <p><strong>Description:</strong></p>

@@ -1,23 +1,5 @@
 [
     {
-        "name": "SandBums Holiday Open House",
-        "description": "Stop by just for a holiday nectar. Chat with your hosts and win prizes galore! Lotta money could be in your pockets just in time for the holiday rush! Not to mention a Mystic Tree, Pink Limo and a few other surprises. WE look forward to seeing you there :) Ho Ho HO!",
-        "date": "Sunday, December 15",
-        "time": "4pm to 6pm EST",
-        "location": "Sand Bums Money Beach",
-        "startTime": "2024-12-15T21:00:00Z",
-        "endTime": "2024-12-15T23:00:00Z"
-    },
-    {
-        "name": "Guardian Casino GRAND OPENING",
-        "description": "Opening in this server the Guardian Casino is going live .Will be having games include Dice poker, paint poker, slot races, spin the bottle, dare to wake Grim, and hat giveaways every 15 mins all thru the night and day :)",
-        "date": "Sunday, December 15",
-        "time": "8pm to 10pm EST",
-        "location": "Guardian Casino",
-        "startTime": "2024-12-16T01:00:00Z",
-        "endTime": "2024-12-16T03:00:00Z"
-    },
-    {
         "name": "🎄 Holiday Hustle",
         "description": "Get ready to win your share of $1 MILLION PER RUN! You will be split up into 3 teams running, collecting and stealing fruitcake in an action packed event!",
         "date": "Friday, December 20",
@@ -25,6 +7,15 @@
         "location": "THE PIGGY BANK",
         "startTime": "2024-12-21T00:00:00Z",
         "endTime": "2024-12-21T02:00:00Z"
+    },
+    {
+        "name": "Christmas Event :D",
+        "description": "Come celebrate Christmas with us. Hat Pulls, Cash and prizes to be won. Also be on the look out for Santa and Mrs Claus They will be giving out presents :)",
+        "date": "Monday, December 23",
+        "time": "5pm to 7pm MST",
+        "location": "Serenity Springs",
+        "startTime": "2024-12-24T00:00:00Z",
+        "endTime": "2024-12-24T02:00:00Z"
     },
     {
         "name": "🧁 B-Day Bash: December",

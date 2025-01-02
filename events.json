@@ -1,29 +1,56 @@
 [
     {
-        "name": "🎄 Holiday Hustle",
-        "description": "Get ready to win your share of $1 MILLION PER RUN! You will be split up into 3 teams running, collecting and stealing fruitcake in an action packed event!",
-        "date": "Friday, December 20",
+        "name": "🔥 Fire Bingo",
+        "description": "Let's ring in the New Year with a bang! Win your share of <strong>$2 MILLION</strong> by having 5 fire/ash in a row!<br><br><strong>Guide</strong><br><ul><li>Tune into the #special-event to listen to our fire music playlist!</li><li>Claim a fire bingo room by standing inside on the 3rd floor.</li><li>Once told to begin, simply launch rockets in your room!!!</li><li>The first 3 to shout \"BINGO\" and have 5 fires/ash piles in a row, WIN!!!</li></ul><strong>Tips</strong><br><ul><li>TURN OFF GRAPHIC SETTINGS [For both 2D/3D to not lag] (Under \"OPTIONS > GRAPHIC OPTIONS\")<ul><li>Advanced Lighting (Drag slider all the way to the left to turn off)<ul><li>Directional Lighting (Uncheck)</li><li>Complex Shaders: (Uncheck)</li><li>Details (Set all to \"Low\")</ul><li>The middle square is FREE and can be included in your row!</ul></ul>"
+        "date": "Friday, January 3",
         "time": "7pm to 9pm EST",
         "location": "THE PIGGY BANK",
-        "startTime": "2024-12-21T00:00:00Z",
-        "endTime": "2024-12-21T02:00:00Z"
+        "startTime": "2025-01-04T00:00:00Z",
+        "endTime": "2025-01-04T02:00:00Z"
     },
     {
-        "name": "Christmas Event :D",
-        "description": "Come celebrate Christmas with us. Hat Pulls, Cash and prizes to be won. Also be on the look out for Santa and Mrs Claus They will be giving out presents :)",
-        "date": "Monday, December 23",
-        "time": "5pm to 7pm MST",
-        "location": "Serenity Springs",
-        "startTime": "2024-12-24T00:00:00Z",
-        "endTime": "2024-12-24T02:00:00Z"
+        "name": "🎤 Karaoke Night",
+        "description": "Come vibe with us and sing your heart out in a laid-back, fun atmosphere! Everyone’s welcome—whether you’re here to perform or just enjoy the music, you don’t have to sing to join in the fun.",
+        "date": "Friday, January 3",
+        "time": "9pm to 11pm EST",
+        "location": "THE PIGGY BANK",
+        "startTime": "2025-01-04T02:00:00Z",
+        "endTime": "2025-01-04T04:00:00Z"
     },
+    {
+        "name": "🪑 Beat The Seat",
+        "description": "Win your share of <strong>$2 MILLION</strong> by racing to claim a seat! When the music stops, dash for one of the three chairs—only the fastest will secure their spot and take home a prize. Think you’ve got what it takes?",
+        "date": "Friday, January 10",
+        "time": "7pm to 9pm EST",
+        "location": "THE PIGGY BANK",
+        "startTime": "2025-01-11T00:00:00Z",
+        "endTime": "2025-01-11T02:00:00Z"
+    },    
+    {
+        "name": "✌🏻 '60s Night!",
+        "description": "A night of throwback fun and <strong>$2 MILLION</strong> up for grabs! Enjoy curated live music with a Surprise Spot winner every 15 minutes—where standing on the right tile could win you up to $1 MILLION!",
+        "date": "Friday, January 17",
+        "time": "7pm to 9pm EST",
+        "location": "THE PIGGY BANK",
+        "startTime": "2025-01-18T00:00:00Z",
+        "endTime": "2025-01-18T02:00:00Z"
+    },    
+    {
+        "name": "🟣 $1M Ball Bounty",
+        "description": "Search and find 1 of 20 hidden balls for your chance to win up to <strong>$1 MILLION!</strong> Each colorful ball holds a shot at a huge prize—are you ready to claim yours?",
+        "date": "Friday, January 24",
+        "time": "7pm to 9pm EST",
+        "location": "THE PIGGY BANK",
+        "startTime": "2025-01-25T00:00:00Z",
+        "endTime": "2025-01-25T02:00:00Z"
+    },    
     {
         "name": "🧁 B-Day Bash: December",
         "description": "Let’s celebrate all the birthdays this month with $2+ MILLION in prizes! <strong>LIVE Music</strong> all night, <strong>Hall Pull or Surprise Spot</strong> every 15 minutes—where standing on the right tile could win you up to $1M!<br><br><strong>If your Birthday is/was THIS MONTH please DM AirRockStar your sim name to be pre-registered for a special B-Day Prize Event held at the end!</strong>",
-        "date": "Friday, December 27",
+        "date": "Friday, January 31",
         "time": "7pm to 9pm EST",
         "location": "THE PIGGY BANK",
-        "startTime": "2024-12-28T00:00:00Z",
-        "endTime": "2024-12-28T02:00:00Z"
+        "startTime": "2025-02-01T00:00:00Z",
+        "endTime": "2025-02-01T02:00:00Z"
     }
 ]

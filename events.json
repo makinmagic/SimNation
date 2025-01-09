@@ -9,13 +9,13 @@
         "endTime": "2025-01-04T03:00:00Z"
     },
     {
-        "name": "🎤 Karaoke Night",
-        "description": "Come vibe with us and sing your heart out in a laid-back, fun atmosphere! Everyone’s welcome—whether you’re here to perform or just enjoy the music, you don’t have to sing to join in the fun.",
-        "date": "Friday, January 3",
-        "time": "9pm to 11pm EST",
+        "name": "🎨 $1M Paint Match",
+        "description": "For your shot at <strong>$1 MILLION</strong>, match your paintings to all 5 easels, then post a screenshot of your sim and sim name in #📸-screenshots! Your sim name will be added to the wheel, which will be spun shortly after 10PM EST to choose the lucky winner, announced in #📢-announcements. <strong> Tip/Rules: Use the upper floors to avoid crowding. One entry per person. Unattended paintings will be sold—ask to fence them off if stepping away. Happy painting!</strong>",
+        "date": "Thursday, January 9",
+        "time": "9am to 11am CST",
         "location": "THE PIGGY BANK",
-        "startTime": "2025-01-04T03:00:00Z",
-        "endTime": "2025-01-04T05:00:00Z"
+        "startTime": "2025-01-09T15:00:00Z",
+        "endTime": "2025-01-09T17:00:00Z"
     },
     {
         "name": "🪑 Beat The Seat",
@@ -25,7 +25,16 @@
         "location": "THE PIGGY BANK",
         "startTime": "2025-01-11T01:00:00Z",
         "endTime": "2025-01-11T03:00:00Z"
-    },    
+    },
+    {
+        "name": "🎤 Karaoke Night",
+        "description": "Come vibe with us and sing your heart out in a laid-back, fun atmosphere! Everyone’s welcome—whether you’re here to perform or just enjoy the music, you don’t have to sing to join in the fun.",
+        "date": "Friday, January 10",
+        "time": "9pm to 11pm EST",
+        "location": "THE PIGGY BANK",
+        "startTime": "2025-01-11T03:00:00Z",
+        "endTime": "2025-01-11T05:00:00Z"
+    },
     {
         "name": "✌🏻 '60s Night!",
         "description": "A night of throwback fun and <strong>$2 MILLION</strong> up for grabs! Enjoy curated live music with a Surprise Spot winner every 15 minutes—where standing on the right tile could win you up to $1 MILLION!",

@@ -29,20 +29,20 @@
     {
         "name": "🎤 Karaoke Night",
         "description": "Come vibe with us and sing your heart out in a laid-back, fun atmosphere! Everyone’s welcome—whether you’re here to perform or just enjoy the music, you don’t have to sing to join in the fun.",
-        "date": "Friday, January 10",
-        "time": "9pm to 11pm EST",
+        "date": "Saturday, February 15",
+        "time": "8pm to 10pm CST",
         "location": "THE PIGGY BANK",
-        "startTime": "2025-01-11T03:00:00Z",
-        "endTime": "2025-01-11T05:00:00Z"
+        "startTime": "2025-02-16T02:00:00Z",
+        "endTime": "2025-02-16T04:00:00Z"
     },
     {
-        "name": "✌🏻 '60s Night!",
+        "name": "💿 '90s Night!",
         "description": "A night of throwback fun and <strong>$2 MILLION</strong> up for grabs! Enjoy curated live music with a Surprise Spot winner every 15 minutes—where standing on the right tile could win you up to $1 MILLION!",
-        "date": "Friday, January 17",
-        "time": "7pm to 9pm EST",
+        "date": "Friday, February 21",
+        "time": "7pm to 9pm CST",
         "location": "THE PIGGY BANK",
-        "startTime": "2025-01-18T01:00:00Z",
-        "endTime": "2025-01-18T03:00:00Z"
+        "startTime": "2025-02-22T01:00:00Z",
+        "endTime": "2025-02-22T03:00:00Z"
     },
     {
         "name": "Squid Game",
@@ -63,12 +63,12 @@
         "endTime": "2025-01-25T03:00:00Z"
     },    
     {
-        "name": "🧁 B-Day Bash: January",
+        "name": "🧁 B-Day Bash: February",
         "description": "Celebrate this month’s birthday stars with over <strong>$2+ MILLION</strong> in prizes! Enjoy curated live music with a Surprise Spot winner every 15 minutes—where standing on the right tile could win you $100k!<br><br><strong>If your Birthday is/was THIS MONTH please DM AirRockStar your sim name to be pre-registered for a special B-Day Prize Event held at the end!</strong>",
-        "date": "Friday, January 31",
+        "date": "Friday, February 28",
         "time": "7pm to 9pm EST",
         "location": "THE PIGGY BANK",
-        "startTime": "2025-02-01T01:00:00Z",
-        "endTime": "2025-02-01T03:00:00Z"
+        "startTime": "2025-03-01T01:00:00Z",
+        "endTime": "2025-03-01T03:00:00Z"
     }
 ]

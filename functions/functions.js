@@ -494,12 +494,13 @@ async function loadTopPayingMOs() {
     const response = await fetch(proxyUrl + encodeURIComponent(targetUrl));
     const data = await response.json();
 
-    const topMOs = Object.entries(data)
-      .filter(([_, value]) => parseFloat(value) > 1.4)
-      .map(([key, value]) => {
-        const percentage = (parseFloat(value) * 100).toFixed(0);
-        return `${key} (${percentage}%)`;
-      });
+const topMOs = Object.entries(data)
+  .filter(([_, value]) => parseFloat(value) > 1.4)
+  .sort((a, b) => parseFloat(b[1]) - parseFloat(a[1]))
+  .map(([key, value]) => {
+    const percentage = (parseFloat(value) * 100).toFixed(0);
+    return `${key} (${percentage}%)`;
+  });
 
     const output = `Today's top-paying MOs are: ${topMOs.join(', ')}`;
     document.getElementById('top-paying-mos').textContent = output;

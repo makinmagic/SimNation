@@ -486,6 +486,29 @@ async function displayPlayerInfo(avatarId) {
             setTimeout(tempoSim, 1000);
         }
 
+async function loadTopPayingMOs() {
+  const proxyUrl = 'https://api.allorigins.win/raw?url=';
+  const targetUrl = 'https://simnationserver.com/citynews/payments.php';
+
+  try {
+    const response = await fetch(proxyUrl + encodeURIComponent(targetUrl));
+    const data = await response.json();
+
+    const topMOs = Object.entries(data)
+      .filter(([_, value]) => parseFloat(value) > 1.4)
+      .map(([key, value]) => {
+        const percentage = (parseFloat(value) * 100).toFixed(0);
+        return `${key} (${percentage}%)`;
+      });
+
+    const output = `Today's top-paying MOs are: ${topMOs.join(', ')}`;
+    document.getElementById('top-paying-mos').textContent = output;
+  } catch (error) {
+    console.error('Error fetching top-paying MOs:', error);
+    document.getElementById('top-paying-mos').textContent = 'Unable to load top-paying MOs.';
+  }
+}
+
 // Toggle search input visibility
 function toggleSearch(type) {
     const simSearchInput = document.getElementById(`${type}-search`);

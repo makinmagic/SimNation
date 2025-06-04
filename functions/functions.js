@@ -1,12 +1,12 @@
 async function loadLotName(lotId) {
             if (lotId === 0) return 'Unknown'; // Return 'Unknown' for lot ID 0
-            const lotData = await fetch('https://web-production-3227.up.railway.app/http://simnation.ddns.net:9000/userapi/city/1/city.json');
+            const lotData = await fetch('https://simnationserver.com:9009/userapi/city/1/city.json');
             return lotData ? lotData.name : 'N/A'; // Return the lot name if valid
         }
 
         async function loadActiveLots() {
     try {
-        const response = await fetch('https://web-production-3227.up.railway.app/http://simnation.ddns.net:9000/userapi/city/1/city.json');
+        const response = await fetch('https://simnationserver.com:9009/userapi/city/1/city.json');
         if (!response.ok) {
             throw new Error(`HTTP error! status: ${response.status}`);
         }
@@ -37,7 +37,7 @@ async function loadOnlinePlayers() {
             playersTitle.innerHTML = `<span class="sims-online-icon"></span> Sims Online: Loading... <span class="sims-online-icon"></span>`;
         }
         
-        const response = await fetch('https://web-production-3227.up.railway.app/http://simnation.ddns.net:9000/userapi/avatars/online');
+        const response = await fetch('https://simnationserver.com:9009/userapi/avatars/online');
         if (!response.ok) {
             throw new Error(`HTTP error! status: ${response.status}`);
         }
@@ -65,7 +65,7 @@ async function loadOnlinePlayers() {
 
         // Prepare fetch requests for all avatars in parallel
         const fetchPlayerDetailsPromises = sortedAvatars.map(avatar =>
-            fetch(`https://web-production-3227.up.railway.app/http://simnation.ddns.net:9000/userapi/avatars/${avatar.avatar_id}`).then(response => response.json())
+            fetch(`https://simnationserver.com:9009/userapi/avatars/${avatar.avatar_id}`).then(response => response.json())
         );
 
         // Wait for all player detail requests to complete
@@ -195,7 +195,7 @@ function filterLots(type) {
         
         async function loadLots() {
     try {
-        const response = await fetch('https://web-production-3227.up.railway.app/http://simnation.ddns.net:9000/userapi/city/1/city.json');
+        const response = await fetch('https://simnationserver.com:9009/userapi/city/1/city.json');
         const jsonData = await response.json();
 
         const activeLots = jsonData.activeLots;
@@ -230,7 +230,7 @@ function filterLots(type) {
         });
 
         const fetchLotDetailsPromises = lotsData.map(lot =>
-            fetch(`https://web-production-3227.up.railway.app/http://simnationserver.com:9000/userapi/city/1/i${lot.id}.json`).then(response => response.json())
+            fetch(`https://simnationserver.com:9009/userapi/city/1/i${lot.id}.json`).then(response => response.json())
         );
 
         const lotDetailsArray = await Promise.all(fetchLotDetailsPromises);
@@ -291,7 +291,7 @@ async function displayLotInfo(lotId) {
     consoleContent.dataset.id = lotId; // Set the current Lot ID
     consoleContent.dataset.type = 'lots'; // Set the type to Lots
 
-    const url = `https://web-production-3227.up.railway.app/http://simnationserver.com:9000/userapi/city/1/i${lotId}.json`;
+    const url = `https://simnationserver.com:9009/userapi/city/1/i${lotId}.json`;
 
     try {
         const response = await fetch(url);
@@ -311,7 +311,7 @@ async function displayLotInfo(lotId) {
         };
 
         // Fetch owner's name using owner_id
-        const ownerNameUrl = `https://web-production-3227.up.railway.app/http://simnation.ddns.net:9000/userapi/avatars/${lotData.owner_id}`;
+        const ownerNameUrl = `https://simnationserver.com:9009/userapi/avatars/${lotData.owner_id}`;
         const ownerResponse = await fetch(ownerNameUrl);
         const ownerData = ownerResponse.ok ? await ownerResponse.json() : { name: 'Unknown' };
         const ownerName = ownerData.name || 'Unknown';
@@ -322,7 +322,7 @@ async function displayLotInfo(lotId) {
         // Fetch roommates' names (excluding the owner)
         const roommateNames = await Promise.all(
             roommatesWithoutOwner.map(async (roommateId) => {
-                const roommateUrl = `https://web-production-3227.up.railway.app/http://simnation.ddns.net:9000/userapi/avatars/${roommateId}`;
+                const roommateUrl = `https://simnationserver.com:9009/userapi/avatars/${roommateId}`;
                 const roommateResponse = await fetch(roommateUrl);
                 if (!roommateResponse.ok) {
                     console.error(`Failed to fetch roommate with id ${roommateId}`);
@@ -358,7 +358,7 @@ async function displayLotInfo(lotId) {
                    title="Click to toggle favorite" 
                    onclick="toggleFavorite('lots', '${lotId}', '${lotData.name}', event)"></i>
             </div>
-            <img src="https://images.weserv.nl/?url=simnationserver.com:9000/userapi/city/1/${lotId}.png" 
+            <img src="https://simnationserver.com:9009/userapi/city/1/${lotId}.png" 
                  alt="${lotData.name}" 
                  class="console-img">
             <p><strong>Description:</strong></p>
@@ -396,7 +396,7 @@ async function displayPlayerInfo(avatarId) {
     consoleContent.dataset.type = 'sims'; // Set the type to Sims
 
     const playerImages = await fetchPlayerImages();
-    const url = `https://web-production-3227.up.railway.app/http://simnationserver.com:9000/userapi/avatars/${avatarId}`;
+    const url = `https://simnationserver.com:9009/userapi/avatars/${avatarId}`;
 
     try {
         const response = await fetch(url);
@@ -504,7 +504,7 @@ async function searchSim(event) {
         const simName = event.target.value.trim();
         if (!simName) return;
 
-        const url = `https://web-production-3227.up.railway.app/http://simnationserver.com:9000/userapi/city/1/avatars/name/${simName}`;
+        const url = `https://simnationserver.com:9009/userapi/city/1/avatars/name/${simName}`;
         const consoleContent = document.getElementById('console-content');
         consoleContent.innerHTML = ''; // Clear existing content
         consoleContent.dataset.id = simName; // Set the current Sim ID (by name)
@@ -583,7 +583,7 @@ async function searchLot(event) {
         const lotName = event.target.value.trim();
         if (!lotName) return;
 
-        const url = `https://web-production-3227.up.railway.app/http://simnationserver.com:9000/userapi/city/1/lots/name/${lotName}`;
+        const url = `https://simnationserver.com:9009/userapi/city/1/lots/name/${lotName}`;
 
         try {
             const response = await fetch(url);
@@ -633,7 +633,7 @@ async function searchLot(event) {
             const activeStatus = isActive ? 'Yes' : 'No';
 
             // Fetch owner's name using owner_id
-            const ownerResponse = await fetch(`https://web-production-3227.up.railway.app/http://simnation.ddns.net:9000/userapi/avatars/${lotData.owner_id}`);
+            const ownerResponse = await fetch(`https://simnationserver.com:9009/userapi/avatars/${lotData.owner_id}`);
             const ownerData = ownerResponse.ok ? await ownerResponse.json() : { name: 'Unknown' };
             const ownerName = ownerData.name;
 
@@ -642,7 +642,7 @@ async function searchLot(event) {
                 lotData.roommates
                     .filter(id => id !== lotData.owner_id) // Exclude owner from roommates
                     .map(async (roommateId) => {
-                        const roommateUrl = `https://web-production-3227.up.railway.app/http://simnation.ddns.net:9000/userapi/avatars/${roommateId}`;
+                        const roommateUrl = `https://simnationserver.com:9009/userapi/avatars/${roommateId}`;
                         const roommateResponse = await fetch(roommateUrl);
                         if (!roommateResponse.ok) {
                             console.error(`Failed to fetch roommate with id ${roommateId}`);
@@ -671,7 +671,7 @@ async function searchLot(event) {
                        title="Click to toggle favorite" 
                        onclick="toggleFavorite('lots', '${lotData.location}', '${lotData.name}', event)"></i>
                 </div>
-                <img src="https://images.weserv.nl/?url=simnationserver.com:9000/userapi/city/1/${lotData.location}.png" 
+                <img src="https://simnationserver.com:9009/userapi/city/1/${lotData.location}.png" 
                    alt="${lotData.name}" 
                    class="console-img">
                 <p><strong>Description:</strong></p>

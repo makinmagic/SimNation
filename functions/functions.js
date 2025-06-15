@@ -669,6 +669,16 @@ async function searchLot(event) {
 });
 
             const activeStatus = isActive ? 'Yes' : 'No';
+            
+            const lotRow = Array.from(lotsContainer.querySelectorAll('tr')).find(row =>
+    row.querySelector('td')?.textContent.trim().toLowerCase() === lotData.name.trim().toLowerCase()
+);
+            
+            let totalSimsInside = 0;
+            if (lotRow) {
+                const simsInsideCell = lotRow.querySelector('td:nth-child(2)');
+                totalSimsInside = parseInt(simsInsideCell?.textContent.trim() || '0', 10);
+            }
 
             // Fetch owner's name using owner_id
             const ownerResponse = await fetch(`https://simnationserver.com:9009/userapi/avatars/${lotData.owner_id}`);
@@ -699,6 +709,8 @@ async function searchLot(event) {
                     return locationCell && locationCell.textContent == lotData.location;
                 })
                 .map(row => row.querySelector('td').textContent);
+                
+            const showHiddenNote = totalSimsInside > knownSims.length;
 
                         // Display lot information in Console
             const consoleContent = document.getElementById('console-content');
@@ -721,7 +733,7 @@ async function searchLot(event) {
                 <p><strong>Currently Active:</strong> ${activeStatus}</p>
                 ${activeStatus === 'Yes' ? `
         <p><strong>Known Sims Inside:</strong> ${knownSims.length > 0 ? knownSims.map(name => name.trim()).join(', ') : 'None'}</p>
-        <p><em>There may be sims inside with their location hidden.</em></p>
+                    ${showHiddenNote ? `<p><em>There may be sims inside with their location hidden.</em></p>` : ''}
     ` : ''}
             `;
         } catch (error) {

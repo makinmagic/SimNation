@@ -382,7 +382,7 @@ async function displayLotInfo(lotId) {
             <p><strong>Owner:</strong> ${ownerName}</p>
             <p><strong>Roommates:</strong> ${roommateNames.length > 0 ? roommateNames.join(', ') : 'None'}</p>
             <p><strong>Known Sims Inside:</strong> ${knownSims.length > 0 ? knownSims.join(', ') : 'None'}</p>
-            ${showHiddenNote ? `<p><em>There may be sims inside with their location hidden.</em></p>` : ''}
+            ${showHiddenNote ? `<p><em>There are sims inside with their location hidden.</em></p>` : ''}
         `;
     } catch (error) {
         console.error('Failed to fetch lot details:', error);
@@ -733,7 +733,7 @@ async function searchLot(event) {
                 <p><strong>Currently Active:</strong> ${activeStatus}</p>
                 ${activeStatus === 'Yes' ? `
         <p><strong>Known Sims Inside:</strong> ${knownSims.length > 0 ? knownSims.map(name => name.trim()).join(', ') : 'None'}</p>
-                    ${showHiddenNote ? `<p><em>There may be sims inside with their location hidden.</em></p>` : ''}
+                    ${showHiddenNote ? `<p><em>There are sims inside with their location hidden.</em></p>` : ''}
     ` : ''}
             `;
         } catch (error) {

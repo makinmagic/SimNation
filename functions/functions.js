@@ -501,10 +501,11 @@ async function displayPlayerInfo(avatarId) {
         }
 
 async function loadTopPayingMOs() {
+  const proxyUrl = 'https://api.allorigins.win/raw?url=';
   const targetUrl = 'https://simnationserver.com/citynews/payments.php';
 
   try {
-    const response = await fetch(targetUrl);
+    const response = await fetch(proxyUrl + encodeURIComponent(targetUrl));
     const data = await response.json();
 
     const topMOs = Object.entries(data)

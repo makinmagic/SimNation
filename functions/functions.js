@@ -501,7 +501,6 @@ async function displayPlayerInfo(avatarId) {
         }
 
 async function loadTopPayingMOs() {
-  const proxyUrl = 'https://api.allorigins.win/raw?url=';
   const targetUrl = 'https://simnationserver.com/citynews/payments.php';
 
   try {

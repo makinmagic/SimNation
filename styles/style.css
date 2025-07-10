@@ -113,6 +113,10 @@ body {
     transition: color 0.2s ease;
 }
 
+.notranslate {
+  translate: no;
+}
+
 .modal {
   display: none;
   position: fixed;

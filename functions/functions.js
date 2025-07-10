@@ -1076,7 +1076,7 @@ function sortByFavorites() {
   rows.forEach(row => tbody.appendChild(row));
 }
         
-document.addEventListener('DOMContentLoaded', () => {
+/* document.addEventListener('DOMContentLoaded', () => {
     // Check if dark mode was previously enabled
     if (localStorage.getItem('darkMode') === 'enabled') {
         document.body.classList.add('dark-mode');
@@ -1096,4 +1096,4 @@ document.addEventListener('DOMContentLoaded', () => {
             localStorage.setItem('darkMode', 'disabled'); // Save preference
         }
     });
-});
+}); */

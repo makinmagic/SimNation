@@ -1,11 +1,16 @@
+html, body {
+  max-width: 100%;
+  overflow-x: hidden;
+  margin: 0;
+  padding: 0;
+}
+
 body {
-        font-family: Arial, sans-serif;
-        background-color: #001884;
-        color: #e7e7e7;
-        margin: 0;
-        padding: 20px;
-        overflow-x: hidden;
-    }
+  font-family: Arial, sans-serif;
+  background-color: #001884;
+  color: #e7e7e7;
+  padding: 20px;
+}
 
     h1 {
     display: flex;
@@ -17,6 +22,14 @@ body {
     color: #f8f59c; 
     font-size: 32px;
     white-space: nowrap;
+}
+
+.dashboard-icon {
+  height: 32px;
+  max-width: 32px;
+  width: auto;
+  object-fit: contain;
+  vertical-align: middle;
 }
     
     h3 {

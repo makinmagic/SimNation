@@ -88,7 +88,7 @@ body {
         flex-grow: 1;
     }
 
-    #tempoSim, #currentEvent, #guideLink, #countdown, #footer-note, #money-object, #top-paying-mos {
+    #tempoSim, #tempoSimWrapper, #currentEvent, #guideLink, #countdown, #footer-note, #money-object, #top-paying-mos {
         text-align: center;
         font-size: 18px;
         margin-bottom: 20px;

@@ -500,6 +500,19 @@ async function displayPlayerInfo(avatarId) {
             setTimeout(tempoSim, 1000);
         }
 
+//Top-paying MOs
+
+const emojiMap = {
+  Pinata: "🪅",
+  Writer: "📝",
+  Board: "🧑‍🏫",
+  Easel: "🖌️",
+  Jam: "🍓",
+  Potion: "🧑‍🔬",
+  Phone: "☎️",
+  Gnome: "⚒️"
+};
+
 async function loadTopPayingMOs() {
   const proxyUrl = 'https://api.allorigins.win/raw?url=';
   const targetUrl = 'https://simnationserver.com/citynews/payments.php';
@@ -508,16 +521,47 @@ async function loadTopPayingMOs() {
     const response = await fetch(proxyUrl + encodeURIComponent(targetUrl));
     const data = await response.json();
 
-    const topMOs = Object.entries(data)
-      .filter(([_, value]) => parseFloat(value) > 1.4)
+    const container = document.getElementById('top-paying-mos');
+    const viewAllLink = document.getElementById('viewAllLink');
+    const allMOList = document.getElementById('all-mo-list');
+    const modal = document.getElementById('moModal');
+
+    const entries = Object.entries(data);
+
+    // Top-paying MOs > 139%
+    const topMOs = entries
+      .filter(([, val]) => parseFloat(val) > 1.39)
       .sort((a, b) => parseFloat(b[1]) - parseFloat(a[1]))
-      .map(([key, value]) => {
-        const percentage = (parseFloat(value) * 100).toFixed(0);
-        return `${key} (${percentage}%)`;
+      .map(([key, val]) => {
+        const pct = (parseFloat(val) * 100).toFixed(0);
+        return `${key} (${pct}%)`;
       });
 
-    const output = `Today's top-paying MOs are: ${topMOs.join(', ')}`;
-    document.getElementById('top-paying-mos').textContent = output;
+    container.firstChild.textContent = `Today's top-paying MOs are: ${topMOs.join(', ')}`;
+    viewAllLink.style.display = "inline";
+
+    // Populate modal with all entries
+    const sorted = entries.sort((a, b) => parseFloat(b[1]) - parseFloat(a[1]));
+    allMOList.innerHTML = sorted.map(([key, val]) => {
+      const pct = (parseFloat(val) * 100).toFixed(0);
+      const emoji = emojiMap[key];
+      return `<p style="font-size: 1.2em;">${emoji ? emoji + ' ' : ''}<strong>${key}</strong>: ${pct}%</p>`;
+    }).join('');
+
+    // Open modal
+    viewAllLink.onclick = (e) => {
+      e.preventDefault();
+      modal.style.display = "block";
+    };
+
+    // Close modal
+    document.querySelector(".modal .close").onclick = () => {
+      modal.style.display = "none";
+    };
+    window.onclick = (e) => {
+      if (e.target == modal) modal.style.display = "none";
+    };
+
   } catch (error) {
     console.error('Error fetching top-paying MOs:', error);
     document.getElementById('top-paying-mos').textContent = 'Unable to load top-paying MOs.';

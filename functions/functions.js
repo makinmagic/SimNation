@@ -366,24 +366,41 @@ async function displayLotInfo(lotId) {
 
         // Display lot information in Console
         consoleContent.innerHTML = `
-            <div class="console-title">
-                ${lotData.name}
-                <i class="${isFavorite ? 'fa-solid fa-star' : 'fa-regular fa-star'}" 
-                   title="Click to toggle favorite" 
-                   onclick="toggleFavorite('lots', '${lotId}', '${lotData.name}', event)"></i>
-            </div>
-            <img src="https://simnationserver.com:9009/userapi/city/1/${lotId}.png" 
-                 alt="${lotData.name}" 
-                 class="console-img">
-            <p><strong>Description:</strong></p>
-            <div class="description-container">${formattedDescription}</div>
-            <p><strong>Lot Type:</strong> ${categoryMapping[lotData.category] || 'Unknown'}</p>
-            <p><strong>Admit Mode:</strong> ${admitModeMapping[lotData.admit_mode] || 'Unknown'}</p>
-            <p><strong>Owner:</strong> ${ownerName}</p>
-            <p><strong>Roommates:</strong> ${roommateNames.length > 0 ? roommateNames.join(', ') : 'None'}</p>
-            <p><strong>Known Sims Inside:</strong> ${knownSims.length > 0 ? knownSims.join(', ') : 'None'}</p>
-            ${showHiddenNote ? `<p><em>There are sims inside with their location hidden.</em></p>` : ''}
-        `;
+  <div class="console-title">
+      ${lotData.name}
+      <i class="${isFavorite ? 'fa-solid fa-star' : 'fa-regular fa-star'}" 
+         title="Click to toggle favorite" 
+         onclick="toggleFavorite('lots', '${lotId}', '${lotData.name}', event)"></i>
+  </div>
+  <img src="https://simnationserver.com:9009/userapi/city/1/${lotId}.png" 
+       alt="${lotData.name}" 
+       class="console-img">
+  <p><strong>Description:</strong></p>
+  <div class="description-container">${formattedDescription}</div>
+  <p><strong>Lot Type:</strong> ${categoryMapping[lotData.category] || 'Unknown'}</p>
+  <p><strong>Admit Mode:</strong> ${admitModeMapping[lotData.admit_mode] || 'Unknown'}</p>
+  <p><strong>Owner:</strong> <span style="color: #f8f59c;">${ownerName}</span></p>
+  <p><strong>Roommates:</strong> ${
+    roommateNames.length > 0
+      ? roommateNames.map(name => `<span style="color: #4FC3F7;">${name}</span>`).join(', ')
+      : 'None'
+  }</p>
+  <p><strong>Known Sims Inside:</strong> ${
+    knownSims.length > 0
+      ? knownSims.map(name => {
+          const trimmed = name.trim();
+          if (trimmed === ownerName) {
+            return `<span style="color: #f8f59c;">${trimmed}</span>`;
+          } else if (roommateNames.includes(trimmed)) {
+            return `<span style="color: #4FC3F7;">${trimmed}</span>`;
+          } else {
+            return trimmed;
+          }
+        }).join(', ')
+      : 'None'
+  }</p>
+  ${showHiddenNote ? `<p><em>There are sims inside with their location hidden.</em></p>` : ''}
+`;
     } catch (error) {
         console.error('Failed to fetch lot details:', error);
         consoleContent.innerHTML = 'Error loading lot details.';
@@ -758,28 +775,47 @@ async function searchLot(event) {
 
                         // Display lot information in Console
             const consoleContent = document.getElementById('console-content');
-            consoleContent.innerHTML = `
-                <div class="console-title">
-                    ${lotData.name}
-					<i class="${isFavorite ? 'fa-solid fa-star' : 'fa-regular fa-star'}" 
-                       title="Click to toggle favorite" 
-                       onclick="toggleFavorite('lots', '${lotData.location}', '${lotData.name}', event)"></i>
-                </div>
-                <img src="https://simnationserver.com:9009/userapi/city/1/${lotData.location}.png" 
-                   alt="${lotData.name}" 
-                   class="console-img">
-                <p><strong>Description:</strong></p>
-                <div class="description-container">${formattedDescription}</div>
-                <p><strong>Lot Type:</strong> ${categoryMapping[lotData.category] || 'Unknown'}</p>
-                <p><strong>Admit Mode:</strong> ${admitModeMapping[lotData.admit_mode] || 'Unknown'}</p>
-                <p><strong>Owner:</strong> ${ownerName || 'Unknown'}</p>
-                <p><strong>Roommates:</strong> ${roommateNames.length > 0 ? roommateNames.join(', ') : 'None'}</p>
-                <p><strong>Currently Active:</strong> ${activeStatus}</p>
-                ${activeStatus === 'Yes' ? `
-        <p><strong>Known Sims Inside:</strong> ${knownSims.length > 0 ? knownSims.map(name => name.trim()).join(', ') : 'None'}</p>
-                    ${showHiddenNote ? `<p><em>There are sims inside with their location hidden.</em></p>` : ''}
-    ` : ''}
-            `;
+consoleContent.innerHTML = `
+  <div class="console-title">
+      ${lotData.name}
+      <i class="${isFavorite ? 'fa-solid fa-star' : 'fa-regular fa-star'}" 
+         title="Click to toggle favorite" 
+         onclick="toggleFavorite('lots', '${lotData.location}', '${lotData.name}', event)"></i>
+  </div>
+  <img src="https://simnationserver.com:9009/userapi/city/1/${lotData.location}.png" 
+       alt="${lotData.name}" 
+       class="console-img">
+  <p><strong>Description:</strong></p>
+  <div class="description-container">${formattedDescription}</div>
+  <p><strong>Lot Type:</strong> ${categoryMapping[lotData.category] || 'Unknown'}</p>
+  <p><strong>Admit Mode:</strong> ${admitModeMapping[lotData.admit_mode] || 'Unknown'}</p>
+  <p><strong>Owner:</strong> <span style="color: #f8f59c;">${ownerName || 'Unknown'}</span></p>
+  <p><strong>Roommates:</strong> ${
+    roommateNames.length > 0
+      ? roommateNames.map(name => `<span style="color: #4FC3F7;">${name}</span>`).join(', ')
+      : 'None'
+  }</p>
+  <p><strong>Currently Active:</strong> ${activeStatus}</p>
+  ${
+    activeStatus === 'Yes' ? `
+      <p><strong>Known Sims Inside:</strong> ${
+        knownSims.length > 0
+          ? knownSims.map(name => {
+              const trimmed = name.trim();
+              if (trimmed === ownerName) {
+                return `<span style="color: #f8f59c;">${trimmed}</span>`;
+              } else if (roommateNames.includes(trimmed)) {
+                return `<span style="color: #4FC3F7;">${trimmed}</span>`;
+              } else {
+                return trimmed;
+              }
+            }).join(', ')
+          : 'None'
+      }</p>
+      ${showHiddenNote ? `<p><em>There are sims inside with their location hidden.</em></p>` : ''}
+    ` : ''
+  }
+`;
         } catch (error) {
             console.error('Failed to fetch lot details:', error);
             document.getElementById('console-content').innerHTML = 'Lot not found.';
@@ -1076,7 +1112,7 @@ function sortByFavorites() {
   rows.forEach(row => tbody.appendChild(row));
 }
         
-/* document.addEventListener('DOMContentLoaded', () => {
+document.addEventListener('DOMContentLoaded', () => {
     // Check if dark mode was previously enabled
     if (localStorage.getItem('darkMode') === 'enabled') {
         document.body.classList.add('dark-mode');
@@ -1096,4 +1132,4 @@ function sortByFavorites() {
             localStorage.setItem('darkMode', 'disabled'); // Save preference
         }
     });
-}); */
+});

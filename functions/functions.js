@@ -487,35 +487,47 @@ async function displayPlayerInfo(avatarId) {
         document.getElementById('console-content').innerHTML = 'Error loading player details.';
     }
 }
-        
+
+function setClockLabel() {
+    const lang =
+        document.documentElement.lang ||
+        navigator.language ||
+        navigator.userLanguage ||
+        "en";
+
+    const isPortuguese = lang.startsWith("pt");
+    const label = isPortuguese ? "Horário em Eldorado: " : "Time in Eldorado: ";
+    document.getElementById("tempoLabel").textContent = label;
+}
+
+
         function tempoSim() {
-            var currenttime = new Date();
-            var hours = currenttime.getUTCHours();
-            var minutes = currenttime.getUTCMinutes();
-            var seconds = currenttime.getUTCSeconds();
-            var timesuffix = "AM";
-            var cycle = 0;
-            if (hours % 2 == 1) {
-                cycle = 3600;
-                timesuffix = "PM";
-            }
-            cycle = cycle + minutes * 60 + seconds;
-            var tsohours = Math.floor(cycle / 300);
-            if (tsohours > 12) {
-                tsohours = tsohours - 12;
-            }
-            if (tsohours == 0) {
-                tsohours = 12;
-            }
-            var tsomins = Math.floor((cycle % 300) / 5);
-            if (tsomins < 10) {
-                tsomins = "0" + tsomins;
-            }
+    const currenttime = new Date();
+    const hours = currenttime.getUTCHours();
+    const minutes = currenttime.getUTCMinutes();
+    const seconds = currenttime.getUTCSeconds();
 
-            document.getElementById('tempoSim').innerHTML = "Time in Eldorado: " + tsohours + ":" + tsomins + " " + timesuffix;
+    let suffix = "AM";
+    let cycle = 0;
 
-            setTimeout(tempoSim, 1000);
-        }
+    if (hours % 2 === 1) {
+        cycle = 3600;
+        suffix = "PM";
+    }
+
+    cycle += minutes * 60 + seconds;
+    let tsohours = Math.floor(cycle / 300);
+    if (tsohours > 12) tsohours -= 12;
+    if (tsohours === 0) tsohours = 12;
+
+    let tsomins = Math.floor((cycle % 300) / 5);
+    if (tsomins < 10) tsomins = "0" + tsomins;
+
+    const formattedTime = `${tsohours}∶${tsomins} ${suffix}`;
+    document.getElementById("tempoSim").textContent = formattedTime;
+
+    setTimeout(tempoSim, 1000);
+}
 
 //Top-paying MOs
 
@@ -1112,7 +1124,7 @@ function sortByFavorites() {
   rows.forEach(row => tbody.appendChild(row));
 }
         
-document.addEventListener('DOMContentLoaded', () => {
+/* document.addEventListener('DOMContentLoaded', () => {
     // Check if dark mode was previously enabled
     if (localStorage.getItem('darkMode') === 'enabled') {
         document.body.classList.add('dark-mode');
@@ -1132,4 +1144,4 @@ document.addEventListener('DOMContentLoaded', () => {
             localStorage.setItem('darkMode', 'disabled'); // Save preference
         }
     });
-});
+}); */

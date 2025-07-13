@@ -393,7 +393,6 @@ async function displayLotInfo(lotId) {
   <img src="https://simnationserver.com:9009/userapi/city/1/${lotId}.png" 
        alt="${lotData.name}" 
        class="console-img">
-  <p><strong>Description:</strong></p>
   <div class="description-container">${formattedDescription}</div>
   <p><strong>Lot Type:</strong> ${categoryMapping[lotData.category] || 'Unknown'}</p>
   <p><strong>Admit Mode:</strong> ${admitModeMapping[lotData.admit_mode] || 'Unknown'}</p>
@@ -495,7 +494,6 @@ async function displayPlayerInfo(avatarId) {
             <p style="text-align: center; margin-top: -9px;">
                 <a href="https://forms.gle/sw6fbLx4iud8xGpc9" target="_blank" style="text-decoration: underline;">Submit/Change Profile Picture</a>
             </p>
-            <p><strong>Description:</strong></p>
             <div class="description-container">${formattedDescription}</div>
             <p><strong>Age:</strong> ${ageInDays} days old</p>
             <p><strong>Location:</strong> ${playerLocation}</p>
@@ -694,7 +692,6 @@ async function searchSim(event) {
                 <p style="text-align: center; margin-top: -9px;">
                     <a href="https://forms.gle/sw6fbLx4iud8xGpc9" target="_blank" style="text-decoration: underline;">Submit/Change Profile Picture</a>
                 </p>
-                <p><strong>Description:</strong></p>
                 <div class="description-container">${(playerData.description || 'No description available.').replace(/(\r\n|\n|\r)/g, '<br>')}</div>
                 <p><strong>Age:</strong> ${ageInDays} days old</p>
                 ${isOnline ? `<p><strong>Location:</strong> ${playerLocation}</p>` : ''}
@@ -815,7 +812,6 @@ consoleContent.innerHTML = `
   <img src="https://simnationserver.com:9009/userapi/city/1/${lotData.location}.png" 
        alt="${lotData.name}" 
        class="console-img">
-  <p><strong>Description:</strong></p>
   <div class="description-container">${formattedDescription}</div>
   <p><strong>Lot Type:</strong> ${categoryMapping[lotData.category] || 'Unknown'}</p>
   <p><strong>Admit Mode:</strong> ${admitModeMapping[lotData.admit_mode] || 'Unknown'}</p>

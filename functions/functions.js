@@ -418,6 +418,12 @@ async function displayLotInfo(lotId) {
   }</p>
   ${showHiddenNote ? `<p><em>There are sims inside with their location hidden.</em></p>` : ''}
 `;
+
+	document.getElementById('console-container')?.scrollIntoView({
+    	behavior: 'smooth',
+   	block: 'start'
+	});
+	    
     } catch (error) {
         console.error('Failed to fetch lot details:', error);
         consoleContent.innerHTML = 'Error loading lot details.';
@@ -498,6 +504,12 @@ async function displayPlayerInfo(avatarId) {
             <p><strong>Age:</strong> ${ageInDays} days old</p>
             <p><strong>Location:</strong> ${playerLocation}</p>
         `;
+
+	document.getElementById('console-container')?.scrollIntoView({
+    	behavior: 'smooth',
+   	block: 'start'
+	});
+	    
     } catch (error) {
         console.error('Failed to fetch player details:', error);
         document.getElementById('console-content').innerHTML = 'Error loading player details.';
@@ -697,6 +709,12 @@ async function searchSim(event) {
                 ${isOnline ? `<p><strong>Location:</strong> ${playerLocation}</p>` : ''}
                 <p><strong>Currently Online:</strong> ${isOnline ? 'Yes' : 'No'}</p>
             `;
+
+	document.getElementById('console-container')?.scrollIntoView({
+    	behavior: 'smooth',
+   	block: 'start'
+	});
+		
         } catch (error) {
             console.error('Failed to fetch sim details:', error);
             consoleContent.innerHTML = 'Sim not found.';
@@ -842,6 +860,11 @@ consoleContent.innerHTML = `
     ` : ''
   }
 `;
+	document.getElementById('console-container')?.scrollIntoView({
+    	behavior: 'smooth',
+   	block: 'start'
+	});
+		
         } catch (error) {
             console.error('Failed to fetch lot details:', error);
             document.getElementById('console-content').innerHTML = 'Lot not found.';

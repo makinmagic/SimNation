@@ -107,6 +107,7 @@
         </div>
     </div>
 </div>
+	<button id="backToTopBtn" title="Back to Top">⬆️</button>
 <div id="footer-note" style="text-align: center; margin-bottom: 0px; font-size: 16px;">
         <i class="fa-regular fa-star"></i> Click on the star next to a Sim or a Lot to favourite them. This will make them show up at the top of the list when they're online!<br><br>
 	<i class="fa-regular fa-search"></i> You can search for any Sim or Lot, whether they are online or not!<br><br>
@@ -130,9 +131,19 @@ async function init() {
 }
 
 window.onload = () => {
+
+// "Back to Top" button
+  document.getElementById("backToTopBtn").addEventListener('click', () => {
+  window.scrollTo({
+    top: 0,
+    behavior: 'smooth'
+  });
+});
+	
     init();
     setInterval(displayCurrentEvent, 60000); // Update "Current Event" status every minute
 };
+
 </script>	
 	
 	<!-- Modal -->

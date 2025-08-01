@@ -351,8 +351,22 @@ async function displayLotInfo(lotId) {
             })
         );
 
-        // Replace \r\n with <br> in description
-        const formattedDescription = (lotData.description || 'No description available.').replace(/(\r\n|\n|\r)/g, '<br>');
+        // Format description and creation date
+        const formattedDescription = ((lotData.description || 'No description available.')
+  .split(/\r?\n/)
+  .map(line => {
+    if (/^-{5,}$/.test(line.trim())) {
+      return `<span style="font-family: monospace;">${line}</span>`;
+    }
+    return line;
+  }).join('<br>')
+);
+
+	const creationDate = new Date(lotData.created_date * 1000).toLocaleDateString(undefined, {
+    year: 'numeric',
+    month: 'long',
+    day: 'numeric'
+});
 
         // Find known Sims inside the lot (from the Sims Online table)
         const playersContainer = document.getElementById('players');
@@ -396,6 +410,7 @@ async function displayLotInfo(lotId) {
   <div class="description-container">${formattedDescription}</div>
   <p><strong>Lot Type:</strong> ${categoryMapping[lotData.category] || 'Unknown'}</p>
   <p><strong>Admit Mode:</strong> ${admitModeMapping[lotData.admit_mode] || 'Unknown'}</p>
+  <p><strong>Established on:</strong> ${creationDate}</p>
   <p><strong>Owner:</strong> <span style="color: #f8f59c;">${ownerName}</span></p>
   <p><strong>Roommates:</strong> ${
     roommateNames.length > 0
@@ -707,7 +722,7 @@ async function searchSim(event) {
                 <div class="description-container">${(playerData.description || 'No description available.').replace(/(\r\n|\n|\r)/g, '<br>')}</div>
                 <p><strong>Age:</strong> ${ageInDays} days old</p>
                 ${isOnline ? `<p><strong>Location:</strong> ${playerLocation}</p>` : ''}
-                <p><strong>Currently Online:</strong> ${isOnline ? 'Yes' : 'No'}</p>
+                <p><strong>Currently Online:</strong> ${isOnline ? 'Yes 🟢' : 'No 🔴'}</p>
             `;
 
 	document.getElementById('console-container')?.scrollIntoView({
@@ -746,22 +761,35 @@ async function searchLot(event) {
 
             // Mapping for lot categories
             const categoryMapping = {
-                1: 'Money',
-                2: 'Money',
-                3: 'Romance',
-                4: 'Service',
-                5: 'Store',
-                6: 'Skills',
-                7: 'Welcome',
-                8: 'Games',
-                9: 'Entertainment',
-                10: 'Residential',
-                11: 'Community'
+                1: '💲 Money',
+                2: '💲 Money',
+                3: '❤️ Romance',
+                4: '🍵 Service',
+                5: '🎁 Store',
+                6: '🔨 Skills',
+                7: '🤝 Welcome',
+                8: '🎲 Games',
+                9: '🎭 Entertainment',
+                10: '🏠 Residential',
+                11: '🏨 Community'
             };
 
             // Format description and creation date
-            const formattedDescription = (lotData.description || 'No description available.').replace(/(\r\n|\n|\r)/g, '<br>');
-            const creationDate = new Date(lotData.created_date * 1000).toLocaleDateString();
+            const formattedDescription = ((lotData.description || 'No description available.')
+  .split(/\r?\n/)
+  .map(line => {
+    if (/^-{5,}$/.test(line.trim())) {
+      return `<span style="font-family: monospace;">${line}</span>`;
+    }
+    return line;
+  }).join('<br>')
+);
+		
+            const creationDate = new Date(lotData.created_date * 1000).toLocaleDateString(undefined, {
+    year: 'numeric',
+    month: 'long',
+    day: 'numeric'
+});
 			
 			// Check for favorites in localStorage
             const favorites = JSON.parse(localStorage.getItem('favorites')) || {};
@@ -774,7 +802,7 @@ async function searchLot(event) {
     return firstCell && firstCell.textContent.trim().toLowerCase() === lotData.name.trim().toLowerCase();
 });
 
-            const activeStatus = isActive ? 'Yes' : 'No';
+            const activeStatus = isActive ? 'Yes 🟢' : 'No 🔴';
             
             const lotRow = Array.from(lotsContainer.querySelectorAll('tr')).find(row =>
     row.querySelector('td')?.textContent.trim().toLowerCase() === lotData.name.trim().toLowerCase()
@@ -833,6 +861,7 @@ consoleContent.innerHTML = `
   <div class="description-container">${formattedDescription}</div>
   <p><strong>Lot Type:</strong> ${categoryMapping[lotData.category] || 'Unknown'}</p>
   <p><strong>Admit Mode:</strong> ${admitModeMapping[lotData.admit_mode] || 'Unknown'}</p>
+  <p><strong>Established on:</strong> ${creationDate}</p>
   <p><strong>Owner:</strong> <span style="color: #f8f59c;">${ownerName || 'Unknown'}</span></p>
   <p><strong>Roommates:</strong> ${
     roommateNames.length > 0

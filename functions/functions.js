@@ -587,7 +587,7 @@ const emojiMap = {
 
 async function loadTopPayingMOs() {
   const proxyUrl = 'https://api.allorigins.win/raw?url=';
-  const targetUrl = 'https://simnationserver.com/citynews/payments.php';
+  const targetUrl = 'https://simnationserver.com/dashboard/payments.php';
 
   try {
     const response = await fetch(proxyUrl + encodeURIComponent(targetUrl));
